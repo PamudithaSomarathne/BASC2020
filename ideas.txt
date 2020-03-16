@@ -1,0 +1,23 @@
+Line follow:
+	03/16Pamu: Same old line follow, developed with PID
+
+Curve wall following:
+	03/16Pamu: Curved walls need more than ine sensor to sense each wall
+
+Circle:
+
+
+Box color sensing:
+
+
+Dashed line follow:
+	
+
+Ramp:
+	03/16Pamu: Gyro sensor to detect the orientation of the robot
+
+Column sensing:
+
+
+Gates:
+	03/16Pamu: There's a 13 second gap to pass the gate, easy if timed correctly
