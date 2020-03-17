@@ -17,3 +17,5 @@ Vidura
 Thieshanthan
 
 Yomali
+    -Altium 
+    -solidworks
