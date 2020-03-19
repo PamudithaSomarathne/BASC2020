@@ -1,23 +1,30 @@
 Line follow:
+	03/01Yas : Use Raykha and two additional IR sensors
 	03/16Pamu: Same old line follow, developed with PID
 
 Curve wall following:
+	03/01Yas : Use two ultrasonic sensors close to the front
+	03/01Thie: 2 TOF sensors on each side
 	03/16Pamu: Curved walls need more than ine sensor to sense each wall
 
 Circle:
-
+	03/19Pamu: Use 7Segment display with its IC for quadrant indication
 
 Box color sensing:
-
+	03/01Yas : Use ultrasonic sensors to detect the box
 
 Dashed line follow:
-	
+	With encoders and raykha - everyone	
 
 Ramp:
+	03/01Yas : Wheels should be close to the front and rear. Size is critical for turning on the ramp
+	03/01Thie: Use two TOF sensors in front to detect the ramp
 	03/16Pamu: Gyro sensor to detect the orientation of the robot
 
 Column sensing:
-
+	03/01Yas : Same ultrasonic sensors used to detect walls
 
 Gates:
+	03/01Yas : Use front ultrasonic sensor to sense the gate. Move to cross the gate using encoders
+	03/01Thie: Use front TOF sensor to find pattern of gates and move.
 	03/16Pamu: There's a 13 second gap to pass the gate, easy if timed correctly

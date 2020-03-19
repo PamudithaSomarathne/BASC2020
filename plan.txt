@@ -1,0 +1,17 @@
+19/03/2020 Pamuditha
+As we cannot make the robot till the uni starts, we shall gather more information about the task and solutions.
+We shall find more details about sensors, encoded motors, gyro, color sensors and other stuff, so that we can come up
+with better solutions for the task. Following are some of the areas thst I think we should focus on.
+	+ A power regulator circuit which can supply 12V and 5V from 7.4V (a new circuit* or modules)
+	+ A custom made library for encoders as the built-in library didn't compile correctly last time
+	+ A mechanism to lift the box
+	+ Decide the things which we put on the bottom level
+	+ I2C communication - for TOF sensors and connecting arduinos
+	+ A plan of pin usage of Arduino MEGA
+	+ Do we need two arduinos?
+	+
+	+
+
+Please add any other thing you see as important.
+We shall keep the idea generation deadline to two-days before uni starts, as we cannot do anything else.
+Go through the internet and see what people do so we can use them to come-up with a new idea.
