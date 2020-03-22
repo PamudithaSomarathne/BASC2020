@@ -26,3 +26,6 @@ Yasod
     - Rough skeching of robo arm
     -Solid works designing
     -simulation
+
+Pamuditha
+    - Started working on the custom encoder library
