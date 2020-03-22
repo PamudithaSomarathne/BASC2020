@@ -19,3 +19,10 @@ Thieshanthan
 Yomali
     -Altium 
     -solidworks
+
+22/03/2020
+
+Yasod
+    - Rough skeching of robo arm
+    -Solid works designing
+    -simulation
