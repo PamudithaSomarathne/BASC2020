@@ -2,8 +2,6 @@
 #include "BASCEnc.h"
 
 /*
-	Getting input from the interupts
-
 	void BASCEnc::read(){
 	// Output the current rotary count
 	}
@@ -24,5 +22,12 @@ void BASCEnc::init(){
 
 	pinMode(inA,INPUT);
 	pinMode(inB,INPUT);
+	attachInterrupt(0,ISR,CHANGE);
+	attachInterrupt(1,ISR,CHANGE);
 
+}
+
+void BASCEnc::ISR(){
+	if (digitalRead(inA) == digitalRead(inB)){count++;}
+	else {count--;}
 }

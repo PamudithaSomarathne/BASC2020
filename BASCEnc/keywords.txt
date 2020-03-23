@@ -13,6 +13,7 @@ BASCEnc	KEYWORD1
 #######################################
 
 init	KEYWORD2
+ISR	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
