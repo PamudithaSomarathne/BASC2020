@@ -7,3 +7,5 @@ Arduino NANO - Downloaded from internet(GrabCAD) - Thieshanthan
 TOF sensors - Thieshanthan
 Top-floor & mounting holes
 Bottom-floor - 
+Buck convertor
+power switches
