@@ -4,6 +4,6 @@ Motor driver -
 Batteries - 
 Arduino MEGA - 
 Arduino NANO - 
-TOF sensors - 
+TOF sensors - Thieshanthan
 Top-floor & mounting holes
 Bottom-floor - 
