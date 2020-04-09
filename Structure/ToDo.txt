@@ -1,0 +1,9 @@
+Arm - Pamuditha, Tharindu
+Motors - 
+Motor driver - 
+Batteries - 
+Arduino MEGA - 
+Arduino NANO - 
+TOF sensors - 
+Top-floor & mounting holes
+Bottom-floor - 
