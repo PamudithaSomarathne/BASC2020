@@ -9,6 +9,7 @@ Curve wall following:
 
 Circle:
 	03/19Pamu: Use 7Segment display with its IC for quadrant indication
+	04/09Thie: Using a LCD display with I2C might help in troubleshooting the robot
 
 Box color sensing:
 	03/01Yas : Use ultrasonic sensors to detect the box

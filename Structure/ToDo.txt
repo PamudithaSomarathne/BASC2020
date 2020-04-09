@@ -1,9 +1,13 @@
 Arm - Pamuditha, Tharindu
-Motors - 
-Motor driver - 
+Motors - Thieshanthan
+Motor driver - Thieshanthan
 Batteries - 
-Arduino MEGA - 
-Arduino NANO - 
-TOF sensors - 
+Arduino MEGA - Downloaded from internet(GrabCAD) - Thieshanthan
+Arduino NANO - Downloaded from internet(GrabCAD) - Thieshanthan
+TOF sensors - Thieshanthan
 Top-floor & mounting holes
 Bottom-floor - 
+Power Supply units -  1. For Motor controller
+                      2. For Sensors, MCUs
+Display - done(Grabcad)
+power switches
