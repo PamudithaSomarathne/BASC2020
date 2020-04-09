@@ -1,6 +1,6 @@
 Arm - Pamuditha, Tharindu
 Motors - Thieshanthan
-Motor driver - 
+Motor driver - Thieshanthan
 Batteries - 
 Arduino MEGA - Downloaded from internet(GrabCAD) - Thieshanthan
 Arduino NANO - Downloaded from internet(GrabCAD) - Thieshanthan
