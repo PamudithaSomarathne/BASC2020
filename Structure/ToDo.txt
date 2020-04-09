@@ -1,5 +1,5 @@
 Arm - Pamuditha, Tharindu
-Motors - 
+Motors - Thieshanthan
 Motor driver - 
 Batteries - 
 Arduino MEGA - Downloaded from internet(GrabCAD) - Thieshanthan
