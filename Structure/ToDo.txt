@@ -2,8 +2,8 @@ Arm - Pamuditha, Tharindu
 Motors - 
 Motor driver - 
 Batteries - 
-Arduino MEGA - 
-Arduino NANO - 
+Arduino MEGA - Downloaded from internet(GrabCAD) - Thieshanthan
+Arduino NANO - Downloaded from internet(GrabCAD) - Thieshanthan
 TOF sensors - Thieshanthan
 Top-floor & mounting holes
 Bottom-floor - 
