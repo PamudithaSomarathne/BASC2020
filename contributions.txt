@@ -29,3 +29,10 @@ Yasod
 
 Pamuditha
     - Started working on the custom encoder library
+    
+09/04/2020
+
+Yasod
+    - Working on the Robot structure (Uploaded the Solid Works stuff)
+    - Working on wiring solutions
+    -Working on Robot arm
