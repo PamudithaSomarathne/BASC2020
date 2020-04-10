@@ -29,10 +29,15 @@ Yasod
 
 Pamuditha
     - Started working on the custom encoder library
-    
+yomali 
+    -planned algorithm upto circle exit and rough sketching
 09/04/2020
 
 Yasod
     - Working on the Robot structure (Uploaded the Solid Works stuff)
     - Working on wiring solutions
     -Working on Robot arm
+    
+yomali
+    - planning on components positions
+    -sketch top and bottom layers solidworks
