@@ -15,6 +15,9 @@ Yasod
 Vidura
 
 Thieshanthan
+    - Altium 17
+    - Solidworks
+    - C
 
 Yomali
     -Altium 
