@@ -1,0 +1,12 @@
+1. Raykha cannot touch the base pannel. It has some components on the top surace
+2. How do we get Pololu casters?
+3. We have very little access to the bottom floor, should make top and bottom parts easily removable
+	Some small locks and a single or two large JST between them will be good. Otherwise it'll be hard
+	to put back after removing
+4. Batteries might have to be charged regularly
+5. Need access to all the switches easily
+6. Upper color sensor will have to be moved back. The arm cannot get the box to that place
+	Consider the 90-degree rotation of the arm
+7. We currently have only 4 TOFs, drawing includes 5
+8. Some space will be needed to put the arm mechanism
+9. We'll need a voltage regulator for motors
