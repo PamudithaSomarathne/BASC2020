@@ -1,3 +1,4 @@
+ISSUES
 1. Raykha cannot touch the base pannel. It has some components on the top surace
 2. How do we get Pololu casters?
 3. We have very little access to the bottom floor, should make top and bottom parts easily removable
@@ -10,3 +11,25 @@
 7. We currently have only 4 TOFs, drawing includes 5
 8. Some space will be needed to put the arm mechanism
 9. We'll need a voltage regulator for motors
+
+****************************************************************************************************************************************
+POSSIBLE SOLUTIONS - Thieshanthan
+I made a placement idea addressing the following. refer component placement idea- thiesh in structure folder
+1 - 	* we dont need a base plate. our main plate will be which we mount the motors.
+	* On the bottom side of that plate we mount our motors, batteries.
+	* on the top side we put motor controller, and power modules(we might want to make a simple one sided pcb to put all modules)
+	* Arduino with its sheild can be on the second layer right on top of motor controller hence reducing cable lengths, easier cable 
+	  management
+	* having 2 layers reduces the length, which will make life easier in navigation. 
+	* center of mass wont get higher since arduino, oled are the only things goin up
+	* and guess what my design is symmetrical - in weight
+	
+3 - 4-	* with open bottom we can access batteries - or sideways if prefered
+
+5 -    	* A switch panel at the back of the robot?
+
+6 - 8 	* is it possible to make the arm as a complete structure? 
+		advantages - can develop indepently, can swap out if idea goes south, less chances of failing
+	* my design has empty front space where you can mount
+****************************************************************************************************************************************
+		
