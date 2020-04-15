@@ -31,6 +31,9 @@ Pamuditha
     - Started working on the custom encoder library
 yomali 
     -planned algorithm upto circle exit and rough sketching
+vidura
+    -planned algorithms after cricle exit 
+
 09/04/2020
 
 Yasod
