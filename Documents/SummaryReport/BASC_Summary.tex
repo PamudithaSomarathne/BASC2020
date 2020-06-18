@@ -1,0 +1,114 @@
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[utf8]{inputenc}
+
+%images
+\usepackage{graphicx}       %for inserting images
+\graphicspath{./images/}    %image file directory
+\usepackage{wrapfig}
+%caption
+\usepackage{caption}
+\captionsetup{
+   font=small,
+   labelfont=bf,
+   tableposition=top
+}
+%page margins, geometry
+\usepackage{geometry}
+\geometry{margin = 1in}
+
+%headers and footers
+% All page numbers positioned at the bottom of the page
+\usepackage{fancyhdr}
+\fancyhf{} % clear all header and footers
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt} % remove the header rule
+\pagestyle{fancy}
+
+%for inserting columns
+\usepackage{multicol}       
+\setlength{\columnsep}{1cm}
+
+\begin{document}
+
+\begin{center}
+     \textbf{\textsc{\Large {Group 03 BASC - Proposal Summary\\}}}
+\end{center}
+
+%document authors 
+\begin{center}
+\begin{tabular}{c c c c}
+     \textsc{Y.S. Ginige} & 180195A &  \textsc{P.M.P.H. Somarathne} & 180616T\\
+     \textsc{V.Y.N. Lokugama }& 180359G & \textsc{A. Thieshanthan} &  180641N\\
+       \textsc{W.A.V. Ravihansa} &  180544U &  \textsc{L.T.N. Wickremasinghe} & 180701B
+\end{tabular}
+\end{center}
+\section{Overall Strategy}
+We have divided the task into six sub-tasks and follow a modular approach.\\
+\begin{tabular}{c c}
+Line following & Box manipulation and color detection\\
+Wall following and pillar detection & Ramp navigation\\
+Circle navigation & Gate area navigation\\
+\end{tabular}
+Identified the specialties in each subtask in order to come-up with a simple design\\
+
+\section{Sensors}
+$ \bullet $ IR line follower: Raykha S8\\
+$ \bullet $ Color sensor: TCS 3200\\
+$ \bullet $ Distance sensor: VL530LX TOF sensor\\
+$ \bullet $ Gyroscope: MPU 6050 Gyroscope module\\
+
+\section{Processing Unit}
+Main processing unit: Arduino MEGA 2560\\
+Arm controller: Arduino NANO\\
+
+\section{Actuators}
+Main gear motor: \textbf{Pololu 25D 12V High Power 47:1 Gear Motor with Encoder}\\
+$ \bullet $ 210 rpm no load speed\\
+$ \bullet $ 300 mA no load current\\
+$ \bullet $ 12 kgcm stall torque\\
+$ \bullet $ 5.6 A stall current\\
+\\
+3 servo motors will be used for the arm.\\
+Two \textbf{TowerPro SG90}\\
+One \textbf{TowerPro SG5010}
+
+\section{Algorithms}
+\textbf{Line Following}: PID feedback loop control using the front IR panel\\
+\textbf{Wall Following}:Two TOF sensors on each side. The difference of the measured distance will be used to create a difference in motor speeds.\\
+\textbf{Circle Navigation}: We calculated optimal paths for the 4 possible positions of the box. TOF sensors will be used to identify box.\\
+\textbf{Dotted Line Following}: PID algorithm implemented. To cross the gaps, the tangent direction to the last line segment will be followed.\\
+\textbf{Ramp Navigation}: Motor power will be controlled with input from the gyroscope to get a smooth uphill and downhill movements. Will need to be optimized at the testing stage.\\
+\textbf{Pillar Detection}: Using the side TOF sensors, detect pillars and take necessary action.\\
+\textbf{Gate Passing}: Calculated the optimal decision depending on the state of the two gates.\\
+$ \bullet $ Gate 1 is Closed: Wait until it is opened, pass through both gates\\
+$ \bullet $ Gate 2 is closed (G1 open) : Pass G1, then G2 will open\\
+$ \bullet $ Both gates are open: Wait until a gate is closed, choose scenario 1\\
+
+\section{Power Plan}
+Dual battery setup: 7.4V 2200mAh LiPo and 11.1V 2200mAh Lipo\\
+Average charge consumption for one round: 500mAh from each battery\\
+Average current consumption at the worst case: 2A from both batteries\\
+Regulators: Three \textbf{LM2596S}\\
+9V supply for drive motors, Arduino MEGA and OLED display\\
+Two 5V supplies for sensors, servo motors and other components\\
+We have started designing schematic block diagrams in order to make PCBs\\
+Alternatives for 9V regulator: XH-M401 module, XL6009 module
+
+\section{Task Delegation}
+Phase 1: Preliminary Design\\
+Phase 2a: Virtual Implementation\\
+Phase 2b: Actual Implementation\\
+Phase 3: Testing and Optimization\\
+Responsibility of each part is given to one member. We have weekly progress revision meetings online and divide the next week's work among the members.\\
+
+\section{Hardware Design}
+Robot length: 21.5 cm\\
+Robot width: 18 cm\\
+Robot height: 12 cm\\
+Arm for picking up the box, located at the front of the robot\\
+Low center of gravity design\\
+Minimum disturbance to the symmetry of the robot\\
+Minimum ground clearance during ramp navigation: 2.5 mm\\
+
+\end{document}
