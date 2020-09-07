@@ -6,10 +6,10 @@
 #define back 200
 
 typedef struct {
-  int enA;
-  int enB;
-  int state;
-  int pos;
+  uint8_t enA;
+  uint8_t enB;
+  uint8_t state;
+  int64_t pos;
 } encoder_t;
 
 class MOTOR {
@@ -21,12 +21,12 @@ class MOTOR {
       pinMode(in2, OUTPUT);
       pinMode(en, OUTPUT);
       pinMode(pwm, OUTPUT);
-      pinMode(encoder.enA, INPUT);
-      pinMode(encoder.enB, INPUT);
+      pinMode(encoder.enA, INPUT_PULLUP);
+      pinMode(encoder.enB, INPUT_PULLUP);
       encoder.pos = 0;
-      //attach_interrupt(2, &encoder);                // NOT WORKING YET
       delayMicroseconds(2000);
       encoder.state = (digitalRead(encoder.enA) << 1) + digitalRead(encoder.enB);
+      attach_interrupt(2, &encoder);
     }
 
   private:
@@ -34,7 +34,7 @@ class MOTOR {
     encoder_t encoder;
 
   public:
-    static encoder_t *encRef[2];
+    static encoder_t *encRef;
 
     void turnMotorOn() {
       digitalWrite(in1, LOW);
@@ -81,9 +81,8 @@ class MOTOR {
         analogWrite(pwm, 0);
       }
     }
-
-    //////////////////////////////////////     NOT WORKING YET     //////////////////////////////////////
-      /*public:
+  
+      public:
         static void updateEnc(encoder_t *enc) {
           int s = enc->state & 3;
           s |= (8 * digitalRead(enc->enA) + 4 * digitalRead(enc->enB));
@@ -105,38 +104,31 @@ class MOTOR {
           enc->state = s >> 2;
         }
     
-      public:
-        static void simpleUpdate(Encoder_internal_state_t *arg) {
+      /*public:
+        static void simpleUpdate(encoder_t *enc) {
           if (digitalRead(enc->enA) == digitalRead(enc->enB)) {
             enc->pos--;
           }
           else {
             enc->pos++;
           }
-        }
+        }*/
     
       private:
-        static void attach_interrupt(int pin, encoder_t * s) {
-          switch (pin) {
-            case 2:
-              encRef[0] = s;
-              attachInterrupt(digitalPinToInterrupt(2), isr0, CHANGE);
-              break;
-            case 3:
-              encRef[1] = s;
-              attachInterrupt(digitalPinToInterrupt(3), isr1, CHANGE);
-              break;
+        static void attach_interrupt(uint8_t pin, encoder_t * s) {
+          switch(pin){
+          case 2: encRef = s; attachInterrupt(digitalPinToInterrupt(2), isr0, CHANGE); attachInterrupt(digitalPinToInterrupt(3), isr0, CHANGE); break;
+          case 18: encRef = s; attachInterrupt(digitalPinToInterrupt(18), isr1, CHANGE); attachInterrupt(digitalPinToInterrupt(19), isr0, CHANGE); break;
           }
         }
     
         static void isr0() {
-          simpleUpdate(encRef[0]);
+          updateEnc(encRef);
         };
+        
         static void isr1() {
-          simpleUpdate(encRef[1]);
-        };*/
-    /////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+          updateEnc(encRef);
+        };   
 };
 class MOTCON {
   private:
