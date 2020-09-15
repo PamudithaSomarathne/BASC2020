@@ -1,5 +1,6 @@
 #ifndef Motors_h
 #define Motors_h
+#endif
 
 #include "Arduino.h"
 
@@ -128,7 +129,7 @@ class MOTOR {
         };
 };
 
-class MOTCON {
+/*class MOTCON {
   private:
     MOTOR left, right;
   public:
@@ -177,6 +178,4 @@ class MOTCON {
       right.turnMotorOn();
     }
 
-};
-
-#endif
+};*/

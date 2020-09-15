@@ -1,9 +1,12 @@
-void setup() {
-  // put your setup code here, to run once:
+#include "Motors.h"
 
+MOTOR left = MOTOR(12,11,10,9,2,3,100);
+
+void setup() {
+  left.turnMotorOn();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-
+  left.moveDistance(-1675);
+  delay(1000);
 }

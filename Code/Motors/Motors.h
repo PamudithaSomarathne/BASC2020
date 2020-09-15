@@ -2,6 +2,8 @@
 #define Motors_h
 #endif
 
+#include "Arduino.h"
+
 #define ninety 100
 #define back 200
 
@@ -32,10 +34,11 @@ class MOTOR {
   private:
     int in1, in2, en, pwm, baseSpeed;
     encoder_t encoder;
-
+    
   public:
     static encoder_t *encRef;
 
+  public:
     void turnMotorOn() {
       digitalWrite(in1, LOW);
       digitalWrite(in2, LOW);
@@ -103,19 +106,8 @@ class MOTOR {
           }
           enc->state = s >> 2;
         }
-    
-      /*public:
-        static void simpleUpdate(encoder_t *enc) {
-          if (digitalRead(enc->enA) == digitalRead(enc->enB)) {
-            enc->pos--;
-          }
-          else {
-            enc->pos++;
-          }
-        }*/
-    
       private:
-        static void attach_interrupt(uint8_t pin, encoder_t * s) {
+        static void attach_interrupt(uint8_t pin, encoder_t *s) {
           switch(pin){
           case 2: encRef = s; attachInterrupt(digitalPinToInterrupt(2), isr0, CHANGE); attachInterrupt(digitalPinToInterrupt(3), isr0, CHANGE); break;
           case 18: encRef = s; attachInterrupt(digitalPinToInterrupt(18), isr1, CHANGE); attachInterrupt(digitalPinToInterrupt(19), isr0, CHANGE); break;
@@ -128,8 +120,9 @@ class MOTOR {
         
         static void isr1() {
           updateEnc(encRef);
-        };   
+        };
 };
+
 class MOTCON {
   private:
     MOTOR left, right;
