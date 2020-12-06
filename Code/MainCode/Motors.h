@@ -1,11 +1,10 @@
 #ifndef Motors_h
 #define Motors_h
-#endif
 
 #include "Arduino.h"
 
-#define ninety 100
-#define back 200
+#define ninety 20
+#define back 40
 
 typedef struct {
   uint8_t enA;
@@ -16,7 +15,7 @@ typedef struct {
 
 class MOTOR {
   public:
-    MOTOR(int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
+    MOTOR(uint8_t i1, uint8_t i2, uint8_t i3, uint8_t i4, uint8_t i5, uint8_t i6, uint8_t i7) {
       baseSpeed = i7;
       in1 = i1; in2 = i2; en = i3;  pwm = i4;
       encoder.enA = i5; encoder.enB = i6;
@@ -37,7 +36,8 @@ class MOTOR {
     encoder_t encoder;
     
   public:
-    static encoder_t *encRef;
+    static encoder_t *encRefLeft;
+    static encoder_t *encRefRight;
 
     inline int32_t read() {
       noInterrupts();
@@ -45,6 +45,12 @@ class MOTOR {
       interrupts();
       return ret;
     }
+
+    inline void write(int32_t p) {
+    noInterrupts();
+    encoder.pos = p;
+    interrupts();
+  }
 
     void turnMotorOn() {
       digitalWrite(in1, LOW);
@@ -60,35 +66,34 @@ class MOTOR {
       analogWrite(pwm, 0);
     }
 
-    void moveSpeed(int speed) {
-      if (speed >= 0) {
-        digitalWrite(in1, HIGH);
-        digitalWrite(in2, LOW);
-        analogWrite(pwm, speed);
-      }
-      else {
-        digitalWrite(in1, LOW);
-        digitalWrite(in2, HIGH);
-        analogWrite(pwm, (-speed));
-      }
+    void forwardSp(uint8_t speed) {
+    	digitalWrite(in1, HIGH);
+    	digitalWrite(in2, LOW);
+    	analogWrite(pwm, speed);
     }
 
-    void moveDistance(int dist) {
+    void reverseSp(uint8_t speed) {
+      digitalWrite(in1, LOW);
+      digitalWrite(in2, HIGH);
+      analogWrite(pwm, speed);
+    }
+
+    void forwardDist() {
       encoder.pos = 0;
-      if (dist >= 0) {
-        digitalWrite(in1, HIGH);
-        digitalWrite(in2, LOW);
-        analogWrite(pwm, baseSpeed);
-        while (encoder.pos < dist){read();}
-        analogWrite(pwm, 0);
-      }
-      else {
-        digitalWrite(in1, LOW);
-        digitalWrite(in2, HIGH);
-        analogWrite(pwm, baseSpeed);
-        while (encoder.pos > dist){read();}
-        analogWrite(pwm, 0);
-      }
+      digitalWrite(in1, HIGH);
+      digitalWrite(in2, LOW);
+      analogWrite(pwm, baseSpeed);
+      while (encoder.pos < 16){read();}
+      analogWrite(pwm, 0);
+    }
+
+    void reverseDist() {
+      encoder.pos = 0;
+      digitalWrite(in1, LOW);
+      digitalWrite(in2, HIGH);
+      analogWrite(pwm, baseSpeed);
+      while (encoder.pos > (-16)){read();}
+      analogWrite(pwm, 0);
     }
   
       public:
@@ -115,67 +120,97 @@ class MOTOR {
       private:
         static void attach_interrupt(uint8_t pin, encoder_t *s) {
           switch(pin){
-          case 2: encRef = s; attachInterrupt(digitalPinToInterrupt(2), isr0, CHANGE); attachInterrupt(digitalPinToInterrupt(3), isr0, CHANGE); break;
-          case 18: encRef = s; attachInterrupt(digitalPinToInterrupt(18), isr1, CHANGE); attachInterrupt(digitalPinToInterrupt(19), isr0, CHANGE); break;
+          case 2: encRefLeft = s; attachInterrupt(digitalPinToInterrupt(2), isr0, CHANGE); break;
+          case 18: encRefRight = s; attachInterrupt(digitalPinToInterrupt(18), isr1, CHANGE); break;
           }
         }
     
         static void isr0() {
-          updateEnc(encRef);
-        };
-        
+          updateEnc(encRefLeft);
+        }
+
         static void isr1() {
-          updateEnc(encRef);
+          updateEnc(encRefRight);
         };
 };
 
-/*class MOTCON {
+class MOTCON {
   private:
     MOTOR left, right;
   public:
-    MOTCON(int l[6], int r[6]): left(l[0], l[1], l[2], l[3], l[4], l[5]), right(r[0], r[1], r[2], r[3], r[4], r[5]) {
+    MOTCON(int l[6], int r[6], int bs): left(l[0], l[1], l[2], l[3], l[4], l[5], bs), right(r[0], r[1], r[2], r[3], r[4], r[5], bs) {
       left.turnMotorOn(); right.turnMotorOn();
     }
 
-    void movePID(int dir, int sp) {           // NEED TUNING
-      left.moveSpeed(sp - dir);
-      right.moveSpeed(sp + dir);
-      delayMicroseconds(1000);
+    void forwardSpeed(uint8_t leftSp, uint8_t rightSp){
+    	left.forwardSp(leftSp);
+    	right.forwardSp(rightSp);
+    }
+
+    void reverseSpeed(uint8_t leftSp, uint8_t rightSp){
+    	left.reverseSp(leftSp);
+    	right.reverseSp(rightSp);
     }
 
     void turnLeft() {
-      left.moveDistance(-ninety);
-      right.moveDistance(ninety);
+      for (int i=0; i<ninety; i++){
+        left.reverseDist();
+        right.forwardDist();
+      }
     }
 
     void turnRight() {
-      left.moveDistance(ninety);
-      right.moveDistance(-ninety);
+      for (int i=0; i<ninety; i++){
+        left.forwardDist();
+        right.reverseDist();
+      }
     }
 
-    void turnBack() {
-      left.moveDistance(back);
-      right.moveDistance(-back);
+    void turnBackLeft() {
+      for (int i=0; i<back; i++){
+        left.reverseDist();
+        right.forwardDist();
+      }
     }
 
-    void turnAngle(int angle) {
-      left.moveDistance(angle * ninety / 90);
-      right.moveDistance(-angle * ninety / 90);
+    void turnBackRight() {
+      for (int i=0; i<back; i++){
+        left.forwardDist();
+        right.reverseDist();
+      }
     }
 
-    void moveDistance(int dist) {
-      left.moveDistance(dist);
-      right.moveDistance(dist);
+    void readPosition(){
+      Serial.print(left.read());Serial.print("\t");
+      Serial.println(right.read());
     }
 
-    void motorOff(){
+    void forwardDistance(int dist) {
+      while (dist>0){
+        left.forwardDist();
+        right.forwardDist();
+        dist--;
+      }
+    }
+
+    void reverseDistance(int dist) {
+      while (dist>0){
+        left.reverseDist();
+        right.reverseDist();
+        dist--;
+      }
+    }
+
+    void motorsOff(){
       left.turnMotorOff();
       right.turnMotorOff();
     }
 
-    void motorOn(){
+    void motorsOn(){
       left.turnMotorOn();
       right.turnMotorOn();
     }
 
-};*/
+};
+
+#endif

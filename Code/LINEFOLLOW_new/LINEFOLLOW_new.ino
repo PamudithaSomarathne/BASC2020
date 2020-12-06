@@ -5,10 +5,10 @@
 //raykha((unsigned char[]){D0,D1,D2,D3,D4,D5,D6,D7},Num_sensors,TimeOut,EmitterPin);
 
 //robot_position= 5;
-unsigned int sensorValues[8]={};
+unsigned int sensorValues[16]={};
 
 int thres=100;
-const int lp=2,le=4,li1=5,li2=6,ri2=9,ri1=8,re=7,rp=3;
+const int lp=2,le=4,li1=5,li2=6,ri2=9,ri1=8,re=7,rp=3;          // motor waves
 float last_error;
 
 void stopRobot(){
@@ -50,7 +50,7 @@ void setup() {
   digitalWrite(re,HIGH);
 }
 int read_sensor(){
-  unsigned int sensorValues[8];
+  unsigned int sensorValues[16];
   
   sensorValues[0]=analogRead(A7)>thres ? 1:0;
   sensorValues[1]=analogRead(A6)>thres ? 1:0;
@@ -60,6 +60,15 @@ int read_sensor(){
   sensorValues[5]=analogRead(A2)>thres ? 1:0;
   sensorValues[6]=analogRead(A1)>thres ? 1:0;
   sensorValues[7]=analogRead(A0)>thres ? 1:0;
+  sensorValues[8]=analogRead(A15)>thres ? 1:0;
+  sensorValues[9]=analogRead(A14)>thres ? 1:0;
+  sensorValues[10]=analogRead(A13)>thres ? 1:0;
+  sensorValues[11]=analogRead(A12)>thres ? 1:0;
+  sensorValues[12]=analogRead(A11)>thres ? 1:0;
+  sensorValues[13]=analogRead(A10)>thres ? 1:0;
+  sensorValues[14]=analogRead(A9)>thres ? 1:0;
+  sensorValues[15]=analogRead(A8)>thres ? 1:0;
+  
 
   /*Serial.print(sensorValues[0]); Serial.print(' ');
   Serial.print(sensorValues[1]); Serial.print(' ');
@@ -71,16 +80,16 @@ int read_sensor(){
   Serial.print(sensorValues[7]); Serial.println();*/
   
   float posi;
-  int sensor_sum = (sensorValues[0] +sensorValues[1] +sensorValues[2] +sensorValues[3] +sensorValues[4] +sensorValues[5] + sensorValues[6] +sensorValues[7]);
+  int sensor_sum = (sensorValues[0] +sensorValues[1] +sensorValues[2] +sensorValues[3] +sensorValues[4] +sensorValues[5] + sensorValues[6] +sensorValues[7]+sensorValues[8] +sensorValues[9] +sensorValues[10] +sensorValues[11] +sensorValues[12] +sensorValues[13] + sensorValues[14] +sensorValues[15]);
   switch(sensor_sum){
     case 0:
       posi = 44;
       break; //all sensors are on white
-    case 8:
+    case 16:
       posi = 46;
       break; //all sensors are on black - Reached end or on start
     default:
-      posi = (sensorValues[0]*10 + sensorValues[1]*20 + sensorValues[2]*30 + sensorValues[3]*40 + sensorValues[4]*50 + sensorValues[5]*60 + sensorValues[6]*70 + sensorValues[7]*80)/ sensor_sum;
+      posi = (sensorValues[0]*5 + sensorValues[1]*10 + sensorValues[2]*15 + sensorValues[3]*20 + sensorValues[4]*25 + sensorValues[5]*30 + sensorValues[6]*35 + sensorValues[7]*40+sensorValues[8]*45 + sensorValues[9]*50 + sensorValues[10]*55 + sensorValues[11]*60 + sensorValues[12]*65 + sensorValues[13]*70 + sensorValues[14]*75 + sensorValues[15]*80)/ sensor_sum;
       break;
 
     }
@@ -102,7 +111,7 @@ void PID_line(){
   float i_line=0;
   float d_line=0;
   while(follow_line==1){
-    int error=(read_sensor() - 45);
+    int error=(read_sensor() - 45);    //need to change
     Serial.println(error);
     Serial.println();
     if (error==-1 || error==1)

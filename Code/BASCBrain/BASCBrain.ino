@@ -1,13 +1,9 @@
-#include "Motors.h"
-#include "Pinconfig.h"
-#include "OLED.h"
+int currentTask = 0;
 
-OLED disp = OLED();
+#include "Control.h"
 
 void setup(){
-  disp.printText();
-  delay(2000);
-  disp.clearDisp();
+  setupAll();
 }
 
 void loop(){

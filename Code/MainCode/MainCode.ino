@@ -1,12 +1,23 @@
+#include "PinConfig.h"
 #include "Motors.h"
 
-MOTOR left = MOTOR(12,11,10,9,2,3,100);
+MOTCON robot = MOTCON(leftMotorPinOut,rightMotorPinOut,200);
 
 void setup() {
-  left.turnMotorOn();
+  Serial.begin(9600);
 }
 
 void loop() {
-  left.moveDistance(-1675);
+  robot.forwardDistance(21);
   delay(1000);
+  robot.reverseDistance(21);
+  delay(1000);
+  robot.turnLeft();
+  delay(1000);
+  robot.turnRight();
+  delay(1000);
+  robot.turnBackLeft();
+  delay(1000);
+  robot.turnBackRight();
+  delay(2000);
 }

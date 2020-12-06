@@ -6,44 +6,44 @@
 #define ninety 100
 #define back 200
 
-typedef struct {
+/*typedef struct {
   uint8_t enA;
   uint8_t enB;
   uint8_t state;
   int64_t pos;
-} encoder_t;
+} encoder_t;*/
 
 class MOTOR {
   public:
     MOTOR(int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
       baseSpeed = i7;
       in1 = i1; in2 = i2; en = i3;  pwm = i4;
-      encoder.enA = i5; encoder.enB = i6;
+      //encoder.enA = i5; encoder.enB = i6;
       pinMode(in1, OUTPUT);
       pinMode(in2, OUTPUT);
       pinMode(en, OUTPUT);
       pinMode(pwm, OUTPUT);
-      pinMode(encoder.enA, INPUT_PULLUP);
-      pinMode(encoder.enB, INPUT_PULLUP);
-      encoder.pos = 0;
-      delayMicroseconds(2000);
-      encoder.state = (digitalRead(encoder.enA) << 1) + digitalRead(encoder.enB);
-      attach_interrupt(i5, &encoder);
+      //pinMode(encoder.enA, INPUT_PULLUP);
+      //pinMode(encoder.enB, INPUT_PULLUP);
+      //encoder.pos = 0;
+      //delayMicroseconds(2000);
+      //encoder.state = (digitalRead(encoder.enA) << 1) + digitalRead(encoder.enB);
+      //attach_interrupt(i5, &encoder);
     }
 
   private:
     int in1, in2, en, pwm, baseSpeed;
-    encoder_t encoder;
+    //encoder_t encoder;
     
   public:
-    static encoder_t *encRef;
+    //static encoder_t *encRef;
 
-    inline int32_t read() {
+    /*inline int32_t read() {
       noInterrupts();
       int32_t ret = encoder.pos;
       interrupts();
       return ret;
-    }
+    }*/
 
     void turnMotorOn() {
       digitalWrite(in1, LOW);
@@ -59,20 +59,19 @@ class MOTOR {
       analogWrite(pwm, 0);
     }
 
-    void moveSpeed(int speed) {
-      if (speed >= 0) {
+    void forward(int speed) {
         digitalWrite(in1, HIGH);
         digitalWrite(in2, LOW);
         analogWrite(pwm, speed);
-      }
-      else {
-        digitalWrite(in1, LOW);
-        digitalWrite(in2, HIGH);
-        analogWrite(pwm, (-speed));
-      }
     }
 
-    void moveDistance(int dist) {
+    void reverse() {
+      digitalWrite(in1,LOW);
+      digitalWrite(in2,HIGH);
+      analogWrite(pwm, baseSpeed);
+    }
+
+    /*void moveDistance(int dist) {
       encoder.pos = 0;
       if (dist >= 0) {
         digitalWrite(in1, HIGH);
@@ -125,7 +124,7 @@ class MOTOR {
         
         static void isr1() {
           updateEnc(encRef);
-        };
+        };*/
 };
 
 class MOTCON {
@@ -136,12 +135,12 @@ class MOTCON {
       left.turnMotorOn(); right.turnMotorOn();
     }
 
-    void moveSp(int leftSpeed, int rightSpeed){
-      left.moveSpeed(leftSpeed);
-      right.moveSpeed(rightSpeed);
+    void moveForward(int leftSpeed, int rightSpeed){
+      left.forward(leftSpeed);
+      right.forward(rightSpeed);
     }
 
-    void turnLeft() {
+    /*void turnLeft() {
       left.moveDistance(-ninety);
       right.moveDistance(ninety);
     }
@@ -159,6 +158,16 @@ class MOTCON {
     void moveDistance(int dist) {
       left.moveDistance(dist);
       right.moveDistance(dist);
+    }*/
+
+    void reverseRobot(){
+      left.reverse();
+      right.reverse();
+    }
+
+    void stopRobot(){
+      left.forward(0);
+      right.forward(0);
     }
 
     void motorsOff(){
