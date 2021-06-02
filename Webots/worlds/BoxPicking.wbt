@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.8623949111309183 0.4891696634923404 0.1303382429461345 5.683867090396914
-  position -0.9055482599772702 1.7133071808694953 3.3164066549517788
+  orientation 0.07854503436965614 -0.8810496437450615 -0.4664570750160936 4.402667488575802
+  position 0.4464444064343699 0.2826829517221353 0.10424517653591103
 }
 DirectionalLight {
   direction 0 -1 0
@@ -40,16 +40,56 @@ Solid {
   ]
 }
 Robot {
-  translation 1 0.05 0
+  translation 0.07 0.075 0
   children [
-    Solid {
+    DEF Body Solid {
+      translation 0 -0.05 0
+      scale 0.001 0.001 0.001
       children [
-        Shape {
-          geometry Box {
-            size 0.1 0.05 0.1
+        DEF Main_body Shape {
+          appearance PBRAppearance {
+            roughness 0.5
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "Body.STL"
+            ]
           }
         }
       ]
+      name "main_body"
+      boundingObject USE Main_body
+    }
+    SliderJoint {
+      jointParameters JointParameters {
+        axis 0 -3 13
+      }
+      endPoint Solid {
+        translation 0.08 -0.014999964129161401 1.445596994314763e-07
+        scale 0.001 0.001 0.001
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 1 0 0
+              roughness 0.5
+              metalness 0
+            }
+            geometry Mesh {
+              url [
+                "Arm1.STL"
+              ]
+            }
+          }
+        ]
+      }
+    }
+    Camera {
+      translation 0.054 -0.044 0.022
+      rotation 1 0 0 2.32
+      near 0.001
+      far 0.02
     }
   ]
+  boundingObject USE Main_body
 }

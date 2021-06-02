@@ -1,0 +1,303 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.7398919285478968 -0.6546706131537339 -0.15481060151871942 0.6558681063188109
+  position -3.5310092614722906 5.300529319334484 9.90344640418928
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  translation 4.14326 -1.9984e-14 0.0291529
+  rotation 0 1 0 4.692820414042842e-06
+  floorSize 12 2
+}
+Solid {
+  translation 5.89 0 0
+  scale 0.3 0.3 0.3
+  children [
+    DEF RAMP Group {
+      children [
+        Transform {
+          translation -1.841 0.45 0
+          rotation 0 0 1 0.5236
+          children [
+            Shape {
+              appearance DEF APPEARANCE PBRAppearance {
+                baseColor 0.5 0.5 0.5
+                roughness 0.3
+                metalness 0
+              }
+              geometry Box {
+                size 2 0.1 2
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.9434 0
+          children [
+            Shape {
+              appearance USE APPEARANCE
+              geometry Box {
+                size 2 0.1 2
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 1.841 0.45 0
+          rotation 0 0 1 -0.5236
+          children [
+            Shape {
+              appearance USE APPEARANCE
+              geometry Box {
+                size 2 0.1 2
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "ramp 30 degrees(4)"
+  model "ramp 30 degrees"
+  boundingObject USE RAMP
+}
+Solid {
+  translation 3.33 0 0
+  scale 0.3 0.3 0.3
+  children [
+    DEF RAMP Group {
+      children [
+        Transform {
+          translation -1.841 0.45 0
+          rotation 0 0 1 0.5236
+          children [
+            Shape {
+              appearance DEF APPEARANCE PBRAppearance {
+                baseColor 0.5 0.5 0.5
+                roughness 0.3
+                metalness 0
+              }
+              geometry Box {
+                size 2 0.1 2
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.9434 0
+          children [
+            Shape {
+              appearance USE APPEARANCE
+              geometry Box {
+                size 2 0.1 2
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 1.841 0.45 0
+          rotation 0 0 1 -0.5236
+          children [
+            Shape {
+              appearance USE APPEARANCE
+              geometry Box {
+                size 2 0.1 2
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "ramp 30 degrees(3)"
+  model "ramp 30 degrees"
+  boundingObject USE RAMP
+}
+Solid {
+  translation 1.15 0 0
+  scale 0.3 0.3 0.3
+  children [
+    DEF RAMP Group {
+      children [
+        Transform {
+          translation -1.841 0.45 0
+          rotation 0 0 1 0.5236
+          children [
+            Shape {
+              appearance DEF APPEARANCE PBRAppearance {
+                baseColor 0.5 0.5 0.5
+                roughness 0.3
+                metalness 0
+              }
+              geometry Box {
+                size 2 0.1 2
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.9434 0
+          children [
+            Shape {
+              appearance USE APPEARANCE
+              geometry Box {
+                size 2 0.1 2
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 1.841 0.45 0
+          rotation 0 0 1 -0.5236
+          children [
+            Shape {
+              appearance USE APPEARANCE
+              geometry Box {
+                size 2 0.1 2
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "ramp 30 degrees(2)"
+  model "ramp 30 degrees"
+  boundingObject USE RAMP
+}
+Solid {
+  translation -0.999289 -1.15463e-14 0.0144145
+  rotation 0 1 0 4.692820414042842e-06
+  scale 0.3 0.3 0.3
+  children [
+    DEF RAMP Group {
+      children [
+        Transform {
+          translation -1.841 0.45 0
+          rotation 0 0 1 0.5236
+          children [
+            Shape {
+              appearance DEF APPEARANCE PBRAppearance {
+                baseColor 0.5 0.5 0.5
+                roughness 0.3
+                metalness 0
+              }
+              geometry Box {
+                size 2 0.1 2
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.9434 0
+          children [
+            Shape {
+              appearance USE APPEARANCE
+              geometry Box {
+                size 2 0.1 2
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 1.841 0.45 0
+          rotation 0 0 1 -0.5236
+          children [
+            Shape {
+              appearance USE APPEARANCE
+              geometry Box {
+                size 2 0.1 2
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "ramp 30 degrees(1)"
+  model "ramp 30 degrees"
+  boundingObject USE RAMP
+}
+Robot {
+  translation 1.12 0.28 0.02
+  children [
+    Group {
+      children [
+        Pioneer3at {
+          translation -2.15 0.12 0
+          rotation 0 1 0 -1.5707953071795862
+          controller "countRamps"
+          extensionSlot [
+            Pioneer3DistanceSensor {
+              translation 2.20392e-07 0.137 -0.25
+              rotation 0 1 0 1.5708
+            }
+            DEF led_red LED {
+              translation 0 0.17 0.12
+              children [
+                DEF led_decline Shape {
+                  appearance PBRAppearance {
+                    metalness 0
+                  }
+                  geometry Capsule {
+                    height 0.1
+                    radius 0.01
+                  }
+                }
+              ]
+              name "led_red"
+              boundingObject USE led_decline
+              physics Physics {
+              }
+            }
+            DEF led_green LED {
+              translation 0 0.19 0
+              children [
+                DEF led_incline Shape {
+                  appearance PBRAppearance {
+                    metalness 0
+                  }
+                  geometry Capsule {
+                    height 0.05
+                    radius 0.01
+                  }
+                }
+              ]
+              name "led_green"
+              boundingObject USE led_incline
+              physics Physics {
+              }
+              color [
+                0 1 0
+              ]
+            }
+            InertialUnit {
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  boundingObject DEF imu Transform {
+    translation -2.31 0.3 0
+    children [
+      Shape {
+        geometry Box {
+          size 0.1 0.1 0.1
+        }
+      }
+    ]
+  }
+  physics Physics {
+  }
+}
+StopPanel {
+  translation 6.61 0.68 0.0299759
+  rotation 0 1 0 1.5708
+}
