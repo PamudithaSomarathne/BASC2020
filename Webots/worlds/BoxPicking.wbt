@@ -4,7 +4,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 0.03675319280399195 0.994957221370578 0.09332379365012602 3.8884943632145577
-  position -0.2702237047717627 0.08510808222334243 -0.2847648659993251
+  position -0.381299832342569 0.11593729957584804 -0.4039150001695708
 }
 DirectionalLight {
   direction 0 -1 0
@@ -24,53 +24,50 @@ DirectionalLight {
 RectangleArena {
   floorSize 4 4
   floorTileSize 0.25 0.25
-  floorAppearance Parquetry {
-    type "dark strip"
-    colorOverride 0 0 0
-  }
 }
-Robot {
+DEF Supervisor Robot {
+  name "supervisor"
+  locked TRUE
+  translationStep 0
+  rotationStep 0
+  controller "Supervisor"
+  supervisor TRUE
+}
+DEF Team Robot {
   children [
-    Solid {
-      translation 0 0.005 0
-      children [
-        Shape {
-          appearance PBRAppearance {
-            baseColor 0 0 0
-            roughness 1
-            metalness 0
-          }
-          geometry DEF Body IndexedFaceSet {
-            coord Coordinate {
-              point [
-                0 0 0
-                0.15 0 0
-                0 0 0.1
-                0.15 0 0.1
-                0 0.003 0.003
-                0 0.003 0.097
-                0.147 0.003 0.003
-                0.147 0.003 0.097
-                0 0.02 0
-                0.15 0.02 0
-                0 0.02 0.1
-                0.15 0.02 0.1
-                0 0.02 0.003
-                0 0.02 0.097
-                0.147 0.02 0.003
-                0.147 0.02 0.097
-              ]
-            }
-            ccw FALSE
-            convex FALSE
-            coordIndex [
-              0, 2, 3, 1, -1, 0, 1, 9, 8, -1, 2, 10, 11, 3, -1, 3, 11, 9, 1, -1, 5, 4, 6, 7, -1, 4, 12, 14, 6, -1, 5, 7, 15, 13, -1, 7, 6, 14, 15, -1, 0, 8, 12, 4, 5, 13, 10, 2, -1, 8, 9, 11, 10, 13, 15, 14, 12, -1
-            ]
-          }
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry DEF Body IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0.005 0
+            0.15 0.005 0
+            0 0.005 0.1
+            0.15 0.005 0.1
+            0 0.008 0.003
+            0 0.008 0.097
+            0.147 0.008 0.003
+            0.147 0.008 0.097
+            0 0.025 0
+            0.15 0.025 0
+            0 0.025 0.1
+            0.15 0.025 0.1
+            0 0.025 0.003
+            0 0.025 0.097
+            0.147 0.025 0.003
+            0.147 0.025 0.097
+          ]
         }
-      ]
-      name "Main_body"
-      boundingObject USE Body
+        ccw FALSE
+        convex FALSE
+        coordIndex [
+          0, 2, 3, 1, -1, 0, 1, 9, 8, -1, 2, 10, 11, 3, -1, 3, 11, 9, 1, -1, 5, 4, 6, 7, -1, 4, 12, 14, 6, -1, 5, 7, 15, 13, -1, 7, 6, 14, 15, -1, 0, 8, 12, 4, 5, 13, 10, 2, -1, 8, 9, 11, 10, 13, 15, 14, 12, -1
+        ]
+      }
     }
     DEF RB HingeJoint {
       jointParameters HingeJointParameters {
@@ -83,7 +80,7 @@ Robot {
         }
         RotationalMotor {
           name "right_back_motor"
-          maxVelocity 0.105
+          maxVelocity 22
           maxTorque 0.848
         }
       ]
@@ -105,6 +102,10 @@ Robot {
         ]
         name "right_back_wheel"
         boundingObject USE Track_wheel_geo
+        physics Physics {
+          density -1
+          mass 0.02
+        }
       }
     }
     DEF RF HingeJoint {
@@ -118,7 +119,7 @@ Robot {
         }
         RotationalMotor {
           name "right_front_motor"
-          maxVelocity 0.105
+          maxVelocity 22
           maxTorque 0.848
         }
       ]
@@ -133,6 +134,10 @@ Robot {
         ]
         name "right_front_wheel"
         boundingObject USE Track_wheel_geo
+        physics Physics {
+          density -1
+          mass 0.02
+        }
       }
     }
     DEF LB HingeJoint {
@@ -146,7 +151,7 @@ Robot {
         }
         RotationalMotor {
           name "left_back_motor"
-          maxVelocity 0.105
+          maxVelocity 22
           maxTorque 0.848
         }
       ]
@@ -161,6 +166,10 @@ Robot {
         ]
         name "left_back_wheel"
         boundingObject USE Track_wheel_geo
+        physics Physics {
+          density -1
+          mass 0.02
+        }
       }
     }
     DEF LF HingeJoint {
@@ -174,7 +183,7 @@ Robot {
         }
         RotationalMotor {
           name "left_front_motor"
-          maxVelocity 0.105
+          maxVelocity 22
           maxTorque 0.848
         }
       ]
@@ -189,9 +198,17 @@ Robot {
         ]
         name "left_front_wheel"
         boundingObject USE Track_wheel_geo
+        physics Physics {
+          density -1
+          mass 0.02
+        }
       }
     }
   ]
+  boundingObject USE Body
   physics Physics {
+    density -1
+    mass 0.1
   }
+  controller "check_encoders"
 }
