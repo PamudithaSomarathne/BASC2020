@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.07854503436965614 -0.8810496437450615 -0.4664570750160936 4.402667488575802
-  position 0.4464444064343699 0.2826829517221353 0.10424517653591103
+  orientation 0.03675319280399195 0.994957221370578 0.09332379365012602 3.8884943632145577
+  position -0.2702237047717627 0.08510808222334243 -0.2847648659993251
 }
 DirectionalLight {
   direction 0 -1 0
@@ -29,67 +29,188 @@ RectangleArena {
     colorOverride 0 0 0
   }
 }
-Solid {
-  translation 0 0.05 0
-  children [
-    Shape {
-      geometry Box {
-        size 0.05 0.05 0.05
-      }
-    }
-  ]
-}
 Robot {
-  translation 0.07 0.075 0
   children [
-    DEF Body Solid {
-      translation 0 -0.05 0
-      scale 0.001 0.001 0.001
+    Solid {
+      translation 0 0.005 0
       children [
-        DEF Main_body Shape {
+        Shape {
           appearance PBRAppearance {
-            roughness 0.5
+            baseColor 0 0 0
+            roughness 1
             metalness 0
           }
-          geometry Mesh {
-            url [
-              "Body.STL"
+          geometry DEF Body IndexedFaceSet {
+            coord Coordinate {
+              point [
+                0 0 0
+                0.15 0 0
+                0 0 0.1
+                0.15 0 0.1
+                0 0.003 0.003
+                0 0.003 0.097
+                0.147 0.003 0.003
+                0.147 0.003 0.097
+                0 0.02 0
+                0.15 0.02 0
+                0 0.02 0.1
+                0.15 0.02 0.1
+                0 0.02 0.003
+                0 0.02 0.097
+                0.147 0.02 0.003
+                0.147 0.02 0.097
+              ]
+            }
+            ccw FALSE
+            convex FALSE
+            coordIndex [
+              0, 2, 3, 1, -1, 0, 1, 9, 8, -1, 2, 10, 11, 3, -1, 3, 11, 9, 1, -1, 5, 4, 6, 7, -1, 4, 12, 14, 6, -1, 5, 7, 15, 13, -1, 7, 6, 14, 15, -1, 0, 8, 12, 4, 5, 13, 10, 2, -1, 8, 9, 11, 10, 13, 15, 14, 12, -1
             ]
           }
         }
       ]
-      name "main_body"
-      boundingObject USE Main_body
+      name "Main_body"
+      boundingObject USE Body
     }
-    SliderJoint {
-      jointParameters JointParameters {
-        axis 0 -3 13
+    DEF RB HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 -1
+        anchor 0.13 0.015 -0.0075
       }
+      device [
+        PositionSensor {
+          name "right_back_encoder"
+        }
+        RotationalMotor {
+          name "right_back_motor"
+          maxVelocity 0.105
+          maxTorque 0.848
+        }
+      ]
       endPoint Solid {
-        translation 0.08 -0.014999964129161401 1.445596994314763e-07
-        scale 0.001 0.001 0.001
+        translation 0.1300000851247707 0.01500035402718912 -0.007500000156848721
+        rotation -1 -1.1549040963342156e-12 1.1541960226264727e-12 1.5707996939090059
         children [
           Shape {
-            appearance PBRAppearance {
-              baseColor 1 0 0
-              roughness 0.5
+            appearance DEF Track_wheel_black PBRAppearance {
+              baseColor 0.15 0.15 0.15
+              roughness 1
               metalness 0
             }
-            geometry Mesh {
-              url [
-                "Arm1.STL"
-              ]
+            geometry DEF Track_wheel_geo Cylinder {
+              height 0.01
+              radius 0.015
             }
           }
         ]
+        name "right_back_wheel"
+        boundingObject USE Track_wheel_geo
+        physics Physics {
+          density -1
+          mass 0.02
+        }
       }
     }
-    Camera {
-      translation 0.054 -0.044 0.022
-      rotation 1 0 0 2.32
-      near 0.001
-      far 0.02
+    DEF RF HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 -1
+        anchor 0.01 0.015 -0.0075
+      }
+      device [
+        PositionSensor {
+          name "right_front_encoder"
+        }
+        RotationalMotor {
+          name "right_front_motor"
+          maxVelocity 0.105
+          maxTorque 0.848
+        }
+      ]
+      endPoint Solid {
+        translation 0.010000084947586363 0.015000331480982648 -0.007500000185799181
+        rotation -1 -6.763063749008394e-13 6.755986078512635e-13 1.5707996939087678
+        children [
+          Shape {
+            appearance USE Track_wheel_black
+            geometry USE Track_wheel_geo
+          }
+        ]
+        name "right_front_wheel"
+        boundingObject USE Track_wheel_geo
+        physics Physics {
+          density -1
+          mass 0.02
+        
+        }
+      }
+    }
+    DEF LB HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 -1
+        anchor 0.135 0.015 0.1075
+      }
+      device [
+        PositionSensor {
+          name "left_back_encoder"
+        }
+        RotationalMotor {
+          name "left_back_motor"
+          maxVelocity 0.105
+          maxTorque 0.848
+        }
+      ]
+      endPoint Solid {
+        translation 0.13499986788194618 0.014999893906647098 0.10750000067890524
+        rotation -1 1.58281784624529e-11 1.5587378663386734e-10 1.5707996943179936
+        children [
+          Shape {
+            appearance USE Track_wheel_black
+            geometry USE Track_wheel_geo
+          }
+        ]
+        name "left_back_wheel"
+        boundingObject USE Track_wheel_geo
+        physics Physics {
+          density -1
+          mass 0.02
+        
+        }
+      }
+    }
+    DEF LF HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 -1
+        anchor 0.01 0.015 0.1075
+      }
+      device [
+        PositionSensor {
+          name "left_front_encoder"
+        }
+        RotationalMotor {
+          name "left_front_motor"
+          maxVelocity 0.105
+          maxTorque 0.848
+        }
+      ]
+      endPoint Solid {
+        translation 0.010000084944961962 0.01500038574195705 0.10749999981692183
+        rotation -1 -5.20882202773162e-13 5.200910247021457e-13 1.5707996939087936
+        children [
+          Shape {
+            appearance USE Track_wheel_black
+            geometry USE Track_wheel_geo
+          }
+        ]
+        name "left_front_wheel"
+        boundingObject USE Track_wheel_geo
+        physics Physics {
+          density -1
+          mass 0.02
+        
+        }
+      }
     }
   ]
-  boundingObject USE Main_body
+  physics Physics {
+  }
 }
