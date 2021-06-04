@@ -1,5 +1,6 @@
 #include <webots/Robot.hpp>
 #include <webots/Motor.hpp>
+#include <webots/PositionSensor.hpp>
 
 using namespace webots;
 
@@ -15,7 +16,11 @@ int main(int argc, char **argv) {
   Motor *left_back_motor = robot->getMotor("left_back_motor");
   Motor *left_front_motor = robot->getMotor("left_front_motor");
   
+  PositionSensor *right_back_encoder = robot->getPositionSensor("right_back_encoder");
+  PositionSensor *left_back_encoder = robot->getPositionSensor("left_back_encoder");
   
+  right_back_encoder->enable(TIME_STEP);
+  left_back_encoder->enable(TIME_STEP);
   
   right_back_motor->setPosition(INFINITY);
   right_front_motor->setPosition(INFINITY);
@@ -34,7 +39,7 @@ int main(int argc, char **argv) {
 
   while (robot->step(TIME_STEP) != -1) {
   
-     
+    std::cout << right_back_encoder->getValue() << '\t' << left_back_encoder->getValue() << std::endl;
    
   };
 

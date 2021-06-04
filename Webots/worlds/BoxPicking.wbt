@@ -77,6 +77,7 @@ DEF Team Robot {
       device [
         PositionSensor {
           name "right_back_encoder"
+          resolution 0.0028
         }
         RotationalMotor {
           name "right_back_motor"
@@ -116,6 +117,7 @@ DEF Team Robot {
       device [
         PositionSensor {
           name "right_front_encoder"
+          resolution 0.0028
         }
         RotationalMotor {
           name "right_front_motor"
@@ -148,6 +150,7 @@ DEF Team Robot {
       device [
         PositionSensor {
           name "left_back_encoder"
+          resolution 0.0028
         }
         RotationalMotor {
           name "left_back_motor"
@@ -180,6 +183,7 @@ DEF Team Robot {
       device [
         PositionSensor {
           name "left_front_encoder"
+          resolution 0.0028
         }
         RotationalMotor {
           name "left_front_motor"
