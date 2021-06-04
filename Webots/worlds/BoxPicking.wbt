@@ -105,10 +105,6 @@ Robot {
         ]
         name "right_back_wheel"
         boundingObject USE Track_wheel_geo
-        physics Physics {
-          density -1
-          mass 0.02
-        }
       }
     }
     DEF RF HingeJoint {
@@ -137,11 +133,6 @@ Robot {
         ]
         name "right_front_wheel"
         boundingObject USE Track_wheel_geo
-        physics Physics {
-          density -1
-          mass 0.02
-        
-        }
       }
     }
     DEF LB HingeJoint {
@@ -170,11 +161,6 @@ Robot {
         ]
         name "left_back_wheel"
         boundingObject USE Track_wheel_geo
-        physics Physics {
-          density -1
-          mass 0.02
-        
-        }
       }
     }
     DEF LF HingeJoint {
@@ -203,11 +189,6 @@ Robot {
         ]
         name "left_front_wheel"
         boundingObject USE Track_wheel_geo
-        physics Physics {
-          density -1
-          mass 0.02
-        
-        }
       }
     }
   ]
