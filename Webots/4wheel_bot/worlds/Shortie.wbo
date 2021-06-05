@@ -1,38 +1,4 @@
-#VRML_SIM R2021a utf8
-WorldInfo {
-  coordinateSystem "NUE"
-}
-Viewpoint {
-  orientation 0.09597444069845429 0.9777476660507672 0.1865433147150981 4.0737462656933285
-  position -0.5431542948443746 0.29707234005758826 -0.4115533795495151
-}
-DirectionalLight {
-  direction 0 -1 0
-}
-DirectionalLight {
-  direction 1 -1 0
-}
-DirectionalLight {
-  direction -1 -1 0
-}
-DirectionalLight {
-  direction 0 -1 1
-}
-DirectionalLight {
-  direction 0 -1 -1
-}
-RectangleArena {
-  floorSize 4 4
-  floorTileSize 0.25 0.25
-}
-DEF Supervisor Robot {
-  name "supervisor"
-  locked TRUE
-  translationStep 0
-  rotationStep 0
-  controller "Supervisor"
-  supervisor TRUE
-}
+#VRML_OBJ R2021a utf8
 DEF Team Robot {
   children [
     Shape {

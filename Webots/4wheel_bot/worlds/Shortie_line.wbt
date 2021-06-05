@@ -3,10 +3,12 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.09597444069845429 0.9777476660507672 0.1865433147150981 4.0737462656933285
-  position -0.5431542948443746 0.29707234005758826 -0.4115533795495151
+  orientation -0.7152096955926048 0.651512158454772 0.2529960448622421 0.9948249616105975
+  position 0.09198034060825315 0.5932446579498103 1.250541286097216
+  follow "robot"
 }
 DirectionalLight {
+  ambientIntensity 1
   direction 0 -1 0
 }
 DirectionalLight {
@@ -16,28 +18,45 @@ DirectionalLight {
   direction -1 -1 0
 }
 DirectionalLight {
-  direction 0 -1 1
-}
-DirectionalLight {
   direction 0 -1 -1
 }
+DirectionalLight {
+  direction 0 -1 1
+}
 RectangleArena {
-  floorSize 4 4
+  translation 0.12 0 -0.28
+  floorSize 3 3
   floorTileSize 0.25 0.25
+  floorAppearance Parquetry {
+    type "dark strip"
+    colorOverride 0 0 0
+  }
 }
-DEF Supervisor Robot {
-  name "supervisor"
-  locked TRUE
-  translationStep 0
-  rotationStep 0
-  controller "Supervisor"
-  supervisor TRUE
-}
-DEF Team Robot {
+Solid {
+  translation -0.4 0 -1.63
+  scale 0.001 0.001 0.001
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "first_part.STL"
+        ]
+      }
+    }
+  ]
+  locked TRUE
+}
+DEF Team Robot {
+  translation -0.230002 0 0.67
+  rotation 0 1 0 -1.5707996938995747
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.411765 0 0.411765
         roughness 1
         metalness 0
       }
@@ -71,8 +90,8 @@ DEF Team Robot {
     }
     DEF RB HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 0 -1
-        anchor 0.13 0.015 -0.0075
+        axis 0 0 1
+        anchor 0.14 0.015 -0.0075
       }
       device [
         PositionSensor {
@@ -86,8 +105,8 @@ DEF Team Robot {
         }
       ]
       endPoint Solid {
-        translation 0.1300000851247707 0.01500035402718912 -0.007500000156848721
-        rotation -1 -1.1549040963342156e-12 1.1541960226264727e-12 1.5707996939090059
+        translation 0.14 0.0150004 -0.0075
+        rotation -1 -1.154909002864889e-12 1.1541828363252895e-12 1.5707996939090054
         children [
           Shape {
             appearance DEF Track_wheel_black PBRAppearance {
@@ -111,14 +130,10 @@ DEF Team Robot {
     }
     DEF RF HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 0 -1
+        axis 0 0 1
         anchor 0.01 0.015 -0.0075
       }
       device [
-        PositionSensor {
-          name "right_front_encoder"
-          resolution 0.0028
-        }
         RotationalMotor {
           name "right_front_motor"
           maxVelocity 22
@@ -127,7 +142,7 @@ DEF Team Robot {
       ]
       endPoint Solid {
         translation 0.010000084947586363 0.015000331480982648 -0.007500000185799181
-        rotation -1 -6.763063749008394e-13 6.755986078512635e-13 1.5707996939087678
+        rotation -1 -6.763063749008397e-13 6.756194606066238e-13 1.570799693908768
         children [
           Shape {
             appearance USE Track_wheel_black
@@ -144,8 +159,8 @@ DEF Team Robot {
     }
     DEF LB HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 0 -1
-        anchor 0.135 0.015 0.1075
+        axis 0 0 1
+        anchor 0.14 0.015 0.1075
       }
       device [
         PositionSensor {
@@ -159,8 +174,8 @@ DEF Team Robot {
         }
       ]
       endPoint Solid {
-        translation 0.13499986788194618 0.014999893906647098 0.10750000067890524
-        rotation -1 1.58281784624529e-11 1.5587378663386734e-10 1.5707996943179936
+        translation 0.14 0.0149999 0.1075
+        rotation -1 1.5828153929799536e-11 1.5587380656664818e-10 1.5707996943179932
         children [
           Shape {
             appearance USE Track_wheel_black
@@ -177,14 +192,10 @@ DEF Team Robot {
     }
     DEF LF HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 0 -1
+        axis 0 0 1
         anchor 0.01 0.015 0.1075
       }
       device [
-        PositionSensor {
-          name "left_front_encoder"
-          resolution 0.0028
-        }
         RotationalMotor {
           name "left_front_motor"
           maxVelocity 22
@@ -192,8 +203,8 @@ DEF Team Robot {
         }
       ]
       endPoint Solid {
-        translation 0.010000084944961962 0.01500038574195705 0.10749999981692183
-        rotation -1 -5.20882202773162e-13 5.200910247021457e-13 1.5707996939087936
+        translation 0.010000084944961964 0.01500038574195705 0.10749999981692183
+        rotation -1 -5.207987917517216e-13 5.20092251334814e-13 1.5707996939087936
         children [
           Shape {
             appearance USE Track_wheel_black
@@ -208,11 +219,35 @@ DEF Team Robot {
         }
       }
     }
+    DistanceSensor {
+      translation 0 0.005 0.07
+      rotation 0 0 1 -1.5707996938995747
+      name "l2"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0.005 0.06
+      rotation 0 0 1 -1.5707996938995747
+      name "l1"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0.005 0.04
+      rotation 0 0 1 -1.5707996938995747
+      name "r1"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0.005 0.03
+      rotation 0 0 1 -1.5707996938995747
+      name "r2"
+      type "infra-red"
+    }
   ]
   boundingObject USE Body
   physics Physics {
     density -1
     mass 0.1
   }
-  controller "check_encoders"
+  controller "Shortie_line_follow"
 }
