@@ -1,6 +1,7 @@
+
 #include <webots/Robot.hpp>
 #include <webots/Motor.hpp>
-#include <webots/InertialUnit.hpp>
+#include <webots/Gyro.hpp>
 
 using namespace webots;
 
@@ -11,7 +12,7 @@ using namespace webots;
 int main() {
   Robot *robot = new Robot();
   
-  InertialUnit *imu = robot->getInertialUnit("inertial unit");
+  Gyro *gy = robot->getGyro("gyro"); //gyro object change
   
   Motor *back_left_motor = robot->getMotor("back left wheel");
   Motor *back_right_motor = robot->getMotor("back right wheel");
@@ -35,12 +36,12 @@ int main() {
     front_left_motor->setVelocity(SCALE * MAX_SPEED);
     front_right_motor->setVelocity(SCALE * MAX_SPEED);
     
-    imu->enable(20);
+    gy->enable(20);
     
-    const double *values = imu->getRollPitchYaw();
-    std::cout<<"Angle x :"<<imu->getRollPitchYaw()[0]<<std::endl;
-    std::cout<<"Angle y :"<<imu->getRollPitchYaw()[1]<<std::endl;
-    std::cout<<"Angle z :"<<imu->getRollPitchYaw()[2]<<std::endl;
+    const double *values = gy->getValues();
+    std::cout<<"Angular freq x :"<<values[0]<<std::endl;
+    //std::cout<<"Angular freq y :"<<values[1]<<' ';
+    //std::cout<<"Angular freq z :"<<values[2]<<std::endl;
     
 };
   
