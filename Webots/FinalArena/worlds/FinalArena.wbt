@@ -1,5 +1,6 @@
 #VRML_SIM R2021a utf8
 WorldInfo {
+  basicTimeStep 16
   coordinateSystem "NUE"
 }
 Viewpoint {
