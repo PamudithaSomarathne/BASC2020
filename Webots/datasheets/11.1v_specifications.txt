@@ -1,0 +1,19 @@
+
+Chemistry	Lithium Polymer (LiPo)
+Capacity (mAh)	2200
+Voltage	11.1V
+Cell Count	3S
+Constant Discharge	25C
+Burst Discharge	45C
+Maximum Constant Current	55A
+Maximum Burst Current	99A
+Watt Hours	24.42Wh
+Wire Gauge	14AWG
+Connector	XT60
+Balance Connector Type	JST-XH
+Brand	Overlander Batteries
+Range	Sport
+Length (mm)	102
+Width (mm)	34
+Depth (mm)	23
+Weight (g)	168.8
