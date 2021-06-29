@@ -6,6 +6,11 @@
 
 using namespace webots;
 
+//// Pamuditha variables //////////////
+double angle = 0.0, gyroThresh = 0.5, gyroThresh2=0.0;
+bool inclined=0, top=0, rampTurned=0, direction=0;
+//////////////////////////////////////
+
 Robot *robot = new Robot();
 const int timeStep = (int)robot->getBasicTimeStep();
 
@@ -116,7 +121,7 @@ void turnLeft(){
   double encPos = r_enc->getValue();
   l_motor->setVelocity(-5.0);
   r_motor->setVelocity(5.0);
-  while (r_enc->getValue() - encPos < 5){
+  while (r_enc->getValue() - encPos < 3.5){
     robot->step(timeStep);
   }
   stopRobot();
@@ -127,7 +132,7 @@ void turnRight(){
   double encPos = l_enc->getValue();
   r_motor->setVelocity(-5.0);
   l_motor->setVelocity(5.0);
-  while (l_enc->getValue() - encPos < 5){
+  while (l_enc->getValue() - encPos < 3.5){
     robot->step(timeStep);
   }
   stopRobot();
@@ -138,25 +143,83 @@ void lineFollow(){}
 
 void wallFollow(){}
 
-void rampNavigation(bool direction){}
+////////// Pamuditha editing with Yomali ////////////////
+void readGyro(){
+   double gyroOut = -gyro->getValues()[0];
+   if (gyroOut > gyroThresh2 || gyroOut < -gyroThresh2) {angle += gyroOut; }
+   if ((not top) && (not inclined) && (angle>0.1)) inclined=true;
+   else if ((not top) && (inclined) && (angle>-3.0 && angle<0.1)) {inclined=false; top=true;}
+   else if ((top) && not(inclined) && (angle<-3.0)) inclined=true;
+   else if ((top) && (inclined) && (angle>-3.0 && angle<0.1)) {inclined=false; top=false;}
+}
 
-bool pillarCount(){}
+bool isRampEdge(){
+  if (ct->getValue() < 200) return true;
+  double gyroOut = -gyro->getValues()[0];
+  if (gyroOut > gyroThresh || gyroOut < -gyroThresh) return true;
+   return false;
+}
 
-void rampPathCorrection(){}
+void rampNavigation(bool direction){
+  readGyro();
+  std::cout << angle << " inclined:" << inclined << " top:" << top << std::endl;
+  if (not isRampEdge()){
+    if ((lc->getValue() < 900) && (rc->getValue() < 900)) {
+      if (not rampTurned) {
+        std::cout << "HELLO" << std::endl;
+        moveDistance(6.0);
+        if (direction) turnLeft();
+        else turnRight();
+        rampTurned = true;
+      }
+      else moveDistance(0.5);
+    }
+    else moveDistance(0.5);
+  }
+  else moveDistance(0.5);
+  //std::cout << "Hello" << std::endl;
+}
+
+// Left and Right turn encoder values are different ---CHECK
+
+int count=0, i=0;
+bool readings[50];
+
+void pillarCount(bool direction){
+  if (direction) {
+    if (lft->getValue()<900) readings[i]=true;
+    i++;
+  }
+  else {
+    if (rft->getValue()<900) readings[i]=true;
+    i++;
+  }
+}
+
+bool evaluatePillars(){
+  for (int i=0; i<49; i++){
+    if (((not readings[i]) && readings[i+1]) || (readings[i] && (not readings[i+1]))) count++;
+  }
+  if (count==4) return true;
+  else return false;
+}
+
+void rampPathCorrection(){
+  
+}
+////////////////////////////////////////////////////////
 
 void escapeGates(){}
 
 int main(int argc, char **argv) {
 
   initialize_devices();
-
+  
   while (robot->step(timeStep) != -1) {
-    turnLeft();
-    std::cout << "Left done" << std::endl;
-    delay(256);
-    turnRight();
-    std::cout << "Right done" << std::endl;
-    delay(256);
+    //rampNavigation(direction);
+    if (direction && (lc->getValue()<900)) {std::cout << i << ' ' << evaluatePillars() << std::endl; break;}
+    else if (rc->getValue()<900) {std::cout << i << ' ' << evaluatePillars() << std::endl; break;}
+    else {pillarCount(direction); moveDistance(0.5);}
   };
   
   disable_devices();
