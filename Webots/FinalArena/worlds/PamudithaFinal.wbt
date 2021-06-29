@@ -4,10 +4,10 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.00989984651731755 0.9999009981856163 0.009999343295521127 4.702289978668772
-  position -0.7436658749881676 0.05643784319547319 -1.622236837243496
+  orientation 0.9971832714370256 -0.06877535096824072 -0.029924476024599956 5.4603231194792246
+  position 0.7110820408780918 0.6571468928278983 -1.7361408800403422
   follow "robot"
-  followType "Mounted Shot"
+  followType "None"
 }
 DirectionalLight {
   direction 0 -1 0
@@ -132,6 +132,46 @@ DEF Wall Solid {
   name "Wall"
   boundingObject USE Wall_geo
   locked TRUE
+}
+Solid {
+  translation -0.99 0.05 -2.15
+  children [
+    DEF Box Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 0.1 0.03
+      }
+    }
+  ]
+  name "left_2"
+  boundingObject USE Box
+}
+Solid {
+  translation -0.91 0.06 -2.15
+  children [
+    USE Box
+  ]
+  name "left_1"
+  boundingObject USE Box
+}
+Solid {
+  translation 0.82 0.05 -2.15
+  children [
+    USE Box
+  ]
+  name "right_1"
+  boundingObject USE Box
+}
+Solid {
+  translation 0.9 0.05 -2.15
+  children [
+    USE Box
+  ]
+  name "right_2"
+  boundingObject USE Box
 }
 DEF LG2 Robot {
   translation -1.02 0.025 -1.02
@@ -325,8 +365,8 @@ DEF Supervisor Robot {
   supervisor TRUE
 }
 Robot {
-  translation 0.0300038 0.01056 -1.45
-  rotation 0 1 0 3.14159
+  translation 0.520004 0.01056 -2.26
+  rotation 0 1 0 1.5708
   children [
     DEF Robot_body Shape {
       appearance PBRAppearance {
@@ -416,7 +456,7 @@ Robot {
       }
       endPoint Solid {
         translation 0.0361 -0.00656 0.192
-        rotation 0.9345877099426559 -0.16608325774841404 -0.31458252322692026 2.6169650280106183
+        rotation 0.40986178393541384 -0.35935242611158225 0.8383788832723543 4.005497887893057
         children [
           DEF Ball_shape Shape {
             appearance PBRAppearance {
@@ -442,7 +482,7 @@ Robot {
       }
       endPoint Solid {
         translation 0.125 -0.00656 0.192
-        rotation 0.6669579692334796 -0.7429909914527708 -0.05595939506447183 2.1464151296899034
+        rotation 0.6319296072999919 -0.5993234926910297 -0.49140240386703743 1.519425845909566
         children [
           USE Ball_shape
         ]
@@ -458,76 +498,151 @@ Robot {
       translation 0.04456 0 0.212
       rotation 0 0 1 -1.5707996938995747
       name "r3"
+      lookupTable [
+        0 0 0
+        0.02 1000 0
+      ]
+      type "infra-red"
     }
     DistanceSensor {
       translation 0.05456 0 0.212
       rotation 0 0 1 -1.5707996938995747
       name "r2"
+      lookupTable [
+        0 0 0
+        0.02 1000 0
+      ]
+      type "infra-red"
     }
     DistanceSensor {
       translation 0.06456 0 0.212
       rotation 0 0 1 -1.5707996938995747
       name "r1"
+      lookupTable [
+        0 0 0
+        0.02 1000 0
+      ]
+      type "infra-red"
     }
     DistanceSensor {
       translation 0.07456 0 0.212
       rotation 0 0 1 -1.5707996938995747
       name "r0"
+      lookupTable [
+        0 0 0
+        0.02 1000 0
+      ]
+      type "infra-red"
     }
     DistanceSensor {
       translation 0.08456 0 0.212
       rotation 0 0 1 -1.5707996938995747
       name "l0"
+      lookupTable [
+        0 0 0
+        0.02 1000 0
+      ]
+      type "infra-red"
     }
     DistanceSensor {
       translation 0.09456 0 0.212
       rotation 0 0 1 -1.5707996938995747
       name "l1"
+      lookupTable [
+        0 0 0
+        0.02 1000 0
+      ]
+      type "infra-red"
     }
     DistanceSensor {
       translation 0.10456 0 0.212
       rotation 0 0 1 -1.5707996938995747
       name "l2"
+      lookupTable [
+        0 0 0
+        0.02 1000 0
+      ]
+      type "infra-red"
     }
     DistanceSensor {
       translation 0.11456 0 0.212
       rotation 0 0 1 -1.5707996938995747
       name "l3"
+      lookupTable [
+        0 0 0
+        0.02 1000 0
+      ]
+      type "infra-red"
     }
     DistanceSensor {
       translation 0.15 0 0.212
       rotation 0 0 1 -1.5707996938995747
       name "l_corner"
+      lookupTable [
+        0 0 0
+        0.02 1000 0
+      ]
+      type "infra-red"
     }
     DistanceSensor {
       translation 0.01 0 0.212
       rotation 0 0 1 -1.5707996938995747
       name "r_corner"
+      lookupTable [
+        0 0 0
+        0.02 1000 0
+      ]
+      type "infra-red"
     }
     DistanceSensor {
       translation 0.1366 0.0547 0.083
       rotation 0 0 1 0
       name "left_back_tof"
+      lookupTable [
+        0 0 0
+        0.2 1000 0
+      ]
+      type "infra-red"
     }
     DistanceSensor {
       translation 0.1541 0.0147 0.1932
       rotation 0 0 1 0
       name "left_front_tof"
+      lookupTable [
+        0 0 0
+        0.2 1000 0
+      ]
+      type "infra-red"
     }
     DistanceSensor {
       translation 0.0234 0.0547 0.083
       rotation 0 1 0 3.141592653589793
       name "right_back_tof"
+      lookupTable [
+        0 0 0
+        0.2 1000 0
+      ]
+      type "infra-red"
     }
     DistanceSensor {
       translation 0.0059 0.0147 0.1932
       rotation 0 1 0 3.141592653589793
       name "right_front_tof"
+      lookupTable [
+        0 0 0
+        0.2 1000 0
+      ]
+      type "infra-red"
     }
     DistanceSensor {
       translation 0.08 0.02 0.1932
       rotation 0 1 0 -1.5707953071795862
       name "center_tof"
+      lookupTable [
+        0 0 0
+        1.2 1000 0
+      ]
+      type "infra-red"
     }
     Gyro {
       translation 0.1117 0.0736 0.1291
