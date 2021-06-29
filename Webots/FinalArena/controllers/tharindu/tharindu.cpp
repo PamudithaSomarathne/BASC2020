@@ -145,28 +145,28 @@ bool pillarCount(){}
 void rampPathCorrection(){}
 
 void escapeGates(){
-//this should call only when we come across the first cross line
-
-double thresh1 = 600;  //threshold distance(issarhen) depends on sensor
-double thresh2 = 1500;
-
-double ctread=0;  //front ct reading initialized less than thresh1
-
-
-while (ctread<=thresh1 || thresh2<=ctread){
-  double ctread = ct->getValue();
-  robot -> step(timeStep);
-  //just waitwithout goint forward  
-}
-while (thresh1<=ctread && ctread<=thresh2){
-  ctread = ct->getValue();
-  //line follow forward
-  moveDistance(0.5);
-  robot -> step(timeStep);
-}
-moveDistance(100);
-//escaping to this level means the second gate just opened
-//line follow forward full speed ahead.
+  //this should call only when we come across the first cross line
+  
+  double thresh1 = 600;  //threshold distance(issarhen) depends on sensor
+  double thresh2 = 1500;
+  
+  double ctread=0;  //front ct reading initialized less than thresh1
+  
+  
+  while (ctread<=thresh1 || thresh2<=ctread){
+    ctread = ct->getValue();
+    robot -> step(timeStep);
+    //just waitwithout goint forward  
+  }
+  while (thresh1<=ctread && ctread<=thresh2){
+    ctread = ct->getValue();
+    //line follow forward
+    moveDistance(5.0);
+    robot -> step(timeStep);
+  }
+  moveDistance(42);
+  //escaping to this level means the second gate just opened
+  //line follow forward full speed ahead.
 }
 
 int main(int argc, char **argv) {
@@ -174,9 +174,9 @@ int main(int argc, char **argv) {
   initialize_devices();
 
   while (robot->step(timeStep) != -1) {
-    escapeGates();
-    std::cout << ct-> getValue() << std::endl;
-    
+    if (int(robot->getTime()) > 14){
+      escapeGates();
+    }
   };
   
   disable_devices();

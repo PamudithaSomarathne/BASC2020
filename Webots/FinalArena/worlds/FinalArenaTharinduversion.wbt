@@ -4,8 +4,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.06652872594129403 0.97879711095498 0.19372698369306438 3.7901297810590804
-  position -2.7678743297363857 1.1671518610737328 -3.6517446591759697
+  orientation -0.0973825627629939 -0.9259397238750623 -0.3649003483416878 2.65707974810065
+  position -2.391852700706542 2.1779684574621085 -3.621040571210456
 }
 DirectionalLight {
   direction 0 -1 0
@@ -323,7 +323,7 @@ DEF Supervisor Robot {
   supervisor TRUE
 }
 Robot {
-  translation -1.30216 0.01056 -2.27562
+  translation -1.30216 0.01056 -2.21562
   rotation 1 0 0 0
   children [
     DEF Robot_body Shape {
@@ -414,7 +414,7 @@ Robot {
       }
       endPoint Solid {
         translation 0.0361 -0.00656 0.192
-        rotation -0.8548844720240474 0.02138398400083128 0.5183775310721115 3.3234705303317416
+        rotation -0.5774866952022559 0.7153995161038098 0.39333528855521166 4.935521090313966
         children [
           DEF Ball_shape Shape {
             appearance PBRAppearance {
@@ -440,7 +440,7 @@ Robot {
       }
       endPoint Solid {
         translation 0.125 -0.00656 0.192
-        rotation 0.23154281373515492 -0.9410624117416397 -0.24655519182247207 3.15076518831519
+        rotation 0.14141522010114213 -0.7322788060071096 0.6661602553414213 2.753286970476166
         children [
           USE Ball_shape
         ]
