@@ -4,8 +4,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.5032892232146978 -0.8327199639859683 -0.23081901865997442 5.276346691059592
-  position 0.507273642895134 0.3501225792448334 0.4874036888586896
+  orientation 0.20899991963018752 0.9168037687966363 0.34027912529989124 4.167286208954445
+  position -0.27847352539351616 0.31206179034843023 -0.10993465032690873
 }
 DirectionalLight {
   direction 0 -1 0
@@ -360,7 +360,6 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
         anchor -0.003 0.04 0.0233
       }
       device [
@@ -395,7 +394,6 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
         anchor -0.003 0.04 0.0233
       }
       device [
@@ -426,6 +424,7 @@ Robot {
       }
       endPoint Solid {
         translation 0.0361 0.004 0.192
+        rotation 0.10916043473611735 0.9905375369952517 -0.08318285455310095 3.0542464103575173
         children [
           DEF Ball_shape Shape {
             appearance PBRAppearance {
@@ -451,6 +450,7 @@ Robot {
       }
       endPoint Solid {
         translation 0.125 0.004 0.192
+        rotation -0.057825738538012664 -0.9343975211623894 -0.3515074059079203 4.362776374817859
         children [
           USE Ball_shape
         ]
@@ -526,4 +526,16 @@ Robot {
       translation 0.1117 0.0841 0.1291
     }
   ]
+  physics Physics {
+    density -1
+    mass 0.001
+    centerOfMass [
+      0.08 0 0.0233
+    ]
+    inertiaMatrix [
+      1 1 1
+      0 0 0
+    ]
+  }
+  controller "basc"
 }
