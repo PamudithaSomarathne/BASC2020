@@ -6,6 +6,11 @@
 
 using namespace webots;
 
+//// Pamuditha variables //////////////
+double angle = 0.0, gyroThresh = 0.05;
+
+//////////////////////////////////////
+
 Robot *robot = new Robot();
 const int timeStep = (int)robot->getBasicTimeStep();
 
@@ -138,11 +143,24 @@ void lineFollow(){}
 
 void wallFollow(){}
 
-void rampNavigation(bool direction){}
+////////// Pamuditha editing with Yomali ////////////////
+double readGyro(){
+   double gyroOut = -gyro->getValues()[0];
+   if (gyroOut > gyroThresh || gyroOut < -gyroThresh) {angle += gyroOut;}
+   return angle;
+}
 
-bool pillarCount(){}
+void rampNavigation(bool direction){
+  
+}
+
+bool pillarCount(){
+  return true;
+}
 
 void rampPathCorrection(){}
+
+////////////////////////////////////////////////////////
 
 void escapeGates(){}
 
@@ -151,12 +169,8 @@ int main(int argc, char **argv) {
   initialize_devices();
 
   while (robot->step(timeStep) != -1) {
-    turnLeft();
-    std::cout << "Left done" << std::endl;
-    delay(256);
-    turnRight();
-    std::cout << "Right done" << std::endl;
-    delay(256);
+    moveDistance(1.0);
+    std::cout << readGyro() << std::endl;
   };
   
   disable_devices();
