@@ -328,7 +328,7 @@ Robot {
     Solid {
       translation 0 0.0105 0
       children [
-        Shape {
+        DEF Robot_body Shape {
           appearance PBRAppearance {
             baseColor 0.2 0.2 0.3
             roughness 1
@@ -352,18 +352,32 @@ Robot {
         }
       ]
       name "Robot_body"
+      boundingObject USE Robot_body
+      physics Physics {
+        density -1
+        mass 1
+      }
     }
     HingeJoint {
       jointParameters HingeJointParameters {
         axis -1 0 0
         anchor -0.003 0.04 0.0233
       }
+      device [
+        PositionSensor {
+          name "right_encoder"
+        }
+        RotationalMotor {
+          name "right_motor"
+        }
+      ]
       endPoint Solid {
         translation -0.003 0.04 0.0233
         rotation 0 0 1 1.5708
         children [
           DEF Wheel_shape Shape {
             appearance PBRAppearance {
+              roughness 1
             }
             geometry Cylinder {
               height 0.005
@@ -371,7 +385,12 @@ Robot {
             }
           }
         ]
+        name "right_wheel"
         boundingObject USE Wheel_shape
+        physics Physics {
+          density -1
+          mass 0.05
+        }
       }
     }
     HingeJoint {
@@ -379,14 +398,26 @@ Robot {
         axis -1 0 0
         anchor -0.003 0.04 0.0233
       }
+      device [
+        PositionSensor {
+          name "left_encoder"
+        }
+        RotationalMotor {
+          name "left_motor"
+        }
+      ]
       endPoint Solid {
         translation 0.163 0.0400002 0.0233
         rotation 0 0 1 1.5708
         children [
           USE Wheel_shape
         ]
-        name "solid(1)"
+        name "left_wheel"
         boundingObject USE Wheel_shape
+        physics Physics {
+          density -1
+          mass 0.05
+        }
       }
     }
     BallJoint {
@@ -406,8 +437,12 @@ Robot {
             }
           }
         ]
-        name "solid(2)"
+        name "right_ball"
         boundingObject USE Ball_shape
+        physics Physics {
+          density -1
+          mass 0.025
+        }
       }
     }
     BallJoint {
@@ -419,68 +454,73 @@ Robot {
         children [
           USE Ball_shape
         ]
-        name "solid(3)"
+        name "left_ball"
         boundingObject USE Ball_shape
+        physics Physics {
+          density -1
+          mass 0.025
+        }
       }
     }
     DistanceSensor {
       translation 0.04456 0.0105 0.212
       rotation 0 0 1 -1.5707996938995747
+      name "r3"
     }
     DistanceSensor {
       translation 0.05456 0.0105 0.212
       rotation 0 0 1 -1.5707996938995747
-      name "distance sensor(1)"
+      name "r2"
     }
     DistanceSensor {
       translation 0.06456 0.0105 0.212
       rotation 0 0 1 -1.5707996938995747
-      name "distance sensor(2)"
+      name "r1"
     }
     DistanceSensor {
       translation 0.07456 0.0105 0.212
       rotation 0 0 1 -1.5707996938995747
-      name "distance sensor(3)"
+      name "r0"
     }
     DistanceSensor {
       translation 0.08456 0.0105 0.212
       rotation 0 0 1 -1.5707996938995747
-      name "distance sensor(4)"
+      name "l0"
     }
     DistanceSensor {
       translation 0.09456 0.0105 0.212
       rotation 0 0 1 -1.5707996938995747
-      name "distance sensor(5)"
+      name "l1"
     }
     DistanceSensor {
       translation 0.10456 0.0105 0.212
       rotation 0 0 1 -1.5707996938995747
-      name "distance sensor(6)"
+      name "l2"
     }
     DistanceSensor {
       translation 0.11456 0.0105 0.212
       rotation 0 0 1 -1.5707996938995747
-      name "distance sensor(7)"
+      name "l3"
     }
     DistanceSensor {
       translation 0.1366 0.0652 0.083
       rotation 0 0 1 0
-      name "distance sensor(8)"
+      name "left_back_tof"
     }
     DistanceSensor {
       translation 0.1541 0.0252 0.1932
       rotation 0 0 1 0
-      name "distance sensor(11)"
+      name "left_front_tof"
     }
     DistanceSensor {
       translation 0.0234 0.0652 0.083
       rotation 0 1 0 3.141592653589793
-      name "distance sensor(9)"
+      name "right_back_tof"
     }
     DistanceSensor {
       translation 0.0059 0.0252 0.1932
       rotation 0 1 0 3.141592653589793
-      name "distance sensor(10)"
+      name "right_front_tof"
     }
     Gyro {
       translation 0.1117 0.0841 0.1291
