@@ -24,18 +24,22 @@ DistanceSensor *r1 = robot->getDistanceSensor("r1");
 DistanceSensor *r2 = robot->getDistanceSensor("r2");
 DistanceSensor *r3 = robot->getDistanceSensor("r3");
 
+DistanceSensor *lc = robot->getDistanceSensor("l_corner");
+DistanceSensor *rc = robot->getDistanceSensor("r_corner");
+
 DistanceSensor *lft = robot->getDistanceSensor("left_front_tof");
 DistanceSensor *lbt = robot->getDistanceSensor("left_back_tof");
 DistanceSensor *rft = robot->getDistanceSensor("right_front_tof");
 DistanceSensor *rbt = robot->getDistanceSensor("right_back_tof");
+DistanceSensor *ct = robot->getDistanceSensor("center_tof");
 
 Gyro *gyro = robot->getGyro("gyro");
 
 void initialize_devices(){
   l_motor->setPosition(INFINITY);
-  l_motor->setVelocity(5.0);
   r_motor->setPosition(-INFINITY);
-  r_motor->setVelocity(-5.0);
+  l_motor->setVelocity(0.0);
+  r_motor->setVelocity(0.0);
   
   l_enc->enable(timeStep);
   r_enc->enable(timeStep);
@@ -49,11 +53,14 @@ void initialize_devices(){
   r2->enable(timeStep);
   r3->enable(timeStep);
   
+  lc->enable(timeStep);
+  rc->enable(timeStep);
   
   lft->enable(timeStep);
   lbt->enable(timeStep);
   rft->enable(timeStep);
   rbt->enable(timeStep);
+  ct->enable(timeStep);
   
   gyro->enable(timeStep);
 }
@@ -80,12 +87,50 @@ void disable_devices(){
   gyro->disable();
 }
 
+void stopRobot(){
+  l_motor->setVelocity(0.0);
+  r_motor->setVelocity(0.0);
+}
+
+void delay(int d){
+  while (d--){
+    robot->step(timeStep);
+  }
+}
+
+void turnLeft(){
+  double encPos = r_enc->getValue();
+  l_motor->setVelocity(-5.0);
+  r_motor->setVelocity(5.0);
+  while (r_enc->getValue() - encPos < 5){
+    robot->step(timeStep);
+  }
+  stopRobot();
+  return;
+}
+
+void turnRight(){
+  double encPos = l_enc->getValue();
+  r_motor->setVelocity(-5.0);
+  l_motor->setVelocity(5.0);
+  while (l_enc->getValue() - encPos < 5){
+    robot->step(timeStep);
+  }
+  stopRobot();
+  return;
+}
+
 int main(int argc, char **argv) {
 
   initialize_devices();
 
   while (robot->step(timeStep) != -1) {
-    std::cout << "Hello" << std::endl;
+    turnLeft();
+    std::cout << "Left done" << std::endl;
+    delay(256);
+    turnRight();
+    std::cout << "Right done" << std::endl;
+    delay(256);
   };
   
   disable_devices();
