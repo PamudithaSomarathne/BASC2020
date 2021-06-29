@@ -78,11 +78,14 @@ void disable_devices(){
   r2->disable();
   r3->disable();
   
+  lc->disable();
+  rc->disable();
   
   lft->disable();
   lbt->disable();
   rft->disable();
   rbt->disable();
+  ct->disable();
   
   gyro->disable();
 }
@@ -96,6 +99,17 @@ void delay(int d){
   while (d--){
     robot->step(timeStep);
   }
+}
+
+void moveDistance(double dist){
+  double encPos = r_enc->getValue() + l_enc->getValue();
+  l_motor->setVelocity(5.0);
+  r_motor->setVelocity(5.0);
+  while (r_enc->getValue() + l_enc->getValue() - encPos < dist){
+    robot->step(timeStep);
+  }
+  stopRobot();
+  return;
 }
 
 void turnLeft(){
@@ -119,6 +133,18 @@ void turnRight(){
   stopRobot();
   return;
 }
+
+void lineFollow(){}
+
+void wallFollow(){}
+
+void rampNavigation(bool direction){}
+
+bool pillarCount(){}
+
+void rampPathCorrection(){}
+
+void escapeGates(){}
 
 int main(int argc, char **argv) {
 
