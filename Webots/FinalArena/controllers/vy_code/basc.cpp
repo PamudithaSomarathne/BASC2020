@@ -10,9 +10,6 @@ using namespace webots;
 Robot *robot = new Robot();
 const int timeStep = (int)robot->getBasicTimeStep();
 
-float MAX_speed = 7;
-float MID_speed = 5;
-
 Motor *l_motor = robot->getMotor("left_motor");
 Motor *r_motor = robot->getMotor("right_motor");
 
@@ -139,6 +136,10 @@ void turnRight(){
  
 }
 
+//////////////////////////////////////////////////////// YASOD & VIDURA ///////////////////////////////////////////////////////////////
+float MAX_speed = 7;
+float MID_speed = 5;
+
 float error_weight[8] = {-8,-4,-2,-1,1,2,4,8};
 float kp = 1;
 float kd = 0.5;
@@ -248,6 +249,7 @@ void wallFollow(){
   
   
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void rampNavigation(bool direction){}
 

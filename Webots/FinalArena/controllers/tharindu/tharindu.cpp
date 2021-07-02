@@ -144,6 +144,7 @@ bool pillarCount(){}
 
 void rampPathCorrection(){}
 
+///////////////////////////////////// THARINDU /////////////////////////////////////////////////
 void escapeGates(){
   //this should call only when we come across the first cross line
   
@@ -168,6 +169,7 @@ void escapeGates(){
   //escaping to this level means the second gate just opened
   //line follow forward full speed ahead.
 }
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 int main(int argc, char **argv) {
 

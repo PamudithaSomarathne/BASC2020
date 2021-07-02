@@ -143,7 +143,7 @@ void lineFollow(){}
 
 void wallFollow(){}
 
-////////// Pamuditha editing with Yomali ////////////////
+//////////////////////////////////////////////// PAMUDITHA & YOMALI ///////////////////////////////////////////////////////
 void readGyro(){
    double gyroOut = -gyro->getValues()[0];
    if (gyroOut > gyroThresh2 || gyroOut < -gyroThresh2) {angle += gyroOut; }
@@ -203,11 +203,9 @@ bool evaluatePillars(){
   if (count==4) return true;
   else return false;
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
-void rampPathCorrection(){
-  
-}
-////////////////////////////////////////////////////////
+void rampPathCorrection(){}
 
 void escapeGates(){}
 
