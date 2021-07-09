@@ -5,6 +5,16 @@
 #include <webots/Gyro.hpp>
 
 using namespace webots;
+float MAX_SPEED = 10;
+float MID_SPEED = 5;
+///////// Line follower variables///////////////
+float error_weight[8] = {-8,-4,-2,-1,1,2,4,8};
+float kp = 1;
+float kd = 0.5;
+float ki = 0.0001;
+float pr_error = 0;
+float i_v = 0;
+int threshold = 300;
 
 Robot *robot = new Robot();
 const int timeStep = (int)robot->getBasicTimeStep();
@@ -134,8 +144,43 @@ void turnRight(){
   return;
 }
 
-void lineFollow(){}
-
+void lineFollow(float max_speed, float base_speed){
+// how would you handle all black or all white cases - Thiesh
+  bool R3 = (threshold < r3 -> getValue());
+  bool R2 = (threshold < r2 -> getValue());
+  bool R1 = (threshold < r1 -> getValue());
+  bool R0 = (threshold < r0 -> getValue());
+  bool L0 = (threshold < l0 -> getValue());
+  bool L1 = (threshold < l1 -> getValue());
+  bool L2 = (threshold < l2 -> getValue());
+  bool L3 = (threshold < l3 -> getValue());
+    
+  float error = R3*error_weight[0] + R2*error_weight[1] + R1*error_weight[2] + R0*error_weight[3] + L0*error_weight[4] + L1*error_weight[5] + L2*error_weight[6] + L3*error_weight[7];
+  float d_v = error - pr_error;
+  i_v = i_v + error;
+  float p_v = error;
+  
+  float PID = (kp*p_v + kd*d_v + ki*i_v)/2;
+  pr_error = error;
+  
+  float right_v = base_speed - PID;
+  float left_v = base_speed + PID;
+  
+  if(right_v > max_speed){
+    right_v = max_speed;
+  }
+  if(right_v < 0 ){
+    right_v = 0;
+  }
+  if(left_v > max_speed){
+    left_v = max_speed;
+  }
+  if(left_v < 0 ){
+    left_v = 0;
+  }
+  l_motor->setVelocity(left_v);
+  r_motor->setVelocity(right_v);
+}
 void wallFollow(){}
 
 void rampNavigation(bool direction){}
@@ -151,6 +196,8 @@ int main(int argc, char **argv) {
   initialize_devices();
 
   while (robot->step(timeStep) != -1) {
+    
+    line_follow(7,5);
     turnLeft();
     std::cout << "Left done" << std::endl;
     delay(256);

@@ -1,4 +1,4 @@
-build/release/basc.o: basc.cpp \
+build/release/basc_v0.o: basc_v0.cpp \
  C:\Users\Thieshanthan's\ PC\AppData\Local\Programs\Webots/include/controller/cpp/webots/Robot.hpp \
  C:\Users\Thieshanthan's\ PC\AppData\Local\Programs\Webots/include/controller/cpp/webots/Motor.hpp \
  C:\Users\Thieshanthan's\ PC\AppData\Local\Programs\Webots/include/controller/cpp/webots/Device.hpp \
