@@ -6,6 +6,6 @@ maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
 textFiles: -1
-globalOptionalRendering: CameraFrustums
+globalOptionalRendering: CameraFrustums::DistanceSensorRays
 consoles: Console:All:All
 renderingDevicePerspectives: robot:camera;0;10.6667;0;0
