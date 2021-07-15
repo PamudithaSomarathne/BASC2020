@@ -3,8 +3,9 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.7956922184448701 0.3619423125955155 0.48566619797891153 0.6548833659662154
-  position 1.153591366576641 1.253630248490849 1.6929688123622817
+  orientation -0.6465304447498305 0.5425798569057575 0.5362886190212448 1.968813165249403
+  position 0.9559078144109442 1.1396270009497331 -0.5842271770722033
+  follow "robot"
 }
 TexturedBackground {
 }
@@ -68,7 +69,7 @@ DEF Arena_track Solid {
   name "TRACK"
 }
 Robot {
-  translation 0.020007 0.004 -0.0500018
+  translation 0.660007 0.004 -0.560002
   rotation 0 1 0 1.5708
   children [
     DEF Robot_body Shape {
@@ -166,7 +167,7 @@ Robot {
       }
       endPoint Solid {
         translation 0.03311 0 0.192
-        rotation -0.9254429996022057 0.18851236895855958 0.3286614386217281 3.8984133418849733
+        rotation 0.830847055269681 0.2409570627261416 -0.5016302070969112 2.6842799289016317
         children [
           DEF Ball_shape Shape {
             appearance PBRAppearance {
@@ -192,7 +193,7 @@ Robot {
       }
       endPoint Solid {
         translation 0.1271 0 0.192
-        rotation 0.2948751508050728 -0.9494833555328799 0.1073778515509996 3.3154770960745585
+        rotation 0.8790857275081811 0.4639030847707951 -0.10955460570670811 4.637042333321457
         children [
           USE Ball_shape
         ]
@@ -210,7 +211,7 @@ Robot {
       name "r3"
       lookupTable [
         0 0 0
-        0.015 1000 0
+        0.02 1000 0
       ]
       type "infra-red"
     }
@@ -220,7 +221,7 @@ Robot {
       name "r2"
       lookupTable [
         0 0 0
-        0.015 1000 0
+        0.02 1000 0
       ]
       type "infra-red"
     }
@@ -230,7 +231,7 @@ Robot {
       name "r1"
       lookupTable [
         0 0 0
-        0.015 1000 0
+        0.02 1000 0
       ]
       type "infra-red"
     }
@@ -240,7 +241,7 @@ Robot {
       name "r0"
       lookupTable [
         0 0 0
-        0.015 1000 0
+        0.02 1000 0
       ]
       type "infra-red"
     }
@@ -250,7 +251,7 @@ Robot {
       name "l0"
       lookupTable [
         0 0 0
-        0.015 1000 0
+        0.02 1000 0
       ]
       type "infra-red"
     }
@@ -260,7 +261,7 @@ Robot {
       name "l1"
       lookupTable [
         0 0 0
-        0.015 1000 0
+        0.02 1000 0
       ]
       type "infra-red"
     }
@@ -270,7 +271,7 @@ Robot {
       name "l2"
       lookupTable [
         0 0 0
-        0.015 1000 0
+        0.02 1000 0
       ]
       type "infra-red"
     }
@@ -280,7 +281,7 @@ Robot {
       name "l3"
       lookupTable [
         0 0 0
-        0.015 1000 0
+        0.02 1000 0
       ]
       type "infra-red"
     }
@@ -342,7 +343,7 @@ Robot {
     }
     DistanceSensor {
       translation 0.0129711 0.02326 0.200271
-      rotation 0 -1 0 2.35619
+      rotation 0 1 0 -2.356185307179586
       name "right_front_tof"
       lookupTable [
         0.002 0 0
@@ -391,7 +392,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.017 -0.004 0.16809
+        translation 0.017 -0.003999999999999997 0.16809
         rotation -1 0 0 0
         children [
           DEF ARM Shape {
@@ -458,6 +459,7 @@ Robot {
               ]
               boundingObject USE SUP
               physics Physics {
+                density -1
                 mass 0.00764
                 centerOfMass [
                   0.02562 0.03358 0.02743
@@ -522,5 +524,5 @@ Robot {
       0 0 0
     ]
   }
-  controller "basc"
+  controller "Wall_follow_test"
 }
