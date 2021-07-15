@@ -183,7 +183,7 @@ Robot {
         boundingObject USE Ball_shape
         physics Physics {
           density -1
-          mass 0.025
+          mass 0.004
         }
       }
     }
@@ -201,7 +201,7 @@ Robot {
         boundingObject USE Ball_shape
         physics Physics {
           density -1
-          mass 0.025
+          mass 0.004
         }
       }
     }
