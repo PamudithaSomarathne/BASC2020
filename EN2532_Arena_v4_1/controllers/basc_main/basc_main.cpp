@@ -6,8 +6,8 @@
 #include <webots/LED.hpp>
 
 using namespace webots;
-float MAX_SPEED = 10;
-float MID_SPEED = 5;
+
+int curr_state;
 
 Robot *robot = new Robot();
 const int timeStep = (int)robot->getBasicTimeStep();
@@ -46,7 +46,7 @@ LED *led_2= robot->getLED("led2");
 void initialize_devices(){
   l_motor->setPosition(INFINITY);
   r_motor->setPosition(-INFINITY);
-  m_servo->setPosition(0);
+  m_servo->setPosition(1.9);
   s_servo->setPosition(0);
   l_motor->setVelocity(0.0);
   r_motor->setVelocity(0.0);
@@ -112,6 +112,7 @@ void delay(int d){
 }
 
 void moveDistance(double dist){
+  dist = dist/0.012;
   double encPos = r_enc->getValue() + l_enc->getValue();
   l_motor->setVelocity(5.0);
   r_motor->setVelocity(5.0);
@@ -122,6 +123,9 @@ void moveDistance(double dist){
   return;
 }
 
+// Move back or scan line
+
+/////////////////////////////////////////////// LINE FOLLOWING ///////////////////////////////////////////////
 void turnLeft(){
   double encPos = r_enc->getValue();
   l_motor->setVelocity(-5.0);
@@ -144,21 +148,19 @@ void turnRight(){
   return;
 }
 
-/////////////////////////////////////////////// LINE FOLLOWING ///////////////////////////////////////////////
-float error_weight[8] = {-8,-4,-2,-1,1,2,4,8};
+float error_weight[8] = {-8,-4,-2,-1,1,2,4,8}; // positive values
+// Tune these
 float kp = 1;
-float kd = 0.5;
-float ki = 0.0001;
+float kd = 10;
+float ki = 0.001;
+
 float pr_error = 0;
 float i_v = 0;
-int threshold = 300;
-// how would you handle all black or all white cases - Thiesh
-// Handle 90 degrees within this function else call
-// Addd all black all white cases
-// handle line lost case: can do backwards search
+int threshold = 900;
 // weight list can be updated with exact distances from robot sensor panel, makes the error real world relatable in centimeters
-void lineFollow(float max_speed, float base_speed){
-  bool R3 = (threshold < r3 -> getValue());
+
+void pidFollow(float max_speed, float base_speed){
+  bool R3 = (threshold < r3 -> getValue()); // If this doesn't work with bool check ints
   bool R2 = (threshold < r2 -> getValue());
   bool R1 = (threshold < r1 -> getValue());
   bool R0 = (threshold < r0 -> getValue());
@@ -168,6 +170,14 @@ void lineFollow(float max_speed, float base_speed){
   bool L3 = (threshold < l3 -> getValue());
     
   float error = R3*error_weight[0] + R2*error_weight[1] + R1*error_weight[2] + R0*error_weight[3] + L0*error_weight[4] + L1*error_weight[5] + L2*error_weight[6] + L3*error_weight[7];
+  //error = error/(R3 + R2 + R1 + R0 + L0 + L1 + L2 + L3) - ZERO CORRECTION
+  std::cout << error << std::endl;
+  
+  // how would you handle all black or all white cases - Thiesh
+  // Addd all black all white cases
+  // handle line lost case: can do backwards search
+  // If to handle all white and all black
+  
   float d_v = error - pr_error;
   i_v = i_v + error;
   float p_v = error;
@@ -178,6 +188,7 @@ void lineFollow(float max_speed, float base_speed){
   float right_v = base_speed - PID;
   float left_v = base_speed + PID;
   
+  //right_v = max(0, min(right_v, max_speed));
   if(right_v > max_speed){
     right_v = max_speed;
   }
@@ -194,6 +205,28 @@ void lineFollow(float max_speed, float base_speed){
   r_motor->setVelocity(right_v);
 }
 
+void lineFollow0(float max_speed, float base_speed){
+  // Handle 90 degrees within this function else call
+  // While (NOT DETECTED WALL)
+  //     If corner sensors are active: L&R, L, R
+  //     else pidFollow
+        robot->step(timeStep);
+        // sensor readings for next iteration
+  // if WALL DETECTED: state=1
+}
+
+void lineFollow1(float max_speed, float base_speed){
+  // Handle 90 degrees within this function else call
+  // If corner sensors are active: L&R, L, R
+  // else pidFollow
+}
+
+void lineFollow2(float max_speed, float base_speed){
+  // Handle 90 degrees within this function else call
+  // If corner sensors are active: L&R, L, R
+  // else pidFollow
+}
+
 /////////////////////////////////////////////// WALL FOLLOWING ///////////////////////////////////////////////
 int mid_speed = 6;
 float left_speed=0;
@@ -205,6 +238,11 @@ float P = 2.1;
   // float I = 0;
 float D = 20;
 float prev_error = 0;
+
+// Turn this to run in a while loop
+// Return to main only when both walls are finished
+// Update curr_state to next state before returning
+// Use robot->step(timeStep); to iterate the while loop
 void wallFollow(){
     l_motor->setVelocity(left_speed);
     r_motor->setVelocity(right_speed);
@@ -249,6 +287,11 @@ void wallFollow(){
       right_speed = right_speed > 0 ? right_speed: 0.5;
     }
 }
+
+////////////////////////////////////////////// BOX MANIPULATION //////////////////////////////////////////////
+void circleNavigation(){}
+void boxManipulation(){}
+void exitCircle(){}
 
 /////////////////////////////////////////////// RAMP NAVIGATION //////////////////////////////////////////////
 double angle = 0.0, gyroThresh = 0.5, gyroThresh2=0.0;
@@ -319,6 +362,11 @@ bool evaluatePillars(){
 void rampPathCorrection(){}
 
 //////////////////////////////////////////////// ESCAPE GATES ////////////////////////////////////////////////
+void lineFollow3(float max_speed, float base_speed){
+  // If corner sensors are active: L&R, L, R
+  // else pidFollow
+}
+
 void escapeGates(){
   //this should call only when we come across the first cross line
   
@@ -342,22 +390,33 @@ void escapeGates(){
   moveDistance(42);
   //escaping to this level means the second gate just opened
   //line follow forward full speed ahead.
+  curr_state=10;
 }
 
-
 int main(int argc, char **argv) {
-
+  
+  curr_state=0;
+  const int end_state=1;
+  
   initialize_devices();
 
   while (robot->step(timeStep) != -1) {
-    
-    line_follow(7,5);
-    turnLeft();
-    std::cout << "Left done" << std::endl;
-    delay(256);
-    turnRight();
-    std::cout << "Right done" << std::endl;
-    delay(256);
+    std::cout << curr_state << ' ' << end_state << std::endl;
+    if (curr_state==end_state) {stopRobot(); break;}
+    switch (curr_state){
+      case 0: lineFollow0(7, 5); break;   // First line follow upto wall - Vidura & tune turnLeft, turnRight enc values
+      case 1: wallFollow(); break;        // Wall - Yasod
+      case 2: lineFollow1(7, 5); break;   // Wall to circle line - Vidura
+      case 3: circleNavigation(); break;  // Circle - Pamuditha
+      case 4: boxManipulation(); break;   // Box - Pamuditha
+      case 5: exitCircle(); break;        // Circle - Pamuditha
+      case 6: lineFollow2(7, 5); break;   // Dash line - Vidura
+      case 7: rampNavigation(0); break;    // Ramp - Yomali
+      case 8: pillarCount(0); break;       // Pillar - Yomali
+      case 9: escapeGates(); break;       // Gates - Tharindu
+      case 10: stopRobot(); break;        // End
+      default: stopRobot(); break;
+    }
   };
   
   disable_devices();

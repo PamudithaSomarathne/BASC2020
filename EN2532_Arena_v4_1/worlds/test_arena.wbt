@@ -1,10 +1,11 @@
 #VRML_SIM R2021a utf8
 WorldInfo {
+  basicTimeStep 16
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.5785655086577078 0.7625585754388681 0.2894242063413008 1.1343332935552868
-  position 1.567250171392239 0.7436038331919274 -0.1748279154980895
+  orientation 0.26939089275717143 0.9427878663465679 0.19641686783262896 4.966615593048733
+  position -0.5010140477473295 0.7164748000296447 0.2534543226685938
   follow "robot"
 }
 TexturedBackground {
@@ -69,7 +70,7 @@ DEF Arena_track Solid {
   name "TRACK"
 }
 Robot {
-  translation 0.660007 0.004 -0.560002
+  translation 0.020007 0.004 -0.0400006
   rotation 0 1 0 1.5708
   children [
     DEF Robot_body Shape {
@@ -167,7 +168,7 @@ Robot {
       }
       endPoint Solid {
         translation 0.03311 0 0.192
-        rotation 0.830847055269681 0.2409570627261416 -0.5016302070969112 2.6842799289016317
+        rotation 0.8369891970648192 0.25038310228856697 -0.4865772149259993 2.7581308062680296
         children [
           DEF Ball_shape Shape {
             appearance PBRAppearance {
@@ -193,7 +194,7 @@ Robot {
       }
       endPoint Solid {
         translation 0.1271 0 0.192
-        rotation 0.8790857275081811 0.4639030847707951 -0.10955460570670811 4.637042333321457
+        rotation 0.8931558022199518 0.4013250258192742 -0.2030047699242396 4.803116676855877
         children [
           USE Ball_shape
         ]
@@ -379,6 +380,7 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
+        position 1.9
         axis -1 0 0
         anchor 0.01798 0.04956 0.18105
       }
@@ -386,14 +388,14 @@ Robot {
         RotationalMotor {
           name "main_servo"
           maxVelocity 5
-          minPosition -1.5
-          maxPosition 1.5
+          minPosition -0.5
+          maxPosition 2.5
           maxTorque 0.54
         }
       ]
       endPoint Solid {
-        translation 0.017 -0.003999999999999997 0.16809
-        rotation -1 0 0 0
+        translation 0.017 0.05461134006478034 0.2359236654830889
+        rotation -1 0 0 1.9
         children [
           DEF ARM Shape {
             appearance PBRAppearance {
@@ -524,5 +526,5 @@ Robot {
       0 0 0
     ]
   }
-  controller "Wall_follow_test"
+  controller "basc_main"
 }
