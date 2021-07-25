@@ -4,8 +4,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.26939089275717143 0.9427878663465679 0.19641686783262896 4.966615593048733
-  position -0.5010140477473295 0.7164748000296447 0.2534543226685938
+  orientation 0.06959625633905347 0.983961209699292 0.16424584899075736 3.931633927644446
+  position -0.18083918691511544 0.4461440861187691 -2.3079136503891506
   follow "robot"
 }
 TexturedBackground {
@@ -68,6 +68,27 @@ DEF Arena_track Solid {
     }
   ]
   name "TRACK"
+}
+Solid {
+  translation 1.25 0.025 -1.63
+  children [
+    DEF BOX Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.05 0.05 0.05
+      }
+    }
+  ]
+  name "Box"
+  boundingObject USE BOX
+  physics Physics {
+    density -1
+    mass 0.1
+  }
 }
 Robot {
   translation 0.020007 0.004 -0.0400006
