@@ -234,10 +234,11 @@ float right_speed=0 ;
 int side;
 float left_dist_square, right_dist_square, error, d_error, wall_dist, calc_speed;
 float error_scale = 0.005;
-float P = 2.1;
+float P = 3.1;
   // float I = 0;
-float D = 20;
+float D = 30;
 float prev_error = 0;
+
 
 // Turn this to run in a while loop
 // Return to main only when both walls are finished
@@ -250,10 +251,10 @@ void wallFollow(){
     float l_d1 = lbt->getValue() ;
     float r_d1 = rbt->getValue() ;
     float r_d2 = rft->getValue() ;
-    l_d1 = l_d1 < 1000 ? l_d1 : 1000;
-    l_d2 = l_d2 < 1000 ? l_d2 : 1000;
-    r_d1 = r_d1 < 1000 ? r_d1 : 1000;
-    r_d2 = r_d2 < 1000 ? r_d2 : 1000;
+    l_d1 = l_d1 < 400 ? l_d1 : 400;
+    l_d2 = l_d2 < 400 ? l_d2 : 400;
+    r_d1 = r_d1 < 400 ? r_d1 : 400;
+    r_d2 = r_d2 < 400 ? r_d2 : 400;
     // delay(10);
 
     left_dist_square = sqrt(l_d1*l_d1 + 1.732 * l_d1*l_d2 + l_d2*l_d2)/2;
@@ -263,7 +264,7 @@ void wallFollow(){
     wall_dist = left_dist_square < right_dist_square ? left_dist_square : right_dist_square;
     //cout << "$$$$$$$$$$$$$$$" << wall_dist << endl;
     side = left_dist_square < right_dist_square ? 0: 1;
-    error = (600 - wall_dist) * error_scale;
+    error = (160 - wall_dist) * error_scale;
     d_error = error - prev_error;
     calc_speed = (P * error + D * d_error);
     prev_error = error;
