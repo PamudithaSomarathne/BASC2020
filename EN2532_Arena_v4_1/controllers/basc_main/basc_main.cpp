@@ -112,14 +112,17 @@ void delay(int d){
 }
 
 void moveDistance(double dist){
-  dist = dist/0.012;
+  dist = dist/2;
+  std::cout << dist << std::endl;
   double encPos = r_enc->getValue() + l_enc->getValue();
   l_motor->setVelocity(5.0);
   r_motor->setVelocity(5.0);
   while (r_enc->getValue() + l_enc->getValue() - encPos < dist){
+    std::cout << r_enc->getValue() + l_enc->getValue() << std::endl;
     robot->step(timeStep);
   }
   stopRobot();
+  curr_state = 100;
   return;
 }
 
@@ -170,14 +173,14 @@ float readRaykha(){
   int L3 = (threshold > l3 -> getValue());
     
   float error = R3*error_weight[0] + R2*error_weight[1] + R1*error_weight[2] + R0*error_weight[3] + L0*error_weight[4] + L1*error_weight[5] + L2*error_weight[6] + L3*error_weight[7];
-  error = error/(R3 + R2 + R1 + R0 + L0 + L1 + L2 + L3) - 45
-  return error
+  error = error/(R3 + R2 + R1 + R0 + L0 + L1 + L2 + L3) - 45;
+  return error;
 }
 
 void pidFollow(float max_speed, float base_speed){
   
   float error = readRaykha();
-  if (error==-45) {// BLACK LIVES MATTER}
+  if (error==-45) {return;}
   std::cout << error << std::endl;
   
   // how would you handle all black or all white cases - Thiesh
@@ -252,15 +255,6 @@ float prev_error = 0;
 // Update curr_state to next state before returning
 // Use robot->step(timeStep); to iterate the while loop
 void wallFollow(){
-  bool R2 = (threshold < r2 -> getValue());
-  bool R1 = (threshold < r1 -> getValue());
-  bool R0 = (threshold < r0 -> getValue());
-  bool L0 = (threshold < l0 -> getValue());
-  bool L1 = (threshold < l1 -> getValue());
-  bool L2 = (threshold < l2 -> getValue());
-  
-  while(R2 && R1 && R0 && L0 && L1 && L2){
-    robot->step(timeStep);
     l_motor->setVelocity(left_speed);
     r_motor->setVelocity(right_speed);
     float l_d2 = lft->getValue() ;
@@ -303,21 +297,19 @@ void wallFollow(){
       right_speed = right_speed < 10 ? right_speed: 10;
       right_speed = right_speed > 0 ? right_speed: 0.5;
     }
-  }
-  cur_state+=1;
 }
 
 ////////////////////////////////////////////// BOX MANIPULATION //////////////////////////////////////////////
 void circleNavigation(){}
 void boxManipulation(){
   m_servo->setPosition(0);
-  robot->step(2000);
-  s_servo->setPosition(0.2);
-  robot->step(2000);
+  robot->step(5000);
+  s_servo->setPosition(0);
+  robot->step(5000);
   s_servo->setPosition(-1.5);
-  robot->step(2000);
+  robot->step(5000);
   m_servo->setPosition(1.9);
-  robot->step(2000);
+  robot->step(5000);
   curr_state=5;
 }
 void exitCircle(){}
@@ -424,7 +416,7 @@ void escapeGates(){
 
 int main(int argc, char **argv) {
   
-  curr_state=4;
+  curr_state=21;
   const int end_state=5;
   
   initialize_devices();
@@ -444,6 +436,7 @@ int main(int argc, char **argv) {
       case 8: pillarCount(0); break;       // Pillar - Yomali
       case 9: escapeGates(); break;       // Gates - Tharindu
       case 10: stopRobot(); break;        // End
+      case 21: moveDistance(5); break;
       default: stopRobot(); break;
     }
   };
