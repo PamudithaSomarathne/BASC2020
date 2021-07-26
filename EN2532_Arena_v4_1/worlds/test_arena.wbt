@@ -4,8 +4,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.464830209620936 -0.8360647682780015 -0.29142508380029414 4.996334728428751
-  position 2.0511480446755144 0.7084733095897533 -1.4115735875641402
+  orientation 0.5050606552410042 0.8177922439424881 0.2759158934803096 5.105305876840175
+  position -1.2026082925833117 1.6781199609927082 0.9460810022841664
 }
 TexturedBackground {
 }
@@ -331,11 +331,9 @@ DEF BOX Solid {
     density -1
     mass 0.02
   }
-  linearVelocity -6.114561685551898e-18 -3.0333759877263115e-08 1.0135564338437324e-17
-  angularVelocity -3.3306690738754736e-16 2.7356457443018135e-17 1.6653345369377388e-16
 }
 DEF BASC Robot {
-  translation 1.02 0.004 -1.65
+  translation 0.03 0.004 -0.0499976
   rotation 0 1 0 1.5708
   children [
     DEF Robot_body Shape {
@@ -378,7 +376,7 @@ DEF BASC Robot {
       ]
       endPoint Solid {
         translation -0.004 0.036 0.0233
-        rotation 0.026096228430311473 -0.02355262024385596 0.9993819394712723 1.5678441084545647
+        rotation 0.026096228430311456 -0.023552620243855942 0.9993819394712722 1.5678441084545638
         children [
           DEF Wheel_shape Shape {
             appearance PBRAppearance {
@@ -417,7 +415,7 @@ DEF BASC Robot {
       ]
       endPoint Solid {
         translation 0.164 0.036 0.0233
-        rotation -0.023469325518452367 0.02587116327099586 0.9993897506332124 1.5750267163052971
+        rotation -0.023469325518452353 0.02587116327099586 0.9993897506332124 1.5750267163052971
         children [
           USE Wheel_shape
         ]
@@ -436,7 +434,7 @@ DEF BASC Robot {
       }
       endPoint Solid {
         translation 0.03311 0 0.192
-        rotation 0.2897071305180961 0.6619167434714748 -0.6913291569426887 4.654615188706094
+        rotation -0.7701998132795883 -0.08114946554111915 0.6326191681149712 2.0781653523926793
         children [
           DEF Ball_shape Shape {
             appearance PBRAppearance {
@@ -463,7 +461,7 @@ DEF BASC Robot {
       }
       endPoint Solid {
         translation 0.1271 0 0.192
-        rotation 0.11629769331945249 0.982919102791527 0.14263549311470153 3.469065335338191
+        rotation 0.7786961525878067 0.5093232310892752 -0.36636341004217116 1.2649029475050249
         children [
           USE Ball_shape
         ]

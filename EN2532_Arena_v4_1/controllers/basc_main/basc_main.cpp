@@ -158,7 +158,7 @@ float readRaykha(){
   return error;
 }
 
-void pidFollow(float max_speed, float base_speed){
+bool pidFollow(float max_speed, float base_speed){
   
   float error = readRaykha();
   if (error == -100){ return true;}
@@ -221,6 +221,8 @@ void lineFollow0(float max_speed, float base_speed){
         d1 = rft -> getValue();
         if (d1 < 180 ){
           stopRobot();
+          curr_state=1;
+          break;
         }
       }
     }
@@ -240,7 +242,7 @@ void lineFollow0(float max_speed, float base_speed){
         //pidFollow(max_speed,base_speed);
   // if WALL DETECTED: state=1
 }
-}
+
 
 void lineFollow1(float max_speed, float base_speed){
   // Handle 90 degrees within this function else call
@@ -437,15 +439,16 @@ void escapeGates(){
 
 int main(int argc, char **argv) {
   
-  curr_state=21;
-  const int end_state=5;
+  curr_state=-1;
+  const int end_state=2;
   
   initialize_devices();
-
+  
   while (robot->step(timeStep) != -1) {
     std::cout << "current state:" << curr_state << ' ' << " | end state:" << end_state << std::endl;
     if (curr_state==end_state) {stopRobot(); break;}
     switch (curr_state){
+      case -1: moveDistance(5); curr_state=0; break;
       case 0: lineFollow0(7, 5); break;   // First line follow upto wall - Vidura & tune turnLeft, turnRight enc values
       case 1: wallFollow(); break;        // Wall - Yasod
       case 2: lineFollow1(7, 5); break;   // Wall to circle line - Vidura
