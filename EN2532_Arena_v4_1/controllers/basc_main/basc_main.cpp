@@ -176,18 +176,21 @@ float readRaykha(){
   int L3 = (threshold > l3 -> getValue());
     
   float error = R3*error_weight[0] + R2*error_weight[1] + R1*error_weight[2] + R0*error_weight[3] + L0*error_weight[4] + L1*error_weight[5] + L2*error_weight[6] + L3*error_weight[7];
+  int sum_ = (R3 + R2 + R1 + R0 + L0 + L1 + L2 + L3);
+  if (sum_ == 0){ return -100;} 
+  if (sum_  == 8){return 100;}
+  error = error/sum_ - 45;
+  return error;
 <<<<<<< HEAD
   //error = error/(R3 + R2 + R1 + R0 + L0 + L1 + L2 + L3) - ZERO CORRECTION
   //std::cout << error << std::endl;
 =======
-  error = error/(R3 + R2 + R1 + R0 + L0 + L1 + L2 + L3) - 45;
-  return error;
 }
 
 void pidFollow(float max_speed, float base_speed){
   
   float error = readRaykha();
-  if (error==-45) {return;}
+  if (error == -100){ return true;}
   std::cout << error << std::endl;
 >>>>>>> 6023d01f5a0a9223ae268e192b5864ff86d5e707
   
@@ -203,8 +206,8 @@ void pidFollow(float max_speed, float base_speed){
   float PID = (kp*p_v + kd*d_v + ki*i_v)/2;
   pr_error = error;
   
-  float right_v = base_speed - PID;
-  float left_v = base_speed + PID;
+  float right_v = base_speed + PID;
+  float left_v = base_speed - PID;
   
   //right_v = max(0, min(right_v, max_speed));
   if(right_v > max_speed){
@@ -221,16 +224,53 @@ void pidFollow(float max_speed, float base_speed){
   }
   l_motor->setVelocity(left_v);
   r_motor->setVelocity(right_v);
+  return false;
 }
 
 void lineFollow0(float max_speed, float base_speed){
+  float d1 = 0;
+  float lx = 0;
+  float rx = 0;
+  lx = lc -> getValue();
+  rx = rc -> getValue();
+  // l1, r1 for T junction
+  //std::cout << d1 <<" " << lx <<" " << rx <<" " << std::endl;
+  //d1 > 180
+  while (true){
+    lx = lc -> getValue();
+    rx = rc -> getValue();
+    std::cout << d1 <<" " << lx <<" " << rx <<" " << std::endl;
+    if ((lx < 900) && (rx > 900)){
+      turnLeft();
+    }
+    else if ((lx > 900) && (rx < 900)){
+      turnRight();
+    }
+    else{
+      //pidFollow(max_speed,base_speed);
+      if (pidFollow(max_speed, base_speed)){
+        d1 = rft -> getValue();
+        if (d1 < 180 ){
+          stopRobot();
+        }
+      }
+    }
+    robot -> step(timeStep);
+    
+    //d1 = rft -> getValue();
+  }
+  //if (d1 < 180){
+    //stopRobot();}
+  
   // Handle 90 degrees within this function else call
   // While (NOT DETECTED WALL)
   //     If corner sensors are active: L&R, L, R
   //     else pidFollow
-        robot->step(timeStep);
+        //---------------------------robot->step(timeStep);
         // sensor readings for next iteration
+        //pidFollow(max_speed,base_speed);
   // if WALL DETECTED: state=1
+}
 }
 
 void lineFollow1(float max_speed, float base_speed){
