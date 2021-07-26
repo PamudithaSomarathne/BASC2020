@@ -3,3 +3,13 @@ EN2532_Arena_v4_1/controllers/basc_main/basc_main.exe
 EN2532_Arena_v4_1/controllers/basc_main/build/release/basc_main.d
 EN2532_Arena_v4_1/controllers/basc_main/build/release/basc_main.exe
 EN2532_Arena_v4_1/controllers/basc_main/build/release/basc_main.o
+EN2532_Arena_v4_1/controllers/gateCont1/build/release/gateCont1.o
+EN2532_Arena_v4_1/controllers/gateCont1/build/release/gateCont1.exe
+EN2532_Arena_v4_1/controllers/gateCont1/build/release/gateCont1.d
+EN2532_Arena_v4_1/controllers/gateCont1/gateCont1.exe
+EN2532_Arena_v4_1/controllers/gateCont1/Makefile
+EN2532_Arena_v4_1/controllers/gateCont2/build/release/gateCont2.d
+EN2532_Arena_v4_1/controllers/gateCont2/build/release/gateCont2.exe
+EN2532_Arena_v4_1/controllers/gateCont2/build/release/gateCont2.o
+EN2532_Arena_v4_1/controllers/gateCont2/gateCont2.exe
+EN2532_Arena_v4_1/controllers/gateCont2/Makefile
