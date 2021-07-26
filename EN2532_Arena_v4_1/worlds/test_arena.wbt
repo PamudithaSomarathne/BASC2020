@@ -4,8 +4,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.464830209620936 -0.8360647682780015 -0.29142508380029414 4.996334728428751
-  position 2.0511480446755144 0.7084733095897533 -1.4115735875641402
+  orientation -0.47222850734911687 -0.8650214429548839 -0.16952327296001454 0.7867438409148773
+  position 0.6251057366574265 0.3923306773268194 -1.1071680581118395
   follow "robot"
 }
 TexturedBackground {
@@ -432,7 +432,7 @@ DEF BASC Robot {
       }
       endPoint Solid {
         translation 0.03311 0 0.192
-        rotation 0.289702405258514 0.661921932087364 -0.6913261691916218 4.654617959513121
+        rotation 0.2897071305180961 0.6619167434714748 -0.6913291569426887 4.654615188706094
         children [
           DEF Ball_shape Shape {
             appearance PBRAppearance {
@@ -458,7 +458,7 @@ DEF BASC Robot {
       }
       endPoint Solid {
         translation 0.1271 0 0.192
-        rotation 0.11629692215986649 0.9829180283134525 0.1426435260098984 3.4690748098753765
+        rotation 0.11629769331945249 0.982919102791527 0.14263549311470153 3.469065335338191
         children [
           USE Ball_shape
         ]
@@ -758,7 +758,16 @@ DEF BASC Robot {
       }
     }
     LED {
-      translation 0.035 0.08106 0.1291
+      translation 0.035 0.08 0.125
+      children [
+        DEF LED_BODY Shape {
+          appearance PBRAppearance {
+          }
+          geometry Box {
+            size 0.01 0.001 0.01
+          }
+        }
+      ]
       name "led1"
       color [
         1 0 0
@@ -770,7 +779,10 @@ DEF BASC Robot {
       ]
     }
     LED {
-      translation 0.045 0.08106 0.1291
+      translation 0.055 0.08 0.125
+      children [
+        USE LED_BODY
+      ]
       name "led2"
       color [
         1 0 0

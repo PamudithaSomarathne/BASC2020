@@ -44,81 +44,59 @@ LED *led_1 = robot->getLED("led1");
 LED *led_2= robot->getLED("led2");
 
 void initialize_devices(){
-  l_motor->setPosition(INFINITY);
-  r_motor->setPosition(-INFINITY);
-  m_servo->setPosition(1.9);
-  s_servo->setPosition(-1.5);
-  l_motor->setVelocity(0.0);
-  r_motor->setVelocity(0.0);
+  l_motor->setPosition(INFINITY); r_motor->setPosition(-INFINITY);
+  m_servo->setPosition(1.9); s_servo->setPosition(-1.5);
+  l_motor->setVelocity(0.0); r_motor->setVelocity(0.0);
   
-  l_enc->enable(timeStep);
-  r_enc->enable(timeStep);
+  l_enc->enable(timeStep); r_enc->enable(timeStep);
   
-  l3->enable(timeStep);
-  l2->enable(timeStep);
-  l1->enable(timeStep);
-  l0->enable(timeStep);
-  r0->enable(timeStep);
-  r1->enable(timeStep);
-  r2->enable(timeStep);
-  r3->enable(timeStep);
+  l3->enable(timeStep); l2->enable(timeStep); l1->enable(timeStep);
+  l0->enable(timeStep); r0->enable(timeStep); r1->enable(timeStep);
+  r2->enable(timeStep); r3->enable(timeStep);
   
-  lc->enable(timeStep);
-  rc->enable(timeStep);
+  lc->enable(timeStep); rc->enable(timeStep);
   
-  lft->enable(timeStep);
-  lbt->enable(timeStep);
-  rft->enable(timeStep);
-  rbt->enable(timeStep);
-  ct->enable(timeStep);
+  lft->enable(timeStep); lbt->enable(timeStep);
+  rft->enable(timeStep); rbt->enable(timeStep); ct->enable(timeStep);
   
   gyro->enable(timeStep);
 }
 
 void disable_devices(){
-  l_enc->disable();
-  r_enc->disable();
+  l_enc->disable(); r_enc->disable();
   
-  l3->disable();
-  l2->disable();
-  l1->disable();
-  l0->disable();
-  r0->disable();
-  r1->disable();
-  r2->disable();
-  r3->disable();
+  l3->disable(); l2->disable(); l1->disable(); l0->disable();
+  r0->disable(); r1->disable(); r2->disable(); r3->disable();
   
-  lc->disable();
-  rc->disable();
+  lc->disable(); rc->disable();
   
-  lft->disable();
-  lbt->disable();
-  rft->disable();
-  rbt->disable();
+  lft->disable(); lbt->disable();
+  rft->disable(); rbt->disable();
   ct->disable();
   
   gyro->disable();
 }
 
-void stopRobot(){
-  l_motor->setVelocity(0.0);
-  r_motor->setVelocity(0.0);
-}
+void stopRobot(){l_motor->setVelocity(0.0); r_motor->setVelocity(0.0);}
 
-void delay(int d){
-  while (d--){
-    robot->step(timeStep);
-  }
+void delay(int d){while (d--){robot->step(timeStep);}}
+
+void testLED(){
+  led_1->set(1); led_2->set(6); delay(64);
+  led_1->set(2); led_2->set(5); delay(64);
+  led_1->set(3); led_2->set(4); delay(64);
+  led_1->set(4); led_2->set(3); delay(64);
+  led_1->set(5); led_2->set(2); delay(64);
+  led_1->set(6); led_2->set(1); delay(64);
+  led_1->set(0); led_2->set(0); delay(64);
 }
 
 void moveDistance(double dist){
   dist = dist/2;
-  std::cout << dist << std::endl;
   double encPos = r_enc->getValue() + l_enc->getValue();
   l_motor->setVelocity(5.0);
   r_motor->setVelocity(5.0);
   while (r_enc->getValue() + l_enc->getValue() - encPos < dist){
-    std::cout << r_enc->getValue() + l_enc->getValue() << std::endl;
     robot->step(timeStep);
   }
   stopRobot();
@@ -416,7 +394,7 @@ void escapeGates(){
 
 int main(int argc, char **argv) {
   
-  curr_state=21;
+  curr_state=22;
   const int end_state=5;
   
   initialize_devices();
@@ -437,6 +415,7 @@ int main(int argc, char **argv) {
       case 9: escapeGates(); break;       // Gates - Tharindu
       case 10: stopRobot(); break;        // End
       case 21: moveDistance(5); break;
+      case 22: testLED(); break;
       default: stopRobot(); break;
     }
   };
