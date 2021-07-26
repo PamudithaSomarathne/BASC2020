@@ -313,7 +313,7 @@ Robot {
       name "l_corner"
       lookupTable [
         0 0 0
-        0.015 1000 0
+        0.02 1000 0
       ]
       type "infra-red"
     }
@@ -323,7 +323,7 @@ Robot {
       name "r_corner"
       lookupTable [
         0 0 0
-        0.015 1000 0
+        0.02 1000 0
       ]
       type "infra-red"
     }
