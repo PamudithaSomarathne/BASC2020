@@ -4,8 +4,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.5050606552410042 0.8177922439424881 0.2759158934803096 5.105305876840175
-  position -1.2026082925833117 1.6781199609927082 0.9460810022841664
+  orientation 0.19680355124999818 0.9009735710474216 0.38667167789928203 4.001503069546678
+  position 1.043023759317307 1.3915237137343415 -1.078004868277293
 }
 TexturedBackground {
 }
@@ -333,8 +333,8 @@ DEF BOX Solid {
   }
 }
 DEF BASC Robot {
-  translation 0.03 0.004 -0.0499976
-  rotation 0 1 0 1.5708
+  translation 2.33 0.004 0.009993
+  rotation 0 1 0 -3.1415853071795863
   children [
     DEF Robot_body Shape {
       appearance PBRAppearance {
@@ -376,7 +376,7 @@ DEF BASC Robot {
       ]
       endPoint Solid {
         translation -0.004 0.036 0.0233
-        rotation 0.026096228430311456 -0.023552620243855942 0.9993819394712722 1.5678441084545638
+        rotation 0.026096228430311442 -0.023552620243855925 0.9993819394712723 1.5678441084545627
         children [
           DEF Wheel_shape Shape {
             appearance PBRAppearance {
@@ -415,7 +415,7 @@ DEF BASC Robot {
       ]
       endPoint Solid {
         translation 0.164 0.036 0.0233
-        rotation -0.023469325518452353 0.02587116327099586 0.9993897506332124 1.5750267163052971
+        rotation -0.023469325518452332 0.02587116327099586 0.9993897506332124 1.5750267163052971
         children [
           USE Wheel_shape
         ]
@@ -434,7 +434,7 @@ DEF BASC Robot {
       }
       endPoint Solid {
         translation 0.03311 0 0.192
-        rotation -0.7701998132795883 -0.08114946554111915 0.6326191681149712 2.0781653523926793
+        rotation -0.9233672499621108 0.3011983525600137 -0.23805981204844723 3.0113654243712515
         children [
           DEF Ball_shape Shape {
             appearance PBRAppearance {
@@ -461,7 +461,7 @@ DEF BASC Robot {
       }
       endPoint Solid {
         translation 0.1271 0 0.192
-        rotation 0.7786961525878067 0.5093232310892752 -0.36636341004217116 1.2649029475050249
+        rotation -0.950596937907874 -0.24741454093580215 -0.18748735043650208 2.746098663178964
         children [
           USE Ball_shape
         ]

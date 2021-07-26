@@ -139,8 +139,8 @@ void turnRight(){
 
 float error_weight[8] = {10,20,30,40,50,60,70,80}; // positive values
 // Tune these
-float kp = 1;
-float kd = 10;
+float kp = 0.5;
+float kd = 0.1;
 float ki = 0.001;
 
 float pr_error = 0;
@@ -216,27 +216,16 @@ void lineFollow0(float max_speed, float base_speed){
   while (true){
     lx = lc -> getValue();
     rx = rc -> getValue();
-    std::cout << d1 <<" " << lx <<" " << rx <<" " << std::endl;
-    if ((lx < 900) && (rx > 900)){
-      turnLeft();
-    }
-    else if ((lx > 900) && (rx < 900)){
-      turnRight();
-    }
+    //std::cout << d1 <<" " << lx <<" " << rx <<" " << std::endl;
+    if ((lx < 900) && (rx > 900)){turnLeft();}
+    else if ((lx > 900) && (rx < 900)){turnRight();}
     else{
-      //pidFollow(max_speed,base_speed);
       if (pidFollow(max_speed, base_speed)){
         d1 = rft -> getValue();
-        if (d1 < 180 ){
-          stopRobot();
-          curr_state=1;
-          break;
-        }
+        if (d1 < 180 ){stopRobot(); curr_state=1; break;}
       }
     }
     robot -> step(timeStep);
-    
-    //d1 = rft -> getValue();
   }
   //if (d1 < 180){
     //stopRobot();}
