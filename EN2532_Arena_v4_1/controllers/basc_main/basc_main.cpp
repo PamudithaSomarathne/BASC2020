@@ -252,6 +252,15 @@ float prev_error = 0;
 // Update curr_state to next state before returning
 // Use robot->step(timeStep); to iterate the while loop
 void wallFollow(){
+  bool R2 = (threshold < r2 -> getValue());
+  bool R1 = (threshold < r1 -> getValue());
+  bool R0 = (threshold < r0 -> getValue());
+  bool L0 = (threshold < l0 -> getValue());
+  bool L1 = (threshold < l1 -> getValue());
+  bool L2 = (threshold < l2 -> getValue());
+  
+  while(R2 && R1 && R0 && L0 && L1 && L2){
+    robot->step(timeStep);
     l_motor->setVelocity(left_speed);
     r_motor->setVelocity(right_speed);
     float l_d2 = lft->getValue() ;
@@ -294,6 +303,8 @@ void wallFollow(){
       right_speed = right_speed < 10 ? right_speed: 10;
       right_speed = right_speed > 0 ? right_speed: 0.5;
     }
+  }
+  cur_state+=1;
 }
 
 ////////////////////////////////////////////// BOX MANIPULATION //////////////////////////////////////////////
