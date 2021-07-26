@@ -133,24 +133,32 @@ void moveDistance(double dist){
 
 /////////////////////////////////////////////// LINE FOLLOWING ///////////////////////////////////////////////
 void turnLeft(){
+  l_motor->setVelocity(5.0);
+  r_motor->setVelocity(5.0);
+  delay(50);
   double encPos = r_enc->getValue();
   l_motor->setVelocity(-5.0);
   r_motor->setVelocity(5.0);
-  while (r_enc->getValue() - encPos < 5){
+  while (r_enc->getValue() - encPos < 3){
     robot->step(timeStep);
   }
   stopRobot();
+  delay(75);
   return;
 }
 
 void turnRight(){
+  l_motor->setVelocity(5.0);
+  r_motor->setVelocity(5.0);
+  delay(50);
   double encPos = l_enc->getValue();
   r_motor->setVelocity(-5.0);
   l_motor->setVelocity(5.0);
-  while (l_enc->getValue() - encPos < 5){
+  while (l_enc->getValue() - encPos < 3){
     robot->step(timeStep);
   }
   stopRobot();
+  delay(75);
   return;
 }
 
