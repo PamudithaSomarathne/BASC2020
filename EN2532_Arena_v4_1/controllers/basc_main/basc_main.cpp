@@ -47,7 +47,7 @@ void initialize_devices(){
   l_motor->setPosition(INFINITY);
   r_motor->setPosition(-INFINITY);
   m_servo->setPosition(1.9);
-  s_servo->setPosition(0);
+  s_servo->setPosition(-1.5);
   l_motor->setVelocity(0.0);
   r_motor->setVelocity(0.0);
   
@@ -148,7 +148,7 @@ void turnRight(){
   return;
 }
 
-float error_weight[8] = {-8,-4,-2,-1,1,2,4,8}; // positive values
+float error_weight[8] = {10,20,30,40,50,60,70,80}; // positive values
 // Tune these
 float kp = 1;
 float kd = 10;
@@ -159,18 +159,25 @@ float i_v = 0;
 int threshold = 900;
 // weight list can be updated with exact distances from robot sensor panel, makes the error real world relatable in centimeters
 
-void pidFollow(float max_speed, float base_speed){
-  bool R3 = (threshold < r3 -> getValue()); // If this doesn't work with bool check ints
-  bool R2 = (threshold < r2 -> getValue());
-  bool R1 = (threshold < r1 -> getValue());
-  bool R0 = (threshold < r0 -> getValue());
-  bool L0 = (threshold < l0 -> getValue());
-  bool L1 = (threshold < l1 -> getValue());
-  bool L2 = (threshold < l2 -> getValue());
-  bool L3 = (threshold < l3 -> getValue());
+float readRaykha(){
+  int R3 = (threshold > r3 -> getValue()); // If this doesn't work with bool check ints
+  int R2 = (threshold > r2 -> getValue());
+  int R1 = (threshold > r1 -> getValue());
+  int R0 = (threshold > r0 -> getValue());
+  int L0 = (threshold > l0 -> getValue());
+  int L1 = (threshold > l1 -> getValue());
+  int L2 = (threshold > l2 -> getValue());
+  int L3 = (threshold > l3 -> getValue());
     
   float error = R3*error_weight[0] + R2*error_weight[1] + R1*error_weight[2] + R0*error_weight[3] + L0*error_weight[4] + L1*error_weight[5] + L2*error_weight[6] + L3*error_weight[7];
-  //error = error/(R3 + R2 + R1 + R0 + L0 + L1 + L2 + L3) - ZERO CORRECTION
+  error = error/(R3 + R2 + R1 + R0 + L0 + L1 + L2 + L3) - 45
+  return error
+}
+
+void pidFollow(float max_speed, float base_speed){
+  
+  float error = readRaykha();
+  if (error==-45) {// BLACK LIVES MATTER}
   std::cout << error << std::endl;
   
   // how would you handle all black or all white cases - Thiesh
@@ -291,7 +298,17 @@ void wallFollow(){
 
 ////////////////////////////////////////////// BOX MANIPULATION //////////////////////////////////////////////
 void circleNavigation(){}
-void boxManipulation(){}
+void boxManipulation(){
+  m_servo->setPosition(0);
+  robot->step(2000);
+  s_servo->setPosition(0.2);
+  robot->step(2000);
+  s_servo->setPosition(-1.5);
+  robot->step(2000);
+  m_servo->setPosition(1.9);
+  robot->step(2000);
+  curr_state=5;
+}
 void exitCircle(){}
 
 /////////////////////////////////////////////// RAMP NAVIGATION //////////////////////////////////////////////
@@ -396,13 +413,13 @@ void escapeGates(){
 
 int main(int argc, char **argv) {
   
-  curr_state=0;
-  const int end_state=1;
+  curr_state=4;
+  const int end_state=5;
   
   initialize_devices();
 
   while (robot->step(timeStep) != -1) {
-    std::cout << curr_state << ' ' << end_state << std::endl;
+    std::cout << "curr_state: " << curr_state << " | end_state: " << end_state << std::endl;
     if (curr_state==end_state) {stopRobot(); break;}
     switch (curr_state){
       case 0: lineFollow0(7, 5); break;   // First line follow upto wall - Vidura & tune turnLeft, turnRight enc values
