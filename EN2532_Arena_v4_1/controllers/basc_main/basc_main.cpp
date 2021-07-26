@@ -151,15 +151,17 @@ float readRaykha(){
   int L3 = (threshold > l3 -> getValue());
     
   float error = R3*error_weight[0] + R2*error_weight[1] + R1*error_weight[2] + R0*error_weight[3] + L0*error_weight[4] + L1*error_weight[5] + L2*error_weight[6] + L3*error_weight[7];
-  error = error/(R3 + R2 + R1 + R0 + L0 + L1 + L2 + L3) - 45;
+  int sum_ = (R3 + R2 + R1 + R0 + L0 + L1 + L2 + L3);
+  if (sum_ == 0){return -100;} 
+  if (sum_ == 8){return 100;}
+  error = error/sum_ - 45;
   return error;
 }
 
 void pidFollow(float max_speed, float base_speed){
   
   float error = readRaykha();
-  if (error==-45) {return;}
-  std::cout << error << std::endl;
+  if (error == -100){ return true;}
   
   // how would you handle all black or all white cases - Thiesh
   // Addd all black all white cases
@@ -173,8 +175,8 @@ void pidFollow(float max_speed, float base_speed){
   float PID = (kp*p_v + kd*d_v + ki*i_v)/2;
   pr_error = error;
   
-  float right_v = base_speed - PID;
-  float left_v = base_speed + PID;
+  float right_v = base_speed + PID;
+  float left_v = base_speed - PID;
   
   //right_v = max(0, min(right_v, max_speed));
   if(right_v > max_speed){
@@ -191,16 +193,53 @@ void pidFollow(float max_speed, float base_speed){
   }
   l_motor->setVelocity(left_v);
   r_motor->setVelocity(right_v);
+  return false;
 }
 
 void lineFollow0(float max_speed, float base_speed){
+  float d1 = 0;
+  float lx = 0;
+  float rx = 0;
+  lx = lc -> getValue();
+  rx = rc -> getValue();
+  // l1, r1 for T junction
+  //std::cout << d1 <<" " << lx <<" " << rx <<" " << std::endl;
+  //d1 > 180
+  while (true){
+    lx = lc -> getValue();
+    rx = rc -> getValue();
+    std::cout << d1 <<" " << lx <<" " << rx <<" " << std::endl;
+    if ((lx < 900) && (rx > 900)){
+      turnLeft();
+    }
+    else if ((lx > 900) && (rx < 900)){
+      turnRight();
+    }
+    else{
+      //pidFollow(max_speed,base_speed);
+      if (pidFollow(max_speed, base_speed)){
+        d1 = rft -> getValue();
+        if (d1 < 180 ){
+          stopRobot();
+        }
+      }
+    }
+    robot -> step(timeStep);
+    
+    //d1 = rft -> getValue();
+  }
+  //if (d1 < 180){
+    //stopRobot();}
+  
   // Handle 90 degrees within this function else call
   // While (NOT DETECTED WALL)
   //     If corner sensors are active: L&R, L, R
   //     else pidFollow
-        robot->step(timeStep);
+        //---------------------------robot->step(timeStep);
         // sensor readings for next iteration
+        //pidFollow(max_speed,base_speed);
   // if WALL DETECTED: state=1
+}
 }
 
 void lineFollow1(float max_speed, float base_speed){
@@ -369,24 +408,28 @@ void lineFollow3(float max_speed, float base_speed){
 void escapeGates(){
   //this should call only when we come across the first cross line
   
-  double thresh1 = 600;  //threshold distance(issarhen) depends on sensor
-  double thresh2 = 1500;
+  double thresh1 = 350;  //threshold distance(a little more than detected) depends on sensor
+  double thresh2 = 1100; //threshold distance a little more than second 
   
   double ctread=0;  //front ct reading initialized less than thresh1
-  
+  //ctread = ct->getValue();
+  //std::cout << ctread << std::endl;
   
   while (ctread<=thresh1 || thresh2<=ctread){
     ctread = ct->getValue();
     robot -> step(timeStep);
     //just waitwithout goint forward  
   }
-  while (thresh1<=ctread && ctread<=thresh2){
-    ctread = ct->getValue();
+  if (thresh1<=ctread && ctread<=thresh2){
+    //ctread = ct->getValue();
     //line follow forward
-    moveDistance(5.0);
-    robot -> step(timeStep);
+    moveDistance(147.0);
+    led_1->set(1);
+    
+    //robot -> step(timeStep);
   }
-  moveDistance(42);
+  
+  moveDistance(0.0);
   //escaping to this level means the second gate just opened
   //line follow forward full speed ahead.
   curr_state=10;
@@ -394,13 +437,13 @@ void escapeGates(){
 
 int main(int argc, char **argv) {
   
-  curr_state=22;
+  curr_state=21;
   const int end_state=5;
   
   initialize_devices();
 
   while (robot->step(timeStep) != -1) {
-    std::cout << "curr_state: " << curr_state << " | end_state: " << end_state << std::endl;
+    std::cout << "current state:" << curr_state << ' ' << " | end state:" << end_state << std::endl;
     if (curr_state==end_state) {stopRobot(); break;}
     switch (curr_state){
       case 0: lineFollow0(7, 5); break;   // First line follow upto wall - Vidura & tune turnLeft, turnRight enc values
