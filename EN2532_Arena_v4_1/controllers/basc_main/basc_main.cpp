@@ -454,52 +454,68 @@ void lineFollow3(float max_speed, float base_speed){
 }
 
 void escapeGates(){
+  delay(1000);    //For code evaluation purposes
+  int max_speed = 7;
+  int base_speed = 5;
   //this should call only when we come across the first cross line
   
   double thresh1 = 350;  //threshold distance(a little more than first) depends on sensor
   double thresh2 = 1100; //threshold distance a little more than second 
   
   double ctread=0;  //front ct reading initialized less than thresh1
-  //ctread = ct->getValue();
-  //std::cout << ctread << std::endl;
   
+  //robot at first T- wont go forward if 1st close or both open
   while (ctread<=thresh1 || thresh2<=ctread){
     ctread = ct->getValue();
     robot -> step(timeStep);
     //just waitwithout goint forward  
   }
+  
+  //  first open and second should be closed (just checking)
   if (thresh1<=ctread && ctread<=thresh2){
-    //if second gate closed
     led_1->set(1);
-    moveDistance(5.0);
+    moveDistance(5.0); // skip the 1st T
     
-    //line follow forward till white stripe
+    //line follow forward till end box
     while (true){
-    float lx = lc -> getValue();
-    float rx = rc -> getValue();
-    
-    // If corner sensors are active: L&R, L, R
-    // Handle T within this function else move forwars
-    if ((lx < 900) && (rx < 900)){turnLeft();}
-    else if ((lx > 900) && (rx < 900)){turnRight();}
-    // else pidFollow
-    else{
-        if(pidFollow(max_speed, base_speed)){
+      pidFollow(max_speed, base_speed);
+      
+      float lx = lc -> getValue();
+      float rx = rc -> getValue();
+      
+      // Handle T within this function else move forwars
+      if ((lx < 900) && (rx < 900)){
+        stopRobot();
+        ctread = ct->getValue();
+        while (ctread<=thresh1){
+          ctread = ct->getValue();
+          robot -> step(timeStep);
+          //just waitwithout goint forward  
+          }
+        // second gate is open
+        moveDistance(5.0); // skip 2nd T or square first edge
+        
+        lx = lc -> getValue();
+        rx = rc -> getValue();
+        if ((lx < 900) && (rx < 900)){
+          moveDistance(15.0);
           stopRobot();
           break;
+          }
         }
-    }
-    robot -> step(timeStep);
+       robot -> step(timeStep);
+      }
+    
    }
-  }
-  
-  moveDistance(0.0);
+   
   curr_state=10;
-}
+ }
+  
+  
 
 int main(int argc, char **argv) {
   
-  curr_state=0;
+  curr_state=9;
   const int end_state=5;
   
   initialize_devices();
