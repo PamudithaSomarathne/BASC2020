@@ -477,9 +477,10 @@ void escapeGates(){
     while (true){
     float lx = lc -> getValue();
     float rx = rc -> getValue();
+    
     // If corner sensors are active: L&R, L, R
     // Handle T within this function else move forwars
-    if ((lx < 900) && (rx > 900)){turnLeft();}
+    if ((lx < 900) && (rx < 900)){turnLeft();}
     else if ((lx > 900) && (rx < 900)){turnRight();}
     // else pidFollow
     else{
