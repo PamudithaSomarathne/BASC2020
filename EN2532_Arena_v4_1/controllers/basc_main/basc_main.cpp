@@ -226,33 +226,23 @@ void lineFollow0(float max_speed, float base_speed){
   float rx = 0;
   lx = lc -> getValue();
   rx = rc -> getValue();
-  // l1, r1 check for T junction
-  //std::cout << d1 <<" " << lx <<" " << rx <<" " << std::endl;
-  //d1 > 180
+
+  // until wall is detected 
   while (true){
     lx = lc -> getValue();
     rx = rc -> getValue();
+	//     If corner sensors are active: L&R, turn L or turn R 
     if ((lx < 900) && (rx > 900)){turnLeft();}
     else if ((lx > 900) && (rx < 900)){turnRight();}
-    else{
+    else{ 		// else PID follow
       if (pidFollow(max_speed, base_speed)){
         d1 = rft -> getValue();
-        if (d1 < 180 ){stopRobot(); curr_state=1; break;}
+        if (d1 < 180 ){stopRobot(); curr_state=1; break;} // if WALL DETECTED: state=1
       }
     }
-    robot -> step(timeStep);
+    robot -> step(timeStep);  // sensor readings for next iteration
   }
-  //if (d1 < 180){
-    //stopRobot();}
   
-  // Handle 90 degrees within this function else call
-  // While (NOT DETECTED WALL)
-  //     If corner sensors are active: L&R, L, R
-  //     else pidFollow
-        //---------------------------robot->step(timeStep);
-        // sensor readings for next iteration
-        //pidFollow(max_speed,base_speed);
-  // if WALL DETECTED: state=1
 }
 
 
@@ -261,19 +251,16 @@ void lineFollow1(float max_speed, float base_speed){
   float rx = 0;
   lx = lc -> getValue();
   rx = rc -> getValue();
-  // l1, r1 for T junction
-  //std::cout << d1 <<" " << lx <<" " << rx <<" " << std::endl;
-  //d1 > 180
+//		until the circle is detected 
   while (true){
     lx = lc -> getValue();
     rx = rc -> getValue();
-    // If corner sensors are active: L&R, L, R
-    // Handle 90 degrees within this function else call
+    // If corner sensors are active: L&R, turn L or  turn R
     if ((lx < 900) && (rx > 900)){turnLeft();}
     else if ((lx > 900) && (rx < 900)){turnRight();}
     // else pidFollow
     else{
-        if(pidFollow(max_speed, base_speed)){
+        if(pidFollow(max_speed, base_speed)){ // if the circle is detected switch state to 3
           stopRobot();
           break;
         }
@@ -283,23 +270,20 @@ void lineFollow1(float max_speed, float base_speed){
 }
 
 void lineFollow2(float max_speed, float base_speed){
-	while(true){
+	while(true){ // until the ramp is detected 
     float ramp_dist =  ct -> getValue();
-    //std::cout << ramp_dist << std::endl;
-    //bool ramp_detect = (130 > ct -> getValue());
-    if (ramp_dist < 120 ){
+
+    if (ramp_dist < 120 ){  // if the ramp is detected switch state to 7
       stopRobot();
       break;
     }
     else{
-      if(pidFollow(max_speed, base_speed)){
+      if(pidFollow(max_speed, base_speed)){ // follow the dash lines
         moveDistance(4);}
     }
     robot -> step(timeStep);
   }
-  // Handle 90 degrees within this function else call
-  // If corner sensors are active: L&R, L, R
-  // else pidFollow
+ 
 }
 
 /////////////////////////////////////////////// WALL FOLLOWING ///////////////////////////////////////////////
