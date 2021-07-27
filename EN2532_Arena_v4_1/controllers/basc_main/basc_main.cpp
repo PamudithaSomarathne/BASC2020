@@ -184,7 +184,7 @@ float readRaykha(){
 bool pidFollow(float max_speed, float base_speed){
   
   float error = readRaykha();
-  if (error == -100){ return true;}
+  if (error == -100){ return true;}// all black
   if (error == 100){return true;} // all white
   
   // how would you handle all black or all white cases - Thiesh
@@ -226,13 +226,12 @@ void lineFollow0(float max_speed, float base_speed){
   float rx = 0;
   lx = lc -> getValue();
   rx = rc -> getValue();
-  // l1, r1 for T junction
+  // l1, r1 check for T junction
   //std::cout << d1 <<" " << lx <<" " << rx <<" " << std::endl;
   //d1 > 180
   while (true){
     lx = lc -> getValue();
     rx = rc -> getValue();
-    //std::cout << d1 <<" " << lx <<" " << rx <<" " << std::endl;
     if ((lx < 900) && (rx > 900)){turnLeft();}
     else if ((lx > 900) && (rx < 900)){turnRight();}
     else{
@@ -268,24 +267,19 @@ void lineFollow1(float max_speed, float base_speed){
   while (true){
     lx = lc -> getValue();
     rx = rc -> getValue();
-    //std::cout << d1 <<" " << lx <<" " << rx <<" " << std::endl;
+    // If corner sensors are active: L&R, L, R
+    // Handle 90 degrees within this function else call
     if ((lx < 900) && (rx > 900)){turnLeft();}
     else if ((lx > 900) && (rx < 900)){turnRight();}
+    // else pidFollow
     else{
         if(pidFollow(max_speed, base_speed)){
           stopRobot();
           break;
         }
-    
     }
     robot -> step(timeStep);
-  // Handle 90 degrees within this function else call
-  // If corner sensors are active: L&R, L, R
-  // else pidFollow
    }
-  // Handle 90 degrees within this function else call
-  // If corner sensors are active: L&R, L, R
-  // else pidFollow
 }
 
 void lineFollow2(float max_speed, float base_speed){
