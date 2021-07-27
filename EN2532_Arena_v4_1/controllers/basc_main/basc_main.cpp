@@ -456,7 +456,7 @@ void lineFollow3(float max_speed, float base_speed){
 void escapeGates(){
   //this should call only when we come across the first cross line
   
-  double thresh1 = 350;  //threshold distance(a little more than detected) depends on sensor
+  double thresh1 = 350;  //threshold distance(a little more than first) depends on sensor
   double thresh2 = 1100; //threshold distance a little more than second 
   
   double ctread=0;  //front ct reading initialized less than thresh1
@@ -469,17 +469,30 @@ void escapeGates(){
     //just waitwithout goint forward  
   }
   if (thresh1<=ctread && ctread<=thresh2){
-    //ctread = ct->getValue();
-    //line follow forward
-    moveDistance(147.0);
+    //if second gate closed
     led_1->set(1);
+    moveDistance(5.0);
     
-    //robot -> step(timeStep);
+    //line follow forward till white stripe
+    while (true){
+    float lx = lc -> getValue();
+    float rx = rc -> getValue();
+    // If corner sensors are active: L&R, L, R
+    // Handle T within this function else move forwars
+    if ((lx < 900) && (rx > 900)){turnLeft();}
+    else if ((lx > 900) && (rx < 900)){turnRight();}
+    // else pidFollow
+    else{
+        if(pidFollow(max_speed, base_speed)){
+          stopRobot();
+          break;
+        }
+    }
+    robot -> step(timeStep);
+   }
   }
   
   moveDistance(0.0);
-  //escaping to this level means the second gate just opened
-  //line follow forward full speed ahead.
   curr_state=10;
 }
 
