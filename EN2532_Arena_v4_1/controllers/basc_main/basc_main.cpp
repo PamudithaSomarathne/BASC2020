@@ -319,13 +319,13 @@ void wallFollow(){
 void circleNavigation(){}
 void boxManipulation(){
   m_servo->setPosition(0);
-  robot->step(5000);
-  s_servo->setPosition(0);
-  robot->step(5000);
+  robot->step(3000);
+  s_servo->setPosition(-0.3);
+  robot->step(3000);
   s_servo->setPosition(-1.5);
-  robot->step(5000);
+  robot->step(3000);
   m_servo->setPosition(1.9);
-  robot->step(5000);
+  robot->step(3000);
   curr_state=5;
 }
 void exitCircle(){}
@@ -436,8 +436,8 @@ void escapeGates(){
 
 int main(int argc, char **argv) {
   
-  curr_state=9;
-  const int end_state=2;
+  curr_state=4;
+  const int end_state=5;
   
   initialize_devices();
   
