@@ -136,6 +136,21 @@ void turnRight(){
   delay(75);
   return;
 }
+void pi_turn(){
+  l_motor->setVelocity(2.0);
+  r_motor->setVelocity(2.0);
+  delay(50);
+  double encPos = l_enc->getValue();
+  r_motor->setVelocity(-5.0);
+  l_motor->setVelocity(5.0);
+  while (l_enc->getValue() - encPos < 6.5){
+    robot->step(timeStep);
+  }
+  stopRobot();
+  delay(75);
+  return;
+ 
+}
 
 float error_weight[8] = {10,20,30,40,50,60,70,80}; // positive values
 // Tune these
@@ -170,6 +185,7 @@ bool pidFollow(float max_speed, float base_speed){
   
   float error = readRaykha();
   if (error == -100){ return true;}
+  if (error == 100){return true;} // all white
   
   // how would you handle all black or all white cases - Thiesh
   // Addd all black all white cases
@@ -242,12 +258,51 @@ void lineFollow0(float max_speed, float base_speed){
 
 
 void lineFollow1(float max_speed, float base_speed){
+  float lx = 0;
+  float rx = 0;
+  lx = lc -> getValue();
+  rx = rc -> getValue();
+  // l1, r1 for T junction
+  //std::cout << d1 <<" " << lx <<" " << rx <<" " << std::endl;
+  //d1 > 180
+  while (true){
+    lx = lc -> getValue();
+    rx = rc -> getValue();
+    //std::cout << d1 <<" " << lx <<" " << rx <<" " << std::endl;
+    if ((lx < 900) && (rx > 900)){turnLeft();}
+    else if ((lx > 900) && (rx < 900)){turnRight();}
+    else{
+        if(pidFollow(max_speed, base_speed)){
+          stopRobot();
+          break;
+        }
+    
+    }
+    robot -> step(timeStep);
+  // Handle 90 degrees within this function else call
+  // If corner sensors are active: L&R, L, R
+  // else pidFollow
+   }
   // Handle 90 degrees within this function else call
   // If corner sensors are active: L&R, L, R
   // else pidFollow
 }
 
 void lineFollow2(float max_speed, float base_speed){
+	while(true){
+    float ramp_dist =  ct -> getValue();
+    //std::cout << ramp_dist << std::endl;
+    //bool ramp_detect = (130 > ct -> getValue());
+    if (ramp_dist < 120 ){
+      stopRobot();
+      break;
+    }
+    else{
+      if(pidFollow(max_speed, base_speed)){
+        moveDistance(4);}
+    }
+    robot -> step(timeStep);
+  }
   // Handle 90 degrees within this function else call
   // If corner sensors are active: L&R, L, R
   // else pidFollow
@@ -436,7 +491,7 @@ void escapeGates(){
 
 int main(int argc, char **argv) {
   
-  curr_state=4;
+  curr_state=0;
   const int end_state=5;
   
   initialize_devices();
