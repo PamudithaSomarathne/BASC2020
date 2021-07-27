@@ -436,7 +436,7 @@ void escapeGates(){
 
 int main(int argc, char **argv) {
   
-  curr_state=-1;
+  curr_state=9;
   const int end_state=2;
   
   initialize_devices();

@@ -4,8 +4,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.19680355124999818 0.9009735710474216 0.38667167789928203 4.001503069546678
-  position 1.043023759317307 1.3915237137343415 -1.078004868277293
+  orientation -0.005407178816681795 0.959535602426404 0.2815354153449304 3.104739078124143
+  position -0.627071153423345 2.836641754709361 -7.638031893090368
 }
 TexturedBackground {
 }
@@ -333,8 +333,8 @@ DEF BOX Solid {
   }
 }
 DEF BASC Robot {
-  translation 2.33 0.004 0.009993
-  rotation 0 1 0 -3.1415853071795863
+  translation -0.229873 0.004 -4.61541
+  rotation 0 1 0 7.33682e-06
   children [
     DEF Robot_body Shape {
       appearance PBRAppearance {
