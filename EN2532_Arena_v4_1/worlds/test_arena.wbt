@@ -4,8 +4,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.19680355124999818 0.9009735710474216 0.38667167789928203 4.001503069546678
-  position 1.043023759317307 1.3915237137343415 -1.078004868277293
+  orientation -0.008999506246212445 0.9954127329529645 0.09524967171825069 2.9540445126388373
+  position 1.3515177677096006 0.1952665410378369 -2.3176711111398127
 }
 TexturedBackground {
 }
@@ -18,6 +18,137 @@ Floor {
   appearance Parquetry {
     type "dark strip"
     colorOverride 0 0 0
+  }
+}
+DEF CUBE Solid {
+  translation 1.26 0.025 -1.66
+  rotation 1 0 0 0
+  children [
+    DEF Cube_faces Group {
+      children [
+        DEF Blue_1 Transform {
+          translation -0.025 0.025 0.025
+          rotation 1 0 0 3.14159
+          scale 0.5 0.5 0.5
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 1
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "box_side.STL"
+                ]
+              }
+            }
+          ]
+        }
+        DEF Green_1 Transform {
+          translation 0.025 0.025 -0.025
+          rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
+          scale 0.5 0.5 0.5
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 1 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "box_side.STL"
+                ]
+              }
+            }
+          ]
+        }
+        DEF Green_2 Transform {
+          translation -0.025 -0.025 -0.025
+          rotation 0.5773509358554485 0.5773489358556708 0.5773509358554485 2.0944
+          scale 0.5 0.5 0.5
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 1 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "box_side.STL"
+                ]
+              }
+            }
+          ]
+        }
+        DEF Red_2 Transform {
+          translation -0.025 -0.025 0.025
+          rotation 1 0 0 -1.5707953071795862
+          scale 0.5 0.5 0.5
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "box_side.STL"
+                ]
+              }
+            }
+          ]
+        }
+        DEF Red_1 Transform {
+          translation -0.025 0.025 -0.025
+          rotation 1 0 0 1.5708
+          scale 0.5 0.5 0.5
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "box_side.STL"
+                ]
+              }
+            }
+          ]
+        }
+        DEF Blue_2 Transform {
+          translation -0.025 -0.025 -0.025
+          scale 0.5 0.5 0.5
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 1
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "box_side.STL"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "solid(1)"
+  boundingObject Box {
+    size 0.05 0.05 0.05
+  }
+  physics Physics {
+    density -1
+    mass 0.1
   }
 }
 DEF Light SpotLight {
@@ -311,29 +442,8 @@ DEF RG1 Robot {
   locked TRUE
   controller "gateCont1"
 }
-DEF BOX Solid {
-  translation 1.25 0.025 -1.629
-  children [
-    DEF BOX Shape {
-      appearance PBRAppearance {
-        baseColor 1 0 0
-        roughness 1
-        metalness 0
-      }
-      geometry Box {
-        size 0.05 0.05 0.05
-      }
-    }
-  ]
-  name "Box"
-  boundingObject USE BOX
-  physics Physics {
-    density -1
-    mass 0.02
-  }
-}
 DEF BASC Robot {
-  translation 2.33 0.004 0.009993
+  translation 1.31 0.004 -1.4
   rotation 0 1 0 -3.1415853071795863
   children [
     DEF Robot_body Shape {
@@ -376,7 +486,7 @@ DEF BASC Robot {
       ]
       endPoint Solid {
         translation -0.004 0.036 0.0233
-        rotation 0.026096228430311442 -0.023552620243855925 0.9993819394712723 1.5678441084545627
+        rotation 0.026096228430311376 -0.023552620243855734 0.9993819394712723 1.567844108454548
         children [
           DEF Wheel_shape Shape {
             appearance PBRAppearance {
@@ -415,7 +525,7 @@ DEF BASC Robot {
       ]
       endPoint Solid {
         translation 0.164 0.036 0.0233
-        rotation -0.023469325518452332 0.02587116327099586 0.9993897506332124 1.5750267163052971
+        rotation -0.023469325518452107 0.02587116327099586 0.9993897506332124 1.5750267163052971
         children [
           USE Wheel_shape
         ]
@@ -434,7 +544,7 @@ DEF BASC Robot {
       }
       endPoint Solid {
         translation 0.03311 0 0.192
-        rotation -0.9233672499621108 0.3011983525600137 -0.23805981204844723 3.0113654243712515
+        rotation -0.4931499190323307 0.008949639692169 0.8698983051528415 3.5837166992738214
         children [
           DEF Ball_shape Shape {
             appearance PBRAppearance {
@@ -461,7 +571,7 @@ DEF BASC Robot {
       }
       endPoint Solid {
         translation 0.1271 0 0.192
-        rotation -0.950596937907874 -0.24741454093580215 -0.18748735043650208 2.746098663178964
+        rotation -0.11360102401971553 0.8452597592154357 0.5221405431421082 3.113075654070741
         children [
           USE Ball_shape
         ]
@@ -662,7 +772,7 @@ DEF BASC Robot {
         }
       ]
       endPoint Solid {
-        translation 0.017 0.05461134032660506 0.2359236654589869
+        translation 0.017 0.0546088924448579 0.23591563505583668
         rotation -1 0 0 1.9000000047714092
         children [
           DEF ARM Shape {
@@ -705,7 +815,7 @@ DEF BASC Robot {
             ]
             endPoint Solid {
               translation 0.014527683122180206 0.06689740342126486 0.05696
-              rotation 0.604592539843305 -0.5632362698266181 -0.563234200948077 2.054016852350372
+              rotation 0.604592539843305 -0.5632362698266185 -0.5632342009480767 2.054016852350372
               children [
                 DEF SUP Shape {
                   appearance PBRAppearance {
@@ -734,9 +844,6 @@ DEF BASC Robot {
               physics Physics {
                 density -1
                 mass 0.00764
-                centerOfMass [
-                  0.02562 0.03358 0.02743
-                ]
               }
             }
           }
