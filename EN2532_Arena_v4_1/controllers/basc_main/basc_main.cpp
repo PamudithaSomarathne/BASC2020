@@ -320,10 +320,10 @@ void circleNavigation(){}
 void boxManipulation(){
   m_servo->setPosition(0);
   robot->step(3000);
-  s_servo->setPosition(-0.3);
+  s_servo->setPosition(-0.9);
   robot->step(3000);
-  s_servo->setPosition(-1.5);
-  robot->step(3000);
+  //s_servo->setPosition(-1.5);
+  //robot->step(3000);
   m_servo->setPosition(1.9);
   robot->step(3000);
   curr_state=5;
