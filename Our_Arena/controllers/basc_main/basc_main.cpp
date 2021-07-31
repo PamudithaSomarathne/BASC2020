@@ -536,19 +536,19 @@ bool notRampEdge(){
 void rampNavigation(float max, float mid, float P, float D, float I){
   led_1->set(1);
   while (notRampEdge()) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
-  std::cout << "Moving 10" << std::endl;
+  // std::cout << "Moving 10" << std::endl;
   moveDistance(10);
-  std::cout << "Moved 10" << std::endl;
+  // std::cout << "Moved 10" << std::endl;
   while (!pidFollow(max, mid, P, D, I)) {robot->step(timeStep);}
-  std::cout << "Moving 15" << std::endl;
+  // std::cout << "Moving 15" << std::endl;
   moveDistance(12); //edited - thiesh
-  std::cout << "Moved 15" << std::endl;
+  // std::cout << "Moved 15" << std::endl;
   while (lc->getValue()>950 && rc->getValue()>950){
       pidFollow(max, mid, P, D, I); moveDistance(1); robot->step(timeStep);
   }
   if (direction) turnRight(15.0, 3.2);
   else turnLeft(15.0, 3.2);
-  std::cout << "Made turn" << std::endl;
+  // std::cout << "Made turn" << std::endl;
   led_1->set(6);
   prevGyro = 0;
   while (notRampEdge()) {
@@ -618,7 +618,7 @@ void pillarCount(float max, float mid, float P, float D, float I){
     moveDistance(1);
     if (direction) turnRight(15.0, 3.5);
     else turnLeft(15.0, 3.5);
-    std::cout << "Turned" << std::endl;
+    // std::cout << "Turned" << std::endl;
     lineFollow3(max, mid, P, D, I);
     stopRobot(); curr_state=9;
   }
@@ -668,7 +668,7 @@ int main(int argc, char **argv) {
     std::cout << "current state:" << curr_state << ' ' << " | end state:" << end_state << std::endl;
     if (curr_state==end_state) {stopRobot(); break;}
     switch (curr_state){
-      case -1: moveDistance(10); curr_state=0; break;
+      case -1: moveDistance(20); curr_state=0; break;
       case 0: lineFollow0(20, 15, 0.12, 0.08, 0); break;   // First line follow upto wall - Vidura & tune turnLeft, turnRight enc values
       case 1: wallFollow(15, 0.08, 0.05); break;        // Wall - Yasod
       case 2: lineFollow1(20, 15, 0.05 , 0.1, 0); break;   // Wall to circle line - Vidura
