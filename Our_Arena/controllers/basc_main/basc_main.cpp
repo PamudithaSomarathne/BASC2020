@@ -537,71 +537,44 @@ void reverse(){
   curr_state = 100;
 }
 
-double gyroT = 0.5;
-bool notRampEdge(){return std::abs(gyro->getValues()[0]) < gyroT;}
-
+double prevGyro=0.0, gyroOut, gyroT = 1.0;
+bool ret;
+bool notRampEdge(){
+  gyroOut = gyro->getValues()[0];
+  ret = std::abs(gyroOut + prevGyro) < gyroT;
+  prevGyro = gyroOut;
+  return ret;
+}
 
 void rampNavigation(float max, float mid, float P, float D, float I){
   led_1->set(1);
   while (notRampEdge()) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
-  std::cout << "Ramp Detected" << std::endl;
   moveDistance(10);
-  while (!pidFollow(max, mid, P, D, I)) {
-  /*bool R3 = (threshold > r3 -> getValue()); // If this doesn't work with bool check ints
-  bool R2 = (threshold > r2 -> getValue());
-  bool R1 = (threshold > r1 -> getValue());
-  bool R0 = (threshold > r0 -> getValue());
-  bool L0 = (threshold > l0 -> getValue());
-  bool L1 = (threshold > l1 -> getValue());
-  bool L2 = (threshold > l2 -> getValue());
-  bool L3 = (threshold > l3 -> getValue());
-  std::cout << R3 << R2 << R1 << R0 << L0 << L1 << L2 << L3 << std::endl;*/
-  robot->step(timeStep);
+  while (notRampEdge()) {
+    if (!pidFollow(max, mid, P, D, I)) {robot->step(timeStep);}
+    else {moveDistance(1.0);}
   }
-  moveDistance(0.5);
-  std::cout << "Reached Top" << std::endl;
-  /*moveDistance(15);
-  bool R3 = (threshold > r3 -> getValue()); // If this doesn't work with bool check ints
-  bool R2 = (threshold > r2 -> getValue());
-  bool R1 = (threshold > r1 -> getValue());
-  bool R0 = (threshold > r0 -> getValue());
-  bool L0 = (threshold > l0 -> getValue());
-  bool L1 = (threshold > l1 -> getValue());
-  bool L2 = (threshold > l2 -> getValue());
-  bool L3 = (threshold > l3 -> getValue());
-  std::cout << R3 << R2 << R1 << R0 << L0 << L1 << L2 << L3 << std::endl;
-  std::cout << r3->getValue()<<" " << l0->getValue() << std::endl;
-  stopRobot();
-  delay(100);
-  std::cout << "Done 2" << std::endl;
-  //while (pidFollow(7,5)) {moveDistance(0.5);}*/
+  moveDistance(15);
   while (lc->getValue()>950 && rc->getValue()>950){
-      pidFollow(max, mid, P, D, I);
-      moveDistance(1);
-      robot->step(timeStep);
-      //Ins_Inertia=In_unit->getRollPitchYaw()[0];
-      //Ins_gyro=Gyro_val[1];
-      //std::cout << std::abs(Ins_Inertia) << std::endl;
+      pidFollow(5, 3); moveDistance(1); robot->step(timeStep);
   }
-  //if (lc->getValue()<900 && rc->getValue()<900 && std::abs(Ins_Inertia)<0.01){
   if (direction) turnRight();
   else turnLeft();
-  
-  
-    
-  
-  std::cout << "Done 4" << std::endl;
-  //reverse(); delay(10);
   led_1->set(6);
-  while (!pidFollow(max, mid, P, D, I)) {robot->step(timeStep);}
-  while (pidFollow(max, mid, P, D, I)) {moveDistance(0.5);}
-  moveDistance(5);
-  while (notRampEdge()) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
-  //moveDistance(10);
+  prevGyro = 0;
+  while (notRampEdge()) {
+    if (!pidFollow(max, mid, P, D, I)) {robot->step(timeStep);}
+    else {moveDistance(1.0);}
+  }
+  moveDistance(15); prevGyro = 0;
+  while (notRampEdge()) {
+    if (!pidFollow(max, mid, P, D, I)) {robot->step(timeStep);}
+    else {moveDistance(1.0);}
+  }
+  moveDistance(14);
   stopRobot();
   curr_state=8;
 }
-
 /////////////////////////////////////////////// RAMP CORRECTION //////////////////////////////////////////////
 void lineFollow3(float max, float mid, float P, float D, float I){
   led_2->set(1);
@@ -718,7 +691,7 @@ void escapeGates(float max, float mid, float P, float D, float I){
 
 int main(int argc, char **argv) {
   
-  curr_state=6;
+  curr_state=-1;
   const int end_state=-2;
   
   initialize_devices();
@@ -728,15 +701,15 @@ int main(int argc, char **argv) {
     if (curr_state==end_state) {stopRobot(); break;}
     switch (curr_state){
       case -1: moveDistance(5); curr_state=0; break;
-      case 0: lineFollow0(12, 8, 1, 60, 0); break;   // First line follow upto wall - Vidura & tune turnLeft, turnRight enc values
+      case 0: lineFollow0(20, 7, 0.12, 0.08, 0); break;   // First line follow upto wall - Vidura & tune turnLeft, turnRight enc values
       case 1: wallFollow(); break;        // Wall - Yasod
-      case 2: lineFollow1(15, 10, 0.5 , 50, 0); break;   // Wall to circle line - Vidura
-      case 3: circleNavigation(15, 10, 0.9 , 40, 0); break;  // Circle - Pamuditha
+      case 2: lineFollow1(20, 12, 0.01 , 0.1, 0); break;   // Wall to circle line - Vidura
+      case 3: circleNavigation(20, 10, 0.12 , 0.2, 0); break;  // Circle - Pamuditha
       case 4: boxManipulation(); break;   // Box - Pamuditha
-      case 6: lineFollow2(10, 7, 0.7 , 30, 0); break;   // Dash line - Vidura
-      case 7: rampNavigation(10, 6, 0.1 , 10, 0); break;    // Ramp - Yomali
-      case 8: pillarCount(15, 10, 0.9 , 30, 0); break;       // Pillar - Yomali
-      case 9: escapeGates(15, 10, 0.9 , 30, 0); break;       // Gates - Tharindu
+      case 6: lineFollow2(20, 7, 0.2 , 0.3, 0); break;   // Dash line - Vidura
+      case 7: rampNavigation(7, 5, 0.5 , 0.1, 0.0); break;    // Ramp - Yomali
+      case 8: pillarCount(14, 7, 0.04, 0.15, 0); break;       // Pillar - Yomali
+      case 9: escapeGates(15, 10, 0.05 , 0.15, 0); break;       // Gates - Tharindu
       case 10: stopRobot(); break;        // End
       case 21: moveDistance(5); break;
       case 22: testLED(); break;

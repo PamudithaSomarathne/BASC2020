@@ -2,10 +2,18 @@
 WorldInfo {
   basicTimeStep 16
   coordinateSystem "NUE"
+  contactProperties [
+    ContactProperties {
+      material2 "grip"
+      coulombFriction [
+        2
+      ]
+    }
+  ]
 }
 Viewpoint {
-  orientation -0.15084022388602894 -0.9545070526786318 -0.2572226919320383 2.3460875513877903
-  position -0.934336296778859 1.784767715178362 -3.9108289235276112
+  orientation -0.16709216412794853 -0.9483273135252004 -0.2697323026801111 2.2937657131988036
+  position -5.313414707243959 5.375417551511733 -7.811048142318103
   follow "robot"
   followType "None"
 }
@@ -22,7 +30,7 @@ Floor {
     colorOverride 0 0 0
   }
 }
-Solid {
+DEF piller_2 Solid {
   translation 0.08 0.05 -4.55
   children [
     DEF Box Shape {
@@ -38,7 +46,23 @@ Solid {
   name "left_2"
   boundingObject USE Box
 }
-Solid {
+DEF piller_1 Solid {
+  translation 0.2 0.05 -4.55
+  children [
+    DEF Box Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 0.1 0.03
+      }
+    }
+  ]
+  name "left_2(1)"
+  boundingObject USE Box
+}
+DEF piller_3 Solid {
   translation 1.89 0.05 -4.55
   children [
     USE Box
@@ -475,8 +499,8 @@ DEF RG1 Robot {
   controller "gateCont1"
 }
 DEF BASC Robot {
-  translation 1.53796 0.004 -2.53657
-  rotation -9.58978e-09 1 1.2625e-09 2.87979
+  translation 0.02685 0.004 -0.0675282
+  rotation 9.58981e-09 -1 -9.58977e-09 -1.5707953071795862
   children [
     DEF Robot_body Shape {
       appearance PBRAppearance {
@@ -561,7 +585,7 @@ DEF BASC Robot {
       ]
       endPoint Solid {
         translation 0.1640000549243269 0.03600355443400253 0.023299914059196514
-        rotation -0.02346932551147244 0.02587116322307939 0.9993897506346167 1.5750267186559301
+        rotation -0.023469325511472516 0.025871163223079464 0.9993897506346167 1.5750267186559301
         children [
           USE Wheel_shape
         ]
@@ -579,8 +603,8 @@ DEF BASC Robot {
         anchor 0.03311 0 0.172
       }
       endPoint Solid {
-        translation 0.03326936082517502 0.00014456882383025822 0.17215123816507696
-        rotation -0.10317789253662189 -0.8173192786533885 -0.5668716955654125 3.211029887756988
+        translation 0.033102926658133996 0.00025927997208306813 0.17195649294411905
+        rotation 0.35784619212653146 -0.9327701240615976 -0.0434280835249852 3.8182165273046236
         children [
           DEF Ball_shape Shape {
             appearance PBRAppearance {
@@ -610,7 +634,7 @@ DEF BASC Robot {
       }
       endPoint Solid {
         translation 0.1271 0 0.172
-        rotation -0.6450775654744892 0.2979233310831134 0.7036452396753975 1.959003780592116
+        rotation 0.7288047100027857 -0.5634944623827881 0.3889957397474784 3.913639588064555
         children [
           USE Ball_shape
         ]
@@ -984,7 +1008,7 @@ DEF BASC Robot {
               dampingConstant 0.0005
             }
             endPoint Solid {
-              translation 0.07899999999999997 0.024941900000000006 0.014980099999999802
+              translation 0.07899999999999997 0.024941900000000006 0.014980099999999594
               rotation 1 0 0 1.57
               children [
                 DEF FREE_ARM Shape {
