@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.4661072128364585 -0.7547517184285389 -0.4616209588731818 1.9656859396445436
-  position 0.29157112351560954 2.4717043449313634 -2.795388588946444
+  orientation 0.16635932002691398 -0.9498726858498232 -0.26470069383480305 4.470113719615302
+  position 0.8954088331093784 0.2092522918191701 -1.8901288518101118
   follow "robot"
   followType "None"
 }
@@ -851,7 +851,7 @@ DEF BASC Robot {
         }
       ]
       endPoint Solid {
-        translation 0.02800000017454296 0.0499996054792598 0.1610000003398348
+        translation 0.03 0.0499996 0.161
         rotation -1 0 0 1.55
         children [
           Group {
@@ -909,7 +909,7 @@ DEF BASC Robot {
               dampingConstant 0.0005
             }
             endPoint Solid {
-              translation 0.015999999999999993 0.011234900000000006 0.068991
+              translation 0.018 0.0112349 0.068991
               rotation 1 0 0 1.57
               children [
                 DEF SG90 Shape {
@@ -1006,7 +1006,7 @@ DEF BASC Robot {
               dampingConstant 0.0005
             }
             endPoint Solid {
-              translation 0.07899999999999997 0.024941900000000006 0.014980099999999372
+              translation 0.081 0.0249419 0.0149801
               rotation 1 0 0 1.57
               children [
                 DEF FREE_ARM Shape {
