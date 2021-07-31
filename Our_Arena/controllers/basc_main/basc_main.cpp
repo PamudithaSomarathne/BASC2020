@@ -426,9 +426,9 @@ void circleNavigation(float max, float mid, float P, float D, float I){
             led_1->set(1);
             stopRobot(); boxManipulation();
             moveBox(); dropBox(); turn180Left();
-            while (!pidFollow(max, mid, 0.045, 0.15, 0)) {robot->step(timeStep);}
+            while (!pidFollow(max, mid, 0.03, 0.1, 0)) {robot->step(timeStep);}
             moveDistance(5.0);
-            while (!pidFollow(max, mid, 0.045, 0.15, 0)) {robot->step(timeStep);}
+            while (!pidFollow(max, mid, 0.03, 0.1, 0)) {robot->step(timeStep);}
             moveDistance(4.0); turnLeft(15.0, 4.1);
             while (rc->getValue()>900) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
             moveDistance(3.0); turnRight(15.0, 3.5);
@@ -450,7 +450,7 @@ void circleNavigation(float max, float mid, float P, float D, float I){
             led_1->set(2);
             stopRobot();
             boxManipulation();
-            while (!pidFollow(max, mid, 0.045, 0.15, 0)) {robot->step(timeStep);}
+            while (!pidFollow(max, mid, 0.03, 0.1, 0)) {robot->step(timeStep);}
             stopRobot(); delay(100); dropBox();
             moveDistance(4.0); turnLeft(15.0, 4.1);
             while (rc->getValue()>900) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
@@ -472,9 +472,9 @@ void circleNavigation(float max, float mid, float P, float D, float I){
             led_1->set(3);
             stopRobot(); boxManipulation();
             moveBox(); dropBox(); turn180Left();
-            while (!pidFollow(max, mid, 0.045, 0.15, 0)) {robot->step(timeStep);}
+            while (!pidFollow(max, mid, 0.03, 0.1, 0)) {robot->step(timeStep);}
             moveDistance(5.0);
-            while (!pidFollow(max, mid, 0.045, 0.15, 0)) {robot->step(timeStep);}
+            while (!pidFollow(max, mid, 0.03, 0.1, 0)) {robot->step(timeStep);}
             moveDistance(4.0); turnRight(15.0, 3.8);
             while (lc->getValue()>900 && l3->getValue()>900) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
             moveDistance(3.0); turnLeft(15.0, 3.5);
@@ -495,7 +495,7 @@ void circleNavigation(float max, float mid, float P, float D, float I){
             led_1->set(4);
             stopRobot();
             boxManipulation();
-            while (!pidFollow(max, mid, 0.045, 0.15, 0)) {robot->step(timeStep);}
+            while (!pidFollow(max, mid, 0.03, 0.1, 0)) {robot->step(timeStep);}
             moveDistance(19.0); stopRobot(); delay(100); dropBox();
             turnRight(0.0, 3.8);
             while (lc->getValue()>900 && l3->getValue()>900) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
@@ -669,14 +669,14 @@ int main(int argc, char **argv) {
     if (curr_state==end_state) {stopRobot(); break;}
     switch (curr_state){
       case -1: moveDistance(10); curr_state=0; break;
-      case 0: lineFollow0(20, 12, 0.12, 0.08, 0); break;   // First line follow upto wall - Vidura & tune turnLeft, turnRight enc values
+      case 0: lineFollow0(20, 15, 0.12, 0.08, 0); break;   // First line follow upto wall - Vidura & tune turnLeft, turnRight enc values
       case 1: wallFollow(15, 0.08, 0.05); break;        // Wall - Yasod
-      case 2: lineFollow1(15, 12, 0.05 , 0.1, 0); break;   // Wall to circle line - Vidura
+      case 2: lineFollow1(20, 15, 0.05 , 0.1, 0); break;   // Wall to circle line - Vidura
       case 3: circleNavigation(20, 7, 0.12 , 0.2, 0); break;  // Circle - Pamuditha
       case 6: lineFollow2(20, 7, 0.2 , 0.3, 0); break;   // Dash line - Vidura
       case 7: rampNavigation(7, 5, 0.1 , 0.1, 0.0); break;    // Ramp - Yomali
       case 8: pillarCount(14, 7, 0.04, 0.15, 0); break;       // Pillar - Yomali
-      case 9: escapeGates(15, 12, 0.05 , 0.15, 0); break;       // Gates - Tharindu
+      case 9: escapeGates(20, 15, 0.05 , 0.15, 0); break;       // Gates - Tharindu
       case 10: stopRobot(); break;        // End
       case 21: moveDistance(5); break;
       case 22: testLED(); break;
