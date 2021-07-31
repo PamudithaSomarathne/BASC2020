@@ -708,7 +708,7 @@ int main(int argc, char **argv) {
       case 0: lineFollow0(20, 7, 0.12, 0.08, 0); break;   // First line follow upto wall - Vidura & tune turnLeft, turnRight enc values
       case 1: wallFollow(0.3, 1); break;        // Wall - Yasod
       case 2: lineFollow1(20, 12, 0.01 , 0.1, 0); break;   // Wall to circle line - Vidura
-      case 3: circleNavigation(20, 10, 0.12 , 0.2, 0); break;  // Circle - Pamuditha
+      case 3: circleNavigation(20, 7, 0.12 , 0.2, 0); break;  // Circle - Pamuditha
       case 4: boxManipulation(); break;   // Box - Pamuditha
       case 6: lineFollow2(20, 7, 0.2 , 0.3, 0); break;   // Dash line - Vidura
       case 7: rampNavigation(7, 5, 0.1 , 0.1, 0.0); break;    // Ramp - Yomali

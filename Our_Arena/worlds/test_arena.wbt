@@ -13,7 +13,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.4661072128364585 -0.7547517184285389 -0.4616209588731818 1.9656859396445436
-  position -1.257963766469343 5.214034047692954 -3.780036457058592
+  position 0.29157112351560954 2.4717043449313634 -2.795388588946444
   follow "robot"
   followType "None"
 }
@@ -71,7 +71,7 @@ DEF piller_3 Solid {
   boundingObject USE Box
 }
 DEF CUBE Solid {
-  translation 1.24 0.025 -2.16904
+  translation 1.76318 0.025 -1.64586
   rotation 0 1 0 -0.785395307179586
   children [
     DEF Cube_faces Group {
@@ -584,7 +584,7 @@ DEF BASC Robot {
       ]
       endPoint Solid {
         translation 0.1640000549243269 0.03600355443400253 0.023299914059196514
-        rotation -0.023469325511472572 0.025871163223079523 0.9993897506346167 1.5750267186559301
+        rotation -0.023469325511472593 0.025871163223079544 0.9993897506346167 1.5750267186559301
         children [
           USE Wheel_shape
         ]
@@ -602,8 +602,8 @@ DEF BASC Robot {
         anchor 0.03311 0 0.172
       }
       endPoint Solid {
-        translation 0.03317971505841318 -3.682171835662367e-05 0.17225090430783008
-        rotation 0.6965010007137963 0.11079874996274382 -0.7089499227811324 1.7056230982769485
+        translation 0.03293018231061008 -1.8106863530228117e-05 0.1721910673705151
+        rotation -0.83038142546899 0.38071626566410677 0.40684372097264265 4.1541676519948325
         children [
           DEF Ball_shape Shape {
             appearance PBRAppearance {
@@ -632,7 +632,7 @@ DEF BASC Robot {
       }
       endPoint Solid {
         translation 0.1271 0 0.172
-        rotation 0.3873159807839344 0.9068264905570493 -0.16628904670291625 1.048581447882919
+        rotation 0.22053427257147973 -0.9595134517792699 -0.17521007526965676 2.2943022555536245
         children [
           USE Ball_shape
         ]
@@ -1006,7 +1006,7 @@ DEF BASC Robot {
               dampingConstant 0.0005
             }
             endPoint Solid {
-              translation 0.07899999999999997 0.024941900000000006 0.014980099999999427
+              translation 0.07899999999999997 0.024941900000000006 0.014980099999999372
               rotation 1 0 0 1.57
               children [
                 DEF FREE_ARM Shape {
