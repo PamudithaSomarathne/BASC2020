@@ -379,11 +379,13 @@ void moveBox(){
   while (r_enc->getValue() + l_enc->getValue() - encPos < boxDist){robot->step(timeStep);}
   stopRobot();
   delay(75);
+  //75 for phy6 error avoid
 }
 
 void dropBox(){
   stopRobot(); delay(50);
   m_servo->setPosition(0.3); robot->step(2048);
+  delay(15);
   s_servo->setPosition(-0.8); robot->step(2048);
   m_servo->setPosition(0.7); robot->step(2048);
   m_servo->setPosition(1.55); s_servo->setPosition(0); robot->step(2048);
@@ -392,9 +394,12 @@ void dropBox(){
 
 bool check;
 void circleNavigation(float max, float mid, float P, float D, float I){
+  float  cmax = 10;
+  float  cmid = 7;
   float lx = lc -> getValue();
   float rx = rc -> getValue();
   if ((r2 -> getValue() < 900) && (r1 -> getValue() < 900) &&(r0 -> getValue() < 900) &&(l0 -> getValue() < 900) &&(l1 -> getValue() < 900) &&(l2 -> getValue() < 900)){
+    std::cout << "Quadrant_1"<<  std::endl;
     moveDistance(1);
     turnRight(15.0, 3.5);
     curr_state =3;
@@ -407,13 +412,14 @@ void circleNavigation(float max, float mid, float P, float D, float I){
     if (box1 < 400){
       check = true;
       turnRight(0.0, 3.0);
+      std::cout << "Quadrant_4"<<  std::endl;
       curr_state =3;
     }
     else{
       // std::cout << 1111 <<  std::endl;
       while(true){
         robot -> step(timeStep);
-        if(pidFollow(max, mid, 0.05, 0.15, 0)){break;}
+        if(pidFollow(cmax, cmid, 0.5, 0.1, 0)){break;}
         }
       if (check){
         moveDistance(1);
@@ -426,10 +432,10 @@ void circleNavigation(float max, float mid, float P, float D, float I){
             led_1->set(1);
             stopRobot(); boxManipulation();
             moveBox(); dropBox(); turn180Left();
-            while (!pidFollow(max, mid, 0.045, 0.15, 0)) {robot->step(timeStep);}
+            while (!pidFollow(cmax, cmid, 0.5, 0.1, 0)) {robot->step(timeStep);}
             moveDistance(5.0);
-            while (!pidFollow(max, mid, 0.045, 0.15, 0)) {robot->step(timeStep);}
-            moveDistance(4.0); turnLeft(15.0, 4.1);
+            while (!pidFollow(cmax, cmid, 0.5, 0.1, 0)) {robot->step(timeStep);}
+            moveDistance(4.0); turnLeft(15.0, 4.1); std::cout << "Quadrant_2"<<  std::endl;
             while (rc->getValue()>900) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
             moveDistance(3.0); turnRight(15.0, 3.5);
             curr_state=6; break;
@@ -450,11 +456,11 @@ void circleNavigation(float max, float mid, float P, float D, float I){
             led_1->set(2);
             stopRobot();
             boxManipulation();
-            while (!pidFollow(max, mid, 0.045, 0.15, 0)) {robot->step(timeStep);}
+            while (!pidFollow(cmax, cmid, 0.5, 0.1, 0)) {robot->step(timeStep);}
             stopRobot(); delay(100); dropBox();
-            moveDistance(4.0); turnLeft(15.0, 4.1);
+            moveDistance(4.0); turnLeft(15.0, 4.1); std::cout << "Quadrant_2"<<  std::endl;
             while (rc->getValue()>900) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
-            moveDistance(3.0); turnRight(15.0, 3.5);
+            moveDistance(3.0); turnRight(15.0, 3.5); 
             curr_state=6; break;
           }
           pidFollow(max, mid, P, D, I);
@@ -472,10 +478,10 @@ void circleNavigation(float max, float mid, float P, float D, float I){
             led_1->set(3);
             stopRobot(); boxManipulation();
             moveBox(); dropBox(); turn180Left();
-            while (!pidFollow(max, mid, 0.045, 0.15, 0)) {robot->step(timeStep);}
+            while (!pidFollow(cmax, cmid, 0.5, 0.1, 0)) {robot->step(timeStep);}
             moveDistance(5.0);
-            while (!pidFollow(max, mid, 0.045, 0.15, 0)) {robot->step(timeStep);}
-            moveDistance(4.0); turnRight(15.0, 3.8);
+            while (!pidFollow(cmax, cmid, 0.5, 0.1, 0)) {robot->step(timeStep);}
+            moveDistance(4.0); turnRight(15.0, 3.8); std::cout << "Quadrant_2"<<  std::endl;
             while (lc->getValue()>900 && l3->getValue()>900) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
             moveDistance(3.0); turnLeft(15.0, 3.5);
             curr_state=6; break;
@@ -495,9 +501,9 @@ void circleNavigation(float max, float mid, float P, float D, float I){
             led_1->set(4);
             stopRobot();
             boxManipulation();
-            while (!pidFollow(max, mid, 0.045, 0.15, 0)) {robot->step(timeStep);}
+            while (!pidFollow(cmax, cmid, 0.5, 0.1, 0)) {robot->step(timeStep);}
             moveDistance(19.0); stopRobot(); delay(100); dropBox();
-            turnRight(0.0, 3.8);
+            turnRight(0.0, 3.8); std::cout << "Quadrant_2"<<  std::endl;
             while (lc->getValue()>900 && l3->getValue()>900) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
             moveDistance(3.0); turnLeft(15.0, 3.5); // TUNE
             curr_state=6; break;
@@ -536,19 +542,19 @@ bool notRampEdge(){
 void rampNavigation(float max, float mid, float P, float D, float I){
   led_1->set(1);
   while (notRampEdge()) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
-  std::cout << "Moving 10" << std::endl;
+  //std::cout << "Moving 10" << std::endl;
   moveDistance(10);
-  std::cout << "Moved 10" << std::endl;
+  //std::cout << "Moved 10" << std::endl;
   while (!pidFollow(max, mid, P, D, I)) {robot->step(timeStep);}
-  std::cout << "Moving 15" << std::endl;
+  //std::cout << "Moving 15" << std::endl;
   moveDistance(12); //edited - thiesh
-  std::cout << "Moved 15" << std::endl;
+  //std::cout << "Moved 15" << std::endl;
   while (lc->getValue()>950 && rc->getValue()>950){
       pidFollow(max, mid, P, D, I); moveDistance(1); robot->step(timeStep);
   }
   if (direction) turnRight(15.0, 3.2);
   else turnLeft(15.0, 3.2);
-  std::cout << "Made turn" << std::endl;
+  //std::cout << "Made turn" << std::endl;
   led_1->set(6);
   prevGyro = 0;
   while (notRampEdge()) {
@@ -618,7 +624,7 @@ void pillarCount(float max, float mid, float P, float D, float I){
     moveDistance(1);
     if (direction) turnRight(15.0, 3.5);
     else turnLeft(15.0, 3.5);
-    std::cout << "Turned" << std::endl;
+    //std::cout << "Turned" << std::endl;
     lineFollow3(max, mid, P, D, I);
     stopRobot(); curr_state=9;
   }
@@ -659,16 +665,16 @@ void escapeGates(float max, float mid, float P, float D, float I){
 
 int main(int argc, char **argv) {
   
-  curr_state=-1;
-  const int end_state=-2;
+  curr_state=2;
+  const int end_state=22;
   
   initialize_devices();
   
   while (robot->step(timeStep) != -1) {
-    std::cout << "current state:" << curr_state << ' ' << " | end state:" << end_state << std::endl;
+    //std::cout << "current state:" << curr_state << ' ' << " | end state:" << end_state << std::endl;
     if (curr_state==end_state) {stopRobot(); break;}
     switch (curr_state){
-      case -1: moveDistance(10); curr_state=0; break;
+      case -1: moveDistance(20); curr_state=0; break;
       case 0: lineFollow0(20, 12, 0.12, 0.08, 0); break;   // First line follow upto wall - Vidura & tune turnLeft, turnRight enc values
       case 1: wallFollow(15, 0.3, 1); break;        // Wall - Yasod
       case 2: lineFollow1(15, 12, 0.05 , 0.1, 0); break;   // Wall to circle line - Vidura
