@@ -361,11 +361,11 @@ void turnL_crit(){
 
 bool direction=0;
 void boxManipulation(){
-  stopRobot(); delay(25);
-  m_servo->setPosition(0.7); s_servo->setPosition(-0.8); robot->step(1000);
-  m_servo->setPosition(0.25); robot->step(1000);
-  s_servo->setPosition(0.05); robot->step(2000);
-  m_servo->setPosition(1.55); robot->step(2500);
+  stopRobot(); delay(50);
+  m_servo->setPosition(0.7); s_servo->setPosition(-0.8); robot->step(1024);
+  m_servo->setPosition(0.25); robot->step(1024);
+  s_servo->setPosition(0.05); robot->step(2048);
+  m_servo->setPosition(1.55); robot->step(2048);
    
   const unsigned char *img_f = cam_f->getImage();
   int r_f = cam_f->imageGetRed(img_f, 3, 1, 1);
@@ -387,15 +387,15 @@ void boxManipulation(){
   
   direction = std::abs(col_f - col_b)%2;
   std::cout << direction << std::endl;
-  // curr_state=23;
+  delay(25);
+  curr_state=23;
 }
 
 void dropBox(){
-  m_servo->setPosition(0.3); robot->step(2000);
-  s_servo->setPosition(-0.8); robot->step(2000);
-  m_servo->setPosition(0.7); robot->step(1000);
-  m_servo->setPosition(1.55); s_servo->setPosition(0);
-  robot->step(1000);
+  m_servo->setPosition(0.3); robot->step(2048);
+  s_servo->setPosition(-0.8); robot->step(2048);
+  m_servo->setPosition(0.7); robot->step(2048);
+  m_servo->setPosition(1.55); s_servo->setPosition(0); robot->step(2048);
   curr_state=22;
 }
 
@@ -463,7 +463,7 @@ void circleNavigation(float max, float mid, float P, float D, float I){
             stopRobot();
             boxManipulation();
             while (!pidFollow(max, mid, P, D, I)) {robot->step(timeStep);}
-            dropBox(); moveDistance(4.0); turnLeft();
+            moveDistance(4.0); dropBox(); turnLeft();
             while (rc->getValue()>900) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
             moveDistance(4.0); turnRight();
             curr_state=6; break;
@@ -550,11 +550,8 @@ void rampNavigation(float max, float mid, float P, float D, float I){
   led_1->set(1);
   while (notRampEdge()) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
   moveDistance(10);
-  while (notRampEdge()) {
-    if (!pidFollow(max, mid, P, D, I)) {robot->step(timeStep);}
-    else {moveDistance(1.0);}
-  }
-  moveDistance(15);
+  while (!pidFollow(max, mid, P, D, I)) {robot->step(timeStep);}
+  moveDistance(1);
   while (lc->getValue()>950 && rc->getValue()>950){
       pidFollow(5, 3); moveDistance(1); robot->step(timeStep);
   }
@@ -578,46 +575,24 @@ void rampNavigation(float max, float mid, float P, float D, float I){
 /////////////////////////////////////////////// RAMP CORRECTION //////////////////////////////////////////////
 void lineFollow3(float max, float mid, float P, float D, float I){
   led_2->set(1);
-  while (lc->getValue()>900 || rc->getValue()>900) {
-    if (pidFollow(max, mid, P, D, I)) {moveDistance(1);}
-    robot->step(timeStep);
-  }
+  while (!pidFollow(max, mid, P, D, I)) {robot->step(timeStep);}
   stopRobot(); led_2->set(2); curr_state=9;
 }
 
-double Ins_Inertia=10;
 void rampPathCorrection(float max, float mid, float P, float D, float I){
-  /*led_2->set(6);
-  while (Ins_Inertia>0.01){
-    while (lc->getValue()>900 && rc->getValue()>900 ) {
-      
-      if (pidFollow(7, 5)) {moveDistance(1);}
-      else robot->step(timeStep);
-    }
-    moveDistance(5);
-    Ins_Inertia=In_unit->getRollPitchYaw()[0];
-    std::cout << std::abs(Ins_Inertia) << std::endl;
-    
-  }
-  moveDistance(5);
-  Ins_Inertia=10;*/
   bool flag=true;
   while (flag){
     while (lc->getValue()>900 && rc->getValue()>900){
-      
       if (pidFollow(max, mid, P, D, I)) {moveDistance(1);}
-      else robot->step(timeStep);
+      else {robot->step(timeStep);}
     }
     moveDistance(1);
-    if (readRaykha()==-100){
-      flag=false;
-    }
+    if (readRaykha()==-100){flag=false;}
   }
   if (direction) turnLeft();
   else turnRight();
   lineFollow3(max, mid, P, D, I);
 }
-
 
 /////////////////////////////////////////////// PILLAR COUNTING //////////////////////////////////////////////
 const int pillarT=300;
@@ -635,12 +610,12 @@ bool evaluatePillars(){
 void pillarCount(float max, float mid, float P, float D, float I){
   for (int i=0; i<stepCount; i++){
     if (direction) {
-      if (rc->getValue()<900) {stepCount=i; break;}
+      if (lc->getValue()>900 && l3->getValue()>900 && r3->getValue()<900 && rc->getValue()<900) {stepCount=i; break;}
       if (rbt->getValue()<pillarT) {readings[i]=true; led_2->set(6);}
       else led_2->set(0);
     }
     else {
-      if (lc->getValue()<900) {stepCount=i; break;}
+      if (lc->getValue()<900 && l3->getValue()<900 && r3->getValue()>900 && rc->getValue()>900) {stepCount=i; break;}
       if (lbt->getValue()<pillarT) {readings[i]=true; led_2->set(6);}
       else led_2->set(0);
     }
@@ -651,6 +626,7 @@ void pillarCount(float max, float mid, float P, float D, float I){
     moveDistance(1);
     if (direction) turnRight();
     else turnLeft();
+    std::cout << "Turned" << std::endl;
     lineFollow3(max, mid, P, D, I);
     stopRobot(); curr_state=9;
   }

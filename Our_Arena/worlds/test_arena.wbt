@@ -499,8 +499,13 @@ DEF RG1 Robot {
   controller "gateCont1"
 }
 DEF BASC Robot {
+<<<<<<< HEAD
   translation 0.02685 0.004 -0.0675282
   rotation 9.58981e-09 -1 -9.58977e-09 -1.5707953071795862
+=======
+  translation 1.08478 0.004 -4.23311
+  rotation -9.58977e-09 1 -2.13366e-14 3.14159
+>>>>>>> fb98ec233fdaf8d46131f896f508eccccb0014e1
   children [
     DEF Robot_body Shape {
       appearance PBRAppearance {
@@ -552,7 +557,6 @@ DEF BASC Robot {
             geometry Cylinder {
               height 0.005
               radius 0.04
-              subdivision 180
             }
             castShadows FALSE
             isPickable FALSE
@@ -585,7 +589,11 @@ DEF BASC Robot {
       ]
       endPoint Solid {
         translation 0.1640000549243269 0.03600355443400253 0.023299914059196514
+<<<<<<< HEAD
         rotation -0.023469325511472516 0.025871163223079464 0.9993897506346167 1.5750267186559301
+=======
+        rotation -0.023469325511472554 0.025871163223079505 0.9993897506346167 1.5750267186559301
+>>>>>>> fb98ec233fdaf8d46131f896f508eccccb0014e1
         children [
           USE Wheel_shape
         ]
@@ -603,8 +611,13 @@ DEF BASC Robot {
         anchor 0.03311 0 0.172
       }
       endPoint Solid {
+<<<<<<< HEAD
         translation 0.033102926658133996 0.00025927997208306813 0.17195649294411905
         rotation 0.35784619212653146 -0.9327701240615976 -0.0434280835249852 3.8182165273046236
+=======
+        translation 0.03305008612224144 0.0001941985997997942 0.1721669318156844
+        rotation -0.42302890152966516 0.6942270784100892 0.5823189092523071 4.500028645042942
+>>>>>>> fb98ec233fdaf8d46131f896f508eccccb0014e1
         children [
           DEF Ball_shape Shape {
             appearance PBRAppearance {
@@ -613,7 +626,6 @@ DEF BASC Robot {
             }
             geometry Sphere {
               radius 0.004
-              subdivision 4
             }
             castShadows FALSE
             isPickable FALSE
@@ -634,7 +646,11 @@ DEF BASC Robot {
       }
       endPoint Solid {
         translation 0.1271 0 0.172
+<<<<<<< HEAD
         rotation 0.7288047100027857 -0.5634944623827881 0.3889957397474784 3.913639588064555
+=======
+        rotation 0.6755182680279674 -0.025965762726332907 -0.7368859129651857 2.400491831365611
+>>>>>>> fb98ec233fdaf8d46131f896f508eccccb0014e1
         children [
           USE Ball_shape
         ]
@@ -1008,7 +1024,11 @@ DEF BASC Robot {
               dampingConstant 0.0005
             }
             endPoint Solid {
+<<<<<<< HEAD
               translation 0.07899999999999997 0.024941900000000006 0.014980099999999594
+=======
+              translation 0.07899999999999997 0.024941900000000006 0.014980099999999483
+>>>>>>> fb98ec233fdaf8d46131f896f508eccccb0014e1
               rotation 1 0 0 1.57
               children [
                 DEF FREE_ARM Shape {
