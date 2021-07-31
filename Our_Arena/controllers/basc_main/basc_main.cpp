@@ -457,8 +457,8 @@ void circleNavigation(float max, float mid, float P, float D, float I){
             stopRobot();
             boxManipulation();
             while (!pidFollow(cmax, cmid, 0.03, 0.07, 0)) {robot->step(timeStep);}
-            stopRobot(); delay(100); dropBox();
-            moveDistance(4.0); turnLeft(15.0, 4.1); std::cout << "Quadrant_2"<<  std::endl;
+            moveDistance(19.0); stopRobot();  delay(100); dropBox();
+            turnLeft(0.0, 4.1); std::cout << "Quadrant_2"<<  std::endl;
             while (rc->getValue()>900) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
             moveDistance(3.0); turnRight(15.0, 3.5); 
             curr_state=6; break;
