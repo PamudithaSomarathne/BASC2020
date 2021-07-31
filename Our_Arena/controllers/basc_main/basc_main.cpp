@@ -296,14 +296,14 @@ void wallFollow(float mid_speed, float P, float D){
     
     l_d2 = std::min(l_d2, 170.0); r_d2 = std::min(r_d2, 170.0);
 
-    left_dist_square = sqrt(l_d1*l_d1 + 1.732 * l_d1*l_d2 + l_d2*l_d2)/2;
-    left_dist_square = sqrt(l_d1*l_d1 + 1.732 * l_d1*l_d2 + l_d2*l_d2)/2;
-    right_dist_square = sqrt(r_d1*l_d1 + 1.732 * r_d1*r_d2 + r_d2*r_d2)/2;
+    left_dist_square = sqrt(l_d1*l_d1 + 1 * l_d1*l_d2 + l_d2*l_d2)/2;
+    left_dist_square = sqrt(l_d1*l_d1 + 1 * l_d1*l_d2 + l_d2*l_d2)/2;
+    right_dist_square = sqrt(r_d1*l_d1 + 1 * r_d1*r_d2 + r_d2*r_d2)/2;
 
     if (side) wall_dist = left_dist_square;
     else wall_dist = right_dist_square;
     
-    error = 140 - wall_dist;    
+    error = 130 - wall_dist;    
     d_error = error - prev_error;
     calc_speed = (P * error + D * d_error);
     prev_error = error;
@@ -670,7 +670,7 @@ int main(int argc, char **argv) {
     switch (curr_state){
       case -1: moveDistance(10); curr_state=0; break;
       case 0: lineFollow0(20, 12, 0.12, 0.08, 0); break;   // First line follow upto wall - Vidura & tune turnLeft, turnRight enc values
-      case 1: wallFollow(15, 0.3, 1); break;        // Wall - Yasod
+      case 1: wallFollow(15, 0.08, 0.05); break;        // Wall - Yasod
       case 2: lineFollow1(15, 12, 0.05 , 0.1, 0); break;   // Wall to circle line - Vidura
       case 3: circleNavigation(20, 7, 0.12 , 0.2, 0); break;  // Circle - Pamuditha
       case 6: lineFollow2(20, 7, 0.2 , 0.3, 0); break;   // Dash line - Vidura
