@@ -360,10 +360,10 @@ void turnL_crit(){
 }
 void turnexLeft(){
   moveDistance(15.0);
-  double encPos = l_enc->getValue();
+  double encPos = r_enc->getValue();
   r_motor->setVelocity(5);
   l_motor->setVelocity(-5);
-  while (l_enc->getValue() - encPos < 4.1){
+  while (r_enc->getValue() - encPos < 4.1){
     robot->step(timeStep);
   }
   stopRobot();
@@ -416,6 +416,7 @@ void boxManipulation(){
 }
 
 void dropBox(){
+  stopRobot(); delay(50);
   m_servo->setPosition(0.3); robot->step(2048);
   s_servo->setPosition(-0.8); robot->step(2048);
   m_servo->setPosition(0.7); robot->step(2048);
@@ -455,7 +456,7 @@ void circleNavigation(float max, float mid, float P, float D, float I){
           robot -> step(timeStep);
           // std::cout << box1 <<  std::endl;
           box1 = ct -> getValue();
-          if(box1 < 30){ // BOTTOM LEFT - FIRST CHECK
+          if(box1 < 35){ // BOTTOM LEFT - FIRST CHECK
             led_1->set(1);
             stopRobot();
             boxManipulation();
@@ -482,7 +483,7 @@ void circleNavigation(float max, float mid, float P, float D, float I){
           robot -> step(timeStep);
           // std::cout << box1 <<  std::endl;
           box1 = ct -> getValue();
-          if(box1 < 30){ // TOP - RIGHT
+          if(box1 < 35){ // TOP - RIGHT
             led_1->set(2);
             stopRobot();
             boxManipulation();
@@ -503,18 +504,18 @@ void circleNavigation(float max, float mid, float P, float D, float I){
           robot -> step(timeStep);
           // std::cout << box1 <<  std::endl;
           box1 = ct -> getValue();
-          if(box1 < 30){
+          if(box1 < 35){  // BOTTOM - RIGHT
             led_1->set(3);
             stopRobot();
             boxManipulation();
-            moveDistance(15.0);
+            moveDistance(15.0); delay(100);
             dropBox();
             turn180Left();
             while (!pidFollow(max, mid, 0.05, 0.15, 0)) {robot->step(timeStep);}
             moveDistance(5.0);
             while (!pidFollow(max, mid, 0.05, 0.15, 0)) {robot->step(timeStep);}
             moveDistance(4.0); turnexRight();
-            while (rc->getValue()>900) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
+            while (lc->getValue()>900 && l3->getValue()>900) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
             moveDistance(3.0); turnLeft();
             curr_state=6; break;
           }
@@ -529,14 +530,14 @@ void circleNavigation(float max, float mid, float P, float D, float I){
           robot -> step(timeStep);
           // std::cout << box1 <<  std::endl;
           box1 = ct -> getValue();
-          if(box1 < 30){
+          if(box1 < 35){  // TOP - LEFT
             led_1->set(4);
             stopRobot();
             boxManipulation();
-            while (!pidFollow(max, mid, P, D, I)) {robot->step(timeStep);}
+            while (!pidFollow(max, mid, 0.05, 0.15, 0)) {robot->step(timeStep);}
             dropBox(); moveDistance(4.0); turnexRight();
-            while (rc->getValue()>900) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
-            moveDistance(3.0); turnLeft();
+            while (lc->getValue()>900 && l3->getValue()>900) {pidFollow(max, mid, P, D, I); robot->step(timeStep);}
+            moveDistance(3.0); turnLeft(); // TUNE
             curr_state=6; break;
           }
           pidFollow(max, mid, P, D, I);    
